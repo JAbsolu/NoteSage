@@ -1,0 +1,19 @@
+{
+  "dependencies": {
+    "body-parser": "^1.20.3",
+    "dotenv": "^16.4.7",
+    "express": "^4.21.2",
+    "mongoose": "^8.9.3",
+    "nodemon": "^3.1.9"
+  },
+  "name": "notesage",
+  "version": "1.0.0",
+  "description": "A Study Tool for 2k25 SCSU Capstone",
+  "main": "index.js",
+  "devDependencies": {},
+  "scripts": {
+    "test": "echo \"Error: no test specified\" && exit 1"
+  },
+  "author": "Johnson Absolu, Mowafak Seidahmed, Massour Ouro Bode",
+  "license": "ISC"
+}
