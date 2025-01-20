@@ -1,14 +1,12 @@
 const { default: mongoose } = require("mongoose");
 const UserSchema = require("./User");
 
-const PaperSchema = new mongoose.Schema({
+const DeckSchema = new mongoose.Schema({
   userId: { type: mongoose.Schema.Types.ObjectId, ref: UserSchema },
-  title: {
-    type: String,
-    required: true,
-  },
-  body: String,
-  feedback: Array,
+  title: String,
+  description: String,
+  cards: Array,
+  isPublic: Boolean,
 });
 
-module.exports = PaperSchema;
+module.exports = DeckSchema;
