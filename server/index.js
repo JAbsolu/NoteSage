@@ -3,7 +3,7 @@ const cors = require("cors");
 const path = require("path");
 const express = require("express");
 const bodyparser = require("body-parser");
-const dBconnection = require("./server/database/")
+const dbConnection = require("./database/index")
  
 // create express app
 const app = express();
@@ -15,7 +15,7 @@ app.use(cors());
 app.use(bodyparser.json());
  
 //connect to the database
-dBconnection();
+dbConnection();
  
 
 // save port and start server
