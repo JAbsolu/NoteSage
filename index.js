@@ -17,19 +17,6 @@ app.use(bodyparser.json());
 //connect to the database
 dBconnection();
  
-=======
-
-// create express app
-const app = express();
-
-// use cors
-app.use(cors());
-
-// use body-parser
-app.use(bodyparser.json());
-
-//connect to the database
-dBconnection();
 
 // save port and start server
 const PORT = 80;
