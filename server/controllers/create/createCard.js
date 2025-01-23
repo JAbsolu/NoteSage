@@ -1,5 +1,5 @@
 const Card = require("../../models/Card");
-const Deck = require("../../models/deck");
+const Deck = require("../../models/Deck");
 const User = require("../../models/User");
 const Module = require("../../models/Module");
 
