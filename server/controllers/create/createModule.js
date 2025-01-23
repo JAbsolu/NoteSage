@@ -3,7 +3,7 @@ const User = require("../../models/User");
 
 const createModule = async (req, res) => {
   try {
-    const { userId, title, contents, public } = req.body
+    const { userId, title, decks, tests, public } = req.body
 
     // error handling for user
     const user = await User.findById(userId);
@@ -13,7 +13,8 @@ const createModule = async (req, res) => {
     const module = new Module({
       userId,
       title,
-      contents: new Array(),
+      decks: [],
+      tests: [],
       public
     });
 

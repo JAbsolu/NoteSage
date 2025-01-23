@@ -1,28 +1,28 @@
 const Test = require("../../models/Test");
-const User = require("../../models/User");
 const Module = require("../../models/Module");
 
 const createTest = async (req, res) => {
   try {
-    const { userId, moduleId, title, description } = req.body;
+    const { moduleId, title, description } = req.body;
 
     // handle errors for userids
-    const user = await User.findById(userId);
     const module = await Module.findById(moduleId);
-
-    if (!user) return res.status(400).json({ message: "user not found" });
     if (!module) return res.status(400).json({ message: "module not found" });
 
     // create new test
     const test = new Test({
-      userId,
       moduleId,
       title,
-      description
+      description,
+      contents: []
     });
 
     //save the new test
     await test.save();
+
+    // add the test id to tests arra in module and then save module
+    module.tests.push(test);
+    await module.save();
 
     res.status(201).json({ message: "test has been created" });
   } catch (err) {
