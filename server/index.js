@@ -15,6 +15,7 @@ const getModules = require("./routes/read/getModules");
 const getPapers = require("./routes/read/getPapers");
 const addUserInfo = require("./routes/create/userinfo");
 const getUserDecks = require("./routes/read/getUserDecks");
+const getUserModules = require("./routes/read/getUserModules");
 const register = require("./routes/create/register");
 const login = require("./routes/read/login");
  
@@ -39,6 +40,7 @@ app.use("/decks", getDecks);
 app.use("/modules", getModules);
 app.use("/papers", getPapers);
 app.use("/user-decks", getUserDecks);
+app.use("/user-modules", getUserModules);
 app.use("/register", register);
 app.use("/login", login);
 
