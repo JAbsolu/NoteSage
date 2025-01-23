@@ -3,9 +3,11 @@ const { default: mongoose } = require("mongoose");
 const ModuleSchema = new mongoose.Schema({
   userId: { type: mongoose.Schema.Types.ObjectId, ref: "User" },
   title: String,
-  contents: Array,
+  decks: [],
+  tests: [],
   public: Boolean,
 });
+
 
 // create the model
 const Module = mongoose.model("Module", ModuleSchema);

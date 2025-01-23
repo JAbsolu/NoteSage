@@ -1,8 +1,6 @@
 const { default: mongoose } = require("mongoose");
 
 const CardSchema = new mongoose.Schema({
-  userId: { type: mongoose.Schema.Types.ObjectId, ref: "User" },
-  moduleId: { type: mongoose.Schema.Types.ObjectId, ref: "Module" },
   deckId: { type: mongoose.Schema.Types.ObjectId, ref: "Deck" },
   front: {
     type: String,

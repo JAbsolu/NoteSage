@@ -3,7 +3,6 @@ const User = require("./User");
 const Module = require("./Module");
 
 const PaperSchema = new mongoose.Schema({
-  userId: { type: mongoose.Schema.Types.ObjectId, ref: "User" },
   moduleId: { type: mongoose.Schema.Types.ObjectId, ref: "Module" },
   title: {
     type: String,
