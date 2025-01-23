@@ -1,12 +1,15 @@
 const { default: mongoose } = require("mongoose");
-const UserSchema = require("./User");
 
 const DeckSchema = new mongoose.Schema({
-  userId: { type: mongoose.Schema.Types.ObjectId, ref: UserSchema },
+  userId: { type: mongoose.Schema.Types.ObjectId, ref: "User" },
+  moduleId: { type: mongoose.Schema.Types.ObjectId, ref: "Module" },
   title: String,
   description: String,
   cards: Array,
-  isPublic: Boolean,
+  public: Boolean,
 });
 
-module.exports = DeckSchema;
+// create the model
+const Deck = mongoose.model("Deck", DeckSchema);
+
+module.exports = Deck;

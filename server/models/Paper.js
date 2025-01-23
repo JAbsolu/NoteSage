@@ -1,14 +1,19 @@
 const { default: mongoose } = require("mongoose");
-const UserSchema = require("./User");
+const User = require("./User");
+const Module = require("./Module");
 
 const PaperSchema = new mongoose.Schema({
-  userId: { type: mongoose.Schema.Types.ObjectId, ref: UserSchema },
+  userId: { type: mongoose.Schema.Types.ObjectId, ref: "User" },
+  moduleId: { type: mongoose.Schema.Types.ObjectId, ref: "Module" },
   title: {
     type: String,
     required: true,
   },
   body: String,
-  feedback: Array,
+  feedback: Map,
 });
 
-module.exports = PaperSchema;
+// create the model
+const Paper = mongoose.model("Paper", PaperSchema);
+
+module.exports = Paper;

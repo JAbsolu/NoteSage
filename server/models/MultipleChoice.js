@@ -1,10 +1,9 @@
 const { default: mongoose } = require("mongoose");
-const UserSchema = require("./User");
-const ModuleSchema = require("./Module");
 
 const MultipleChoiceSchema = new mongoose.Schema({
-  userId: { type: mongoose.Schema.Types.ObjectId, ref: UserSchema },
-  moduleId: { type: mongoose.Schema.Types.ObjectId, ref: ModuleSchema },
+  userId: { type: mongoose.Schema.Types.ObjectId, ref: "User" },
+  moduleId: { type: mongoose.Schema.Types.ObjectId, ref: "Module" },
+  testId: { type: mongoose.Schema.Types.ObjectId, ref: "Test" },
   question: {
     type: String,
     required: true,
@@ -15,7 +14,10 @@ const MultipleChoiceSchema = new mongoose.Schema({
   },
 });
 
-module.exports = MultipleChoiceSchema;
+// create the model
+const MultipleChoice = mongoose.model("MultipleChoice", MultipleChoiceSchema);
+
+module.exports = MultipleChoice;
 
 // the map for choices will set up as written bellow, below is a test code
 /*

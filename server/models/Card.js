@@ -1,8 +1,9 @@
 const { default: mongoose } = require("mongoose");
-const DeckSchema = require("./deck");
 
 const CardSchema = new mongoose.Schema({
-  deckId: { type: mongoose.Schema.Types.ObjectId, ref: Deck },
+  userId: { type: mongoose.Schema.Types.ObjectId, ref: "User" },
+  moduleId: { type: mongoose.Schema.Types.ObjectId, ref: "Module" },
+  deckId: { type: mongoose.Schema.Types.ObjectId, ref: "Deck" },
   front: {
     type: String,
     required: true,
@@ -13,4 +14,7 @@ const CardSchema = new mongoose.Schema({
   },
 });
 
-module.exports = CardSchema;
+// create the model
+const Card = mongoose.model("Card", CardSchema);
+
+module.exports = Card;

@@ -1,13 +1,15 @@
 const { default: mongoose } = require("mongoose");
-const UserSchema = require("./User");
 
 const UserInfoSchema = new mongoose.Schema({
-  userId: { type: mongoose.Schema.Types.ObjectId, ref: UserSchema },
+  userId: { type: mongoose.Schema.Types.ObjectId, ref: "User" },
   intro: String,
   school: String,
   graduationDate: Date,
   image: String,
-  Socials: Array,
+  socials: Map,
 });
 
-module.exports = UserInfoSchema;
+// create the model
+const UserInfo = mongoose.model("UserInfo", UserInfoSchema);
+
+module.exports = UserInfo;
