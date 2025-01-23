@@ -1,31 +1,31 @@
-const Deck = require("../../models/deck");
+const Deck = require("../../models/Deck");
 const Module = require("../../models/Module");
-const User = require("../../models/User");
 
 const createDeck = async (req, res) => {
   try {
     // get from body
-    const { userId, moduleId, title, description, cards, public } = req.body;
+    const { moduleId, title, description, public } = req.body;
 
     // error handling for ids
-    const user = await User.findById(userId);
     const module = await Module.findById(moduleId);
 
-    if (!user) return res.status(400).json({ message: "user not found" });
     if (!module) return res.status(400).json({ message: "module not found" });
 
     // create the new deck
     const deck = new Deck({
-      userId,
       moduleId,
       title,
       description,
-      cards: new Array(),
+      contents: new Array(),
       public,
     });
 
     // save deck
     await deck.save();
+
+    // add the deck's id to the module and then save it
+    module.decks.push(deck);
+    await module.save()
     
     res.status(201).json({ message: "deck has been created" });
   } catch (err) {
