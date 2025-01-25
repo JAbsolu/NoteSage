@@ -3,7 +3,7 @@ const User = require("../../models/User");
 
 const getModules = async (req, res) => {
   try {
-    const { moduleId, id } = req.query;
+    const { id } = req.query;
 
     //handle id errors
     const user = await User.findById(id);
@@ -13,7 +13,7 @@ const getModules = async (req, res) => {
 
       // handle other errors
       if (userModules.length > 0) {
-        res.status(200).json({ message: "Modules have been retrieved ", data: userModules });
+        res.status(200).json({ message: "all modules have been retrieved ", data: userModules });
       } else {
         res.status(200).json({ message: "no modules found", data: [] });
       }
