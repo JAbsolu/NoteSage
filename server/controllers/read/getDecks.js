@@ -1,4 +1,5 @@
 const Deck = require("../../models/Deck");
+const Card = require("../../models/Card");
 
 const getDecks = async (req, res) => {
   try {
