@@ -22,10 +22,6 @@ const createDeck = async (req, res) => {
 
     // save deck
     await deck.save();
-
-    // add the deck's id to the module and then save it
-    module.decks.push(deck);
-    await module.save()
     
     res.status(201).json({ message: "deck has been created" });
   } catch (err) {

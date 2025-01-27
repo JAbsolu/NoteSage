@@ -19,10 +19,6 @@ const createCard = async (req, res) => {
 
     await newCard.save();
 
-    //add the card to deck's contents, then save
-    deck.contents.push(newCard);
-    await deck.save();
-
     res.status(201).json({ message: "Card created succesfully" });
   } catch (err) {
     res.status(500).json({ message: "Error creating the card", error: err.message });

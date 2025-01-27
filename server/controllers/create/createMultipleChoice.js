@@ -25,11 +25,6 @@ const createMultipleChoice = async (req, res) => {
     // save the multiple choice
     await multipleChoice.save();
 
-    // add the multiple choice to the test's content and then save
-    test.contents.push(multipleChoice);
-    await test.save();
-
-
     res.status(201).json({ message: "multiple choice created" })
 
   } catch (err) {

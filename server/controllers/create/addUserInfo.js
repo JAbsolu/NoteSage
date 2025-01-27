@@ -4,17 +4,16 @@ const User = require("../../models/User");
 const addUserInfo = async (req, res) => {
 
   try {
-    const { id } = req.query;
-    const { intro, school, graduationDate, image, socials } = req.body;
+    const { userId, intro, school, graduationDate, image, socials } = req.body;
 
     // handle errors for ids
-    const user = await User.findById(id);
+    const user = await User.findById(userId);
 
     if (!user) return res.status(400).json({ message: "user not found" });
 
     // create user info
     const userInfo = new UserInfo({
-      userId: id,
+      userId: userId,
       intro,
       school,
       graduationDate,

@@ -20,10 +20,6 @@ const createTest = async (req, res) => {
     //save the new test
     await test.save();
 
-    // add the test id to tests arra in module and then save module
-    module.tests.push(test);
-    await module.save();
-
     res.status(201).json({ message: "test has been created" });
   } catch (err) {
     res.status(500).json({ message: "server error", error: err.message });
