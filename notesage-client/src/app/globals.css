@@ -1,3 +1,4 @@
+@import url('https://fonts.googleapis.com/css2?family=Open+Sans:wght@400;600;700&display=swap');
 @tailwind base;
 @tailwind components;
 @tailwind utilities;
@@ -17,5 +18,34 @@
 body {
   color: var(--foreground);
   background: var(--background);
-  font-family: Arial, Helvetica, sans-serif;
+  font-family: 'Open Sans', sans-serif;
+  font-size: 11pt;
+}
+
+.bg-blue {
+  background-color: #2489D3;
+}
+
+.text-blue {
+  color: #2489D3;
+}
+
+.text-gray {
+  color: #272727;
+}
+
+.text-yellow {
+  color: #F0C932;
+}
+
+.text-orange {
+  color: #FE753F;
+}
+
+.bg-light-gray {
+  background-color: #F8F8F8;
+}
+
+.border-blue {
+  border-color: #2489D3;
 }
