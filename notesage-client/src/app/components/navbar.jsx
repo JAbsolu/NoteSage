@@ -4,7 +4,7 @@ import Link from "next/link";
 
 const Navbar = () => {
   return (
-    <nav className="px-12 py-4 flex justify-between items-center">
+    <nav className="px-24 py-4 flex justify-between items-center">
       {/* Logo */}
       <div className="flex items-center">
         <div className="bg-blue text-white font-bold text-lg w-10 h-10 flex items-center justify-center rounded-full">
@@ -31,7 +31,7 @@ const Navbar = () => {
 
       {/* Auth Buttons */}
       <div className="flex space-x-4">
-        <Link href="/login" className="px-6 py-1 border-2 border-blue text-blue rounded-full hover:bg-blue hover:text-white transition">
+        <Link href="/login" className="px-6 py-1 border-2 border-blue text-blue rounded-full hover:bg-blue hover:text-black transition">
           Login
         </Link>
         <Link href="/signup" className="px-6 py-1 bg-blue text-white rounded-full hover:bg-blue-dark transition">

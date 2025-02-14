@@ -2,7 +2,7 @@
 
 import Link from "next/link";
 import { useState } from "react";
-import Navbar from "./components/navbar";
+import Navbar from "../components/navbar";
 
 const Signup = () => {
   const [formData, setFormData] = useState({
@@ -25,12 +25,12 @@ const Signup = () => {
   return (
     <>
     <Navbar />
-    <section className="min-h-screen flex flex-col items-center justify-center bg-light-gray">
+    <section className="min-h-[90vh] flex flex-col items-center justify-center bg-light-gray">
       {/* Blue Background with Rounded Corners */}
-      <div className="absolute top-0 left-0 w-full h-[40vh] bg-blue rounded-b-[50px]"></div>
+      <div className="absolute top-16 left-0 w-full h-[50vh] bg-blue rounded-b-[50px]"></div>
 
       {/* Signup Card */}
-      <div className="relative bg-white shadow-lg rounded-xl p-8 w-full max-w-md">
+      <div className="relative bg-white shadow-lg rounded-xl p-8 w-full max-w-lg">
         <h2 className="text-center text-2xl font-semibold text-gray">Create an Account</h2>
 
         <form onSubmit={handleSubmit} className="mt-6">
