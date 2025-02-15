@@ -2,12 +2,17 @@
 
 import Sidebar from "@/app/components/sidebar";
 import Link from "next/link";
-import { FiUpload, FiCheckCircle } from "react-icons/fi";
+import { FiUpload, FiCheckCircle, FiCircle } from "react-icons/fi";
+import { TfiArrowCircleLeft } from "react-icons/tfi";
+import { IoMdClose } from "react-icons/io";
 import DashboardNavbar from "../components/DashboardNavbar";
 import { useState } from "react";
+import AuthGuard from "../hoc/AuthGuard";
 
-export default function Dashboard() {
+function Dashboard() {
   const [sidebarExpanded, setSidebarExpanded] = useState(true);
+  const [profileComplete, setProfileCompletion] = useState(false);
+  const [checklistHidden, hideChecklist] = useState(false);
 
   return (
     <div className="flex bg-light-gray">
@@ -25,13 +30,23 @@ export default function Dashboard() {
         <div className="p-6 bg-light-gray min-h-screen pt-20">
           {/* Header */}
           <div className="flex justify-between items-center">
-            <h1 className="text-2xl mt-2 font-bold">Hi there! View your most recent flashcards and quizzes.</h1>
-            <div className="flex items-center space-x-2 bg-white px-4 py-2 rounded-lg shadow">
+            <h1 className="text-2xl mt-2 font-semibold">Hi there! View your most recent flashcards and quizzes.</h1>
+            <div className={`flex items-center space-x-2 bg-white px-4 py-2 rounded-lg shadow ${checklistHidden ? 'hidden': ''}`}>
               <FiCheckCircle className="text-blue text-lg" />
               <span>Created an account</span>
-              <input type="checkbox" className="ml-2" />
+                <span>
+                {profileComplete ? <FiCheckCircle className="text-blue text-lg"/> : <FiCircle className="text-lg text-blue"/>}
+                </span>
               <span>Complete your profile</span>
-              <button className="text-sm text-gray-500">❌</button>
+              <button className="text-sm text-gray-500">
+                <IoMdClose className="text-lg text-blue" onClick={() => hideChecklist(true)}/>
+                <span>{checklistHidden ? <TfiArrowCircleLeft className="text-xl text-blue"/> : ''}</span>
+              </button>
+            </div>
+            <div className={`flex items-center bg-white shadow py-2 px-2 rounded-md ${checklistHidden ? "show" : "hidden"}`}>
+              <button className={`text-sm text-gray-500 ${checklistHidden ? "show" : "hidden"}`}>
+                  <span>{checklistHidden ? <TfiArrowCircleLeft className="text-xl text-blue" onClick={() => hideChecklist(false)}/> : ''}</span>
+              </button>
             </div>
           </div>
 
@@ -107,3 +122,5 @@ export default function Dashboard() {
     </div>
   );
 }
+
+export default AuthGuard(Dashboard);
