@@ -2,29 +2,51 @@
 
 import Link from "next/link";
 import { useState } from "react";
-import Navbar from "@/app/components/navbar"; // Ensure correct import path
+import Navbar from "@/app/components/navbar";
+import Footer from "../components/footer";
+import { useRouter } from "next/navigation";
 
 const Signin = () => {
   const [formData, setFormData] = useState({
-    email: "",
+    emailAddress: "",
     password: "",
   });
+
+  const [loginMssg, setLoginMssg] = useState(); // handle login error messages
+  const router = useRouter() // use router
 
   const handleChange = (e) => {
     setFormData({ ...formData, [e.target.name]: e.target.value });
   };
 
-  const handleSubmit = (e) => {
+  const handleSubmit = async (e) => {
     e.preventDefault();
-    console.log("Form Submitted:", formData);
+
+    try {
+      const response = await fetch("http://localhost/login", {
+        method: "POST",
+        headers: {
+          "Content-Type": "application/json",
+        },
+        body: JSON.stringify(formData)
+      })
+    
+      const result = await response.json();
+      setLoginMssg(result.message)
+
+      if (response.ok) router.push('/dashboard');
+
+    } catch (error) {
+      setLoginMssg(error.message)
+    }
   };
 
   return (
     <>
       <Navbar />
-      <section className="min-h-[90vh] flex flex-col items-center justify-center bg-light-gray">
+      <section className="min-h-[87vh] flex flex-col items-center justify-center bg-blue">
         {/* Blue Background with Rounded Corners */}
-        <div className="absolute top-16 left-0 w-full h-[35em] bg-blue rounded-b-[50px]"></div>
+        {/* <div className="absolute top-16 left-0 w-full h-[25em] bg-blue rounded-b-[50px]"></div> */}
 
         {/* Sign-In Card */}
         <div className="relative bg-white shadow-lg rounded-xl p-12 w-full max-w-lg">
@@ -35,7 +57,7 @@ const Signin = () => {
             <div className="space-y-4">
               <input
                 type="email"
-                name="email"
+                name="emailAddress"
                 placeholder="Email address"
                 value={formData.email}
                 onChange={handleChange}
@@ -69,10 +91,14 @@ const Signin = () => {
               Create an account
             </Link>
           </p>
+          <p className="text-center mt-4 text-blue font-semibold">
+            {loginMssg}
+          </p>
         </div>
       </section>
+      <Footer/>
     </>
   );
-};
+}
 
 export default Signin;

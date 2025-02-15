@@ -59,13 +59,13 @@ const Home = () => {
               <Image
                 src={homeImage}
                 alt="Student Learning"
-                layout="fill"
-                objectFit="contain"
+                fill
+                style={{ objectFit: "contain" }}
                 className="relative z-10"
               />
             </div>
           </div>
-
+          
         </div>
       </section>
       <Footer/>

@@ -30,6 +30,10 @@ body {
   color: #2489D3;
 }
 
+.bg-dark-blue {
+  background-color: #1d689f;
+}
+
 .text-gray {
   color: #2c2c2c;
 }

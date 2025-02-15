@@ -3,31 +3,51 @@
 import Link from "next/link";
 import { useState } from "react";
 import Navbar from "../components/navbar";
+import Footer from "../components/footer";
+import { useRouter } from "next/navigation";
 
 const Signup = () => {
   const [formData, setFormData] = useState({
     firstName: "",
     lastName: "",
-    email: "",
+    emailAddress: "",
     password: "",
-    confirmPassword: "",
   });
+
+  const [registrationMessage, setRegistrationMessage] = useState(); //handle form error messages
+  const router = useRouter(); //use router
 
   const handleChange = (e) => {
     setFormData({ ...formData, [e.target.name]: e.target.value });
   };
 
-  const handleSubmit = (e) => {
+  const handleSubmit = async (e) => {
     e.preventDefault();
-    console.log("Form Submitted:", formData);
+    try {
+      const response = await fetch("http://localhost/register", {
+        method: "POST",
+        headers: {
+          "Content-Type": "application/json",
+        },
+        body: JSON.stringify(formData)
+      })
+    
+      const result = await response.json();
+      setRegistrationMessage(result.message)
+
+      if (response.ok) router.push("/dashboard");
+    } catch (error) {
+      setRegistrationMessage(error)
+    }
+    
   };
 
   return (
     <>
     <Navbar />
-    <section className="min-h-[90vh] flex flex-col items-center justify-center bg-light-gray">
+    <section className="min-h-[87vh] flex flex-col items-center justify-center bg-blue">
       {/* Blue Background with Rounded Corners */}
-      <div className="absolute top-16 left-0 w-full h-[50vh] bg-blue rounded-b-[50px]"></div>
+      {/* <div className="absolute top-16 left-0 w-full h-[25em] bg-blue rounded-b-[50px]"></div> */}
 
       {/* Signup Card */}
       <div className="relative bg-white shadow-lg rounded-xl p-8 w-full max-w-lg">
@@ -56,7 +76,7 @@ const Signup = () => {
             />
             <input
               type="email"
-              name="email"
+              name="emailAddress"
               placeholder="Email address"
               value={formData.email}
               onChange={handleChange}
@@ -99,8 +119,12 @@ const Signup = () => {
             Sign in
           </Link>
         </p>
+        <p className="text-center font-semibold text-blue d-none mt-4">
+          {registrationMessage}
+        </p>
       </div>
     </section>
+    <Footer/>
     </>
   );
 };
