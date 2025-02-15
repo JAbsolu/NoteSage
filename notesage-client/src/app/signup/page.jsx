@@ -35,7 +35,8 @@ const Signup = () => {
       const result = await response.json();
       setRegistrationMessage(result.message)
 
-      if (response.ok) router.push("/dashboard");
+      // alert(JSON.stringify(result))
+      if (response.ok) router.push("/login");
     } catch (error) {
       setRegistrationMessage(error)
     }
@@ -45,7 +46,7 @@ const Signup = () => {
   return (
     <>
     <Navbar />
-    <section className="min-h-[87vh] flex flex-col items-center justify-center bg-blue">
+    <section className="min-h-[85.8vh] flex flex-col items-center justify-center bg-blue">
       {/* Blue Background with Rounded Corners */}
       {/* <div className="absolute top-16 left-0 w-full h-[25em] bg-blue rounded-b-[50px]"></div> */}
 
