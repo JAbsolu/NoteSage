@@ -2,7 +2,7 @@
 
 export default function Footer() {
   return (
-    <footer className="bg-white shadow-t-md py-4 px-20 flex justify-between items-center text-gray">
+    <footer className="bg-white shadow-t-md py-2 px-20 flex justify-between items-center text-gray">
       {/* Social Links */}
       <div className="flex space-x-6">
         <a href="https://facebook.com" target="_blank" rel="noopener noreferrer" className="font-semibold text-blue hover:text-blue">
