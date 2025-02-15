@@ -11,7 +11,7 @@ const Sidebar = ({ isExpanded }) => {
 
       {/* Nav Links */}
       <nav className="flex flex-col space-y-6">
-        <Link href="/" className="flex items-center space-x-2 hover:text-gray-200">
+        <Link href="/dashboard" className="flex items-center space-x-2 hover:text-gray-200">
           <FiHome className="text-xl" />
           {isExpanded && <span>Home</span>}
         </Link>
