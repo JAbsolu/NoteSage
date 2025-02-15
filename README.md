@@ -1,9 +1,12 @@
 # NoteSage
-##Landing page
+## Landing page
 ![alt text](image.png)
 
-##Sign in page
+## Sign in page
 ![alt text](image-1.png)
 
-##sign up page
+## Sign up page
 ![alt text](image-2.png)
+
+## Dashboard
+![alt text](image-3.png)
