@@ -1,5 +1,6 @@
 "use client";
 
+import Cookies from "js-cookie";
 import Link from "next/link";
 import { useState } from "react";
 import Navbar from "@/app/components/navbar";
@@ -34,17 +35,21 @@ const Signin = () => {
       const result = await response.json();
       setLoginMssg(result.message)
 
-      if (response.ok) router.push('/dashboard');
+      if (response.ok && result.token) {
+        Cookies.set("auth-token", result.token, { expires: 1, secure: true });
+        router.push("/dashboard");
+      }
 
     } catch (error) {
-      setLoginMssg(error.message)
+      setLoginMssg(error.message);
+      console.error(error);
     }
   };
 
   return (
     <>
       <Navbar />
-      <section className="min-h-[87vh] flex flex-col items-center justify-center bg-blue">
+      <section className="min-h-[85.8vh] flex flex-col items-center justify-center bg-blue">
         {/* Blue Background with Rounded Corners */}
         {/* <div className="absolute top-16 left-0 w-full h-[25em] bg-blue rounded-b-[50px]"></div> */}
 
