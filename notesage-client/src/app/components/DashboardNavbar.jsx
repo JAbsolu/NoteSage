@@ -1,11 +1,19 @@
 "use client";
 
-import { useState } from "react";
+import { useReducer, useState } from "react";
 import Link from "next/link";
 import { FiMenu, FiSearch, FiSettings, FiLogOut } from "react-icons/fi";
+import { useRouter } from "next/navigation";
+import Cookies from "js-cookie";
 
 const DashboardNavbar = ({ toggleSidebar }) => {
   const [dropdownOpen, setDropdownOpen] = useState(false);
+  const router = useRouter();
+
+  const handleSignOut = () => {
+      Cookies.remove("auth-token"); // Delete the cookie
+      router.push("/login"); // Redirect user to login page
+  }
 
   return (
     <nav className="bg-white px-6 py-4 flex justify-between items-center fixed top-0 left-0 w-full z-50">
@@ -36,7 +44,7 @@ const DashboardNavbar = ({ toggleSidebar }) => {
           onClick={() => setDropdownOpen(!dropdownOpen)}
           className="bg-blue text-white w-10 h-10 flex items-center justify-center rounded-full font-semibold"
         >
-          JA {/* Profile initials (Static for John Absolu) */}
+          JA {/* Profile initials */}
         </button>
 
         {/* Profile Dropdown Menu */}
@@ -56,7 +64,7 @@ const DashboardNavbar = ({ toggleSidebar }) => {
             </Link>
             <button
               className="w-full text-left flex items-center px-4 py-2 text-red-600 hover:bg-gray-100"
-              onClick={() => alert("Signing out...")} // Replace with actual sign-out logic
+              onClick={() => handleSignOut()} 
             >
               <FiLogOut className="mr-2" />
               Sign Out
