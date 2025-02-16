@@ -35,7 +35,7 @@ const Navbar = () => {
 
       {/* Auth Buttons (Hidden on Mobile) */}
       <div className="hidden md:flex space-x-4">
-        <Link href="/login" className="px-6 py-1 border-2 border-blue text-blue rounded-full hover:bg-blue hover:text-white transition">
+        <Link href="/login" className="px-6 py-1 border-2 border-blue text-blue rounded-full hover:bg-blue hover:text-black transition">
           Sign in
         </Link>
         <Link href="/signup" className="px-6 py-1 border-2 border-blue bg-blue text-white rounded-full hover:bg-blue-dark transition">
