@@ -12,7 +12,7 @@ const Navbar = () => {
       {/* Logo */}
       <div className="flex items-center">
         <div className="bg-blue text-white font-bold text-lg w-10 h-10 flex items-center justify-center rounded-full">
-          Ns
+          NS
         </div>
         <span className="ml-2 text-blue text-xl font-semibold">NoteSage</span>
       </div>
@@ -36,9 +36,9 @@ const Navbar = () => {
       {/* Auth Buttons (Hidden on Mobile) */}
       <div className="hidden md:flex space-x-4">
         <Link href="/login" className="px-6 py-1 border-2 border-blue text-blue rounded-full hover:bg-blue hover:text-white transition">
-          Login
+          Sign in
         </Link>
-        <Link href="/signup" className="px-6 py-1 bg-blue text-white rounded-full hover:bg-blue-dark transition">
+        <Link href="/signup" className="px-6 py-1 border-2 border-blue bg-blue text-white rounded-full hover:bg-blue-dark transition">
           Sign up
         </Link>
       </div>
