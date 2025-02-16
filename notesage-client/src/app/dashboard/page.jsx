@@ -5,6 +5,7 @@ import Link from "next/link";
 import { FiUpload, FiCheckCircle, FiCircle } from "react-icons/fi";
 import { TfiArrowCircleLeft } from "react-icons/tfi";
 import { IoMdClose } from "react-icons/io";
+import { MdOutlineQuiz } from "react-icons/md";
 import DashboardNavbar from "../components/DashboardNavbar";
 import { useState } from "react";
 import AuthGuard from "../hoc/AuthGuard";
@@ -71,10 +72,10 @@ function Dashboard() {
 
               {/* Quizzes */}
               <div className="space-y-4">
-                {Array(3).fill().map((_, i) => (
+                {Array(4).fill().map((_, i) => (
                   <Link key={i} href={`/quizzes/${i + 1}`} className="block">
                     <div className="flex items-center bg-gray-100 p-3 rounded-lg shadow hover:bg-gray-200 transition">
-                      <span className="bg-black text-white px-2 py-1 rounded">📋</span>
+                      <span className="bg-black text-white px-2 py-1 rounded"><MdOutlineQuiz/></span>
                       <div className="ml-4">
                         <h3 className="font-bold">Quiz Title {i + 1}</h3>
                         <p className="text-sm text-gray-600">Quiz description/subtitle - by Author</p>

@@ -6,6 +6,7 @@ import Navbar from './components/navbar';
 import './globals.css';
 import homeImage from "../../public/home-img.png";
 import Footer from "./components/footer";
+import AuthCheck from "./hoc/AuthCheck";
 
 const Home = () => {
   return (
@@ -73,4 +74,4 @@ const Home = () => {
   );
 };
 
-export default Home;
+export default AuthCheck(Home);
