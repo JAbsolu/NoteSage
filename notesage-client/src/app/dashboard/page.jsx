@@ -7,13 +7,50 @@ import { TfiArrowCircleLeft } from "react-icons/tfi";
 import { IoMdClose } from "react-icons/io";
 import { MdOutlineQuiz } from "react-icons/md";
 import DashboardNavbar from "../components/DashboardNavbar";
-import { useState } from "react";
+import { useState, useEffect } from "react";
+import { useRouter } from "next/navigation";
+import Cookies from "js-cookie";
 import AuthGuard from "../hoc/AuthGuard";
 
 function Dashboard() {
   const [sidebarExpanded, setSidebarExpanded] = useState(true);
   const [profileComplete, setProfileCompletion] = useState(false);
   const [checklistHidden, hideChecklist] = useState(false);
+  const [firstname, setFirstname] = useState('');
+  const [lastname, setLastname] = useState('');
+  const [emailaddress, setEmailaddress] = useState('');
+
+  //get user and user info
+  const getUser = async (id) => {
+    const url = `http://localhost/user?id=${id}`;
+
+    const request = await fetch(url, {
+      method: "GET",
+      headers: {
+        "Content-Type": "application/json"
+      }
+    });
+
+    const result = await request.json()
+      if (request.ok) {
+        const user = result.data;
+        setFirstname(user.firstName);
+        setLastname(user.lastName);
+        setEmailaddress(user.emailAddress);
+      }
+  }
+
+  // read user id from cookies
+  useEffect(()=> {
+    try {
+      const userId = Cookies.get("user-id");
+      if (userId) getUser(userId)
+      else throw error;
+
+    } catch(error) {
+      console.error(error);
+    }
+  }, []);
 
   return (
     <div className="flex bg-light-gray">
@@ -25,7 +62,7 @@ function Dashboard() {
       {/* Main Content */}
       <div className={`flex-1 transition-all duration-300 ${sidebarExpanded ? "ml-64" : "ml-20"}`}>
         {/* Navbar */}
-        <DashboardNavbar toggleSidebar={() => setSidebarExpanded(!sidebarExpanded)} />
+        <DashboardNavbar toggleSidebar={() => setSidebarExpanded(!sidebarExpanded)} firstName={firstname} lastName={lastname} emailAddress={emailaddress}/>
 
         {/* Add padding-top so content doesn’t overlap the navbar */}
         <div className="p-6 bg-light-gray min-h-screen pt-20">
