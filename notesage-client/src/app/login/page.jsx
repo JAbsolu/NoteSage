@@ -37,6 +37,7 @@ const Signin = () => {
       setLoginMssg(result.message)
 
       if (response.ok && result.token) {
+        Cookies.set("user-id", result.userId, { expires: 1, secure: true });
         Cookies.set("auth-token", result.token, { expires: 1, secure: true });
         router.push("/dashboard");
       }
