@@ -11,6 +11,7 @@ const login = async (req, res) => {
 
     // check if the user exists
     const user = await User.findOne({ emailAddress });
+    const userId = user._id; // get the user id
 
     //compare passwords
     const isMatch = await bcrypt.compare(password, user.password);
@@ -26,7 +27,7 @@ const login = async (req, res) => {
       expiresIn: "1h",
     });
 
-    res.status(200).json({ token });
+    res.status(200).json({ token, userId });
 
   } catch (err) {
     res.status(500).json({ message: "Server error", error: err.message });

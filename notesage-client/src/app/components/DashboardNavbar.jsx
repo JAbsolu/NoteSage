@@ -6,7 +6,7 @@ import { FiMenu, FiSearch, FiSettings, FiLogOut } from "react-icons/fi";
 import { useRouter } from "next/navigation";
 import Cookies from "js-cookie";
 
-const DashboardNavbar = ({ toggleSidebar }) => {
+const DashboardNavbar = ({ toggleSidebar, firstName, lastName, emailAddress }) => {
   const [dropdownOpen, setDropdownOpen] = useState(false);
   const router = useRouter();
 
@@ -44,7 +44,8 @@ const DashboardNavbar = ({ toggleSidebar }) => {
           onClick={() => setDropdownOpen(!dropdownOpen)}
           className="bg-blue text-white w-10 h-10 flex items-center justify-center rounded-full font-semibold"
         >
-          JA {/* Profile initials */}
+          {/* Profile initials */}
+          {`${firstName.toUpperCase()[0]}${lastName.toUpperCase()[0]}`}
         </button>
 
         {/* Profile Dropdown Menu */}
@@ -52,7 +53,7 @@ const DashboardNavbar = ({ toggleSidebar }) => {
           <div className="absolute right-0 mt-2 w-48 bg-white shadow-lg rounded-lg py-2">
             {/* Show User's Full Name */}
             <div className="px-4 py-2 text-gray-700 font-semibold border-b">
-              John Absolu
+              {`${firstName.charAt(0).toUpperCase()}${firstName.substring(1, firstName.length)} ${lastName.charAt(0).toUpperCase()}${lastName.substring(1, lastName.length)}`}
             </div>
             <Link
               href="/settings"
