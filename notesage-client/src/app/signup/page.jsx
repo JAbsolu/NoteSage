@@ -5,6 +5,7 @@ import { useState } from "react";
 import Navbar from "../components/navbar";
 import Footer from "../components/footer";
 import { useRouter } from "next/navigation";
+import AuthCheck from "../hoc/AuthCheck";
 
 const Signup = () => {
   const [formData, setFormData] = useState({
@@ -130,4 +131,4 @@ const Signup = () => {
   );
 };
 
-export default Signup;
+export default AuthCheck(Signup);
