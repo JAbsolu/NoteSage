@@ -19,16 +19,16 @@ const Navbar = () => {
 
       {/* Desktop Nav Links (Hidden on Mobile) */}
       <div className="hidden md:flex space-x-6">
-        <Link href="/" className="text-blue font-semibold">
+        <Link href="/" className="text-gray font-semibold focus:underline hover:underline">
           Home
         </Link>
-        <Link href="/how-it-works" className="text-gray font-semibold hover:text-blue">
+        <Link href="/how-it-works" className="text-gray font-semibold focus:underline hover:underline">
           How it Works
         </Link>
-        <Link href="/plans" className="text-gray font-semibold hover:text-blue">
+        <Link href="/plans" className="text-gray font-semibold focus:underline hover:underline">
           Plans
         </Link>
-        <Link href="/about" className="text-gray font-semibold hover:text-blue">
+        <Link href="/about" className="text-gray font-semibold focus:underline hover:underline">
           About Us
         </Link>
       </div>
