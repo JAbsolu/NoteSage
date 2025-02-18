@@ -34,12 +34,13 @@ const Signin = () => {
       })
     
       const result = await response.json();
-      setLoginMssg(result.message)
 
       if (response.ok && result.token) {
         Cookies.set("user-id", result.userId, { expires: 1, secure: true });
         Cookies.set("auth-token", result.token, { expires: 1, secure: true });
         router.push("/dashboard");
+      } else {
+        setLoginMssg(result.message);
       }
 
     } catch (error) {
@@ -98,7 +99,7 @@ const Signin = () => {
               Create an account
             </Link>
           </p>
-          <p className="text-center mt-4 text-blue font-semibold">
+          <p className="text-center mt-4 text-red-500 font-semibold">
             {loginMssg}
           </p>
         </div>
