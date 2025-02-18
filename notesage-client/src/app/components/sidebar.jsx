@@ -16,7 +16,8 @@ const Sidebar = ({ isExpanded }) => {
           {isExpanded && <span>Home</span>}
         </Link>
         <Link href="/notifications" className="flex items-center space-x-2 hover:text-gray-200">
-          <FiBell className="text-xl" />
+          <FiBell className="text-xl -me-4" />
+          <div className="flex items-center justify-center bg-red-600 border min-w-6 min-h-6 rounded-full text-xs">1</div>
           {isExpanded && <span>Notifications</span>}
         </Link>
         <Link href="/flashcards" className="flex items-center space-x-2 hover:text-gray-200">
