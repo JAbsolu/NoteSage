@@ -68,7 +68,7 @@ function Dashboard() {
         <div className="p-6 bg-light-gray min-h-screen pt-20">
           {/* Header */}
           <div className="flex justify-between items-center">
-            <h1 className="text-2xl mt-2 font-semibold">Hi there! View your most recent flashcards and quizzes.</h1>
+            <h1 className="text-2xl mt-2 font-semibold">Hi {firstname.charAt(0).toUpperCase() + firstname.substring(1, firstname.length)}! View your most recent flashcards and quizzes.</h1>
             <div className={`flex items-center space-x-2 bg-white px-4 py-2 rounded-lg shadow ${checklistHidden ? 'hidden': ''}`}>
               <FiCheckCircle className="text-blue text-lg" />
               <span>Created an account</span>
