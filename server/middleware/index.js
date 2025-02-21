@@ -8,7 +8,7 @@ const authMiddleware = (req, res, next) => {
   }
 
   try {
-    console.log("Token received:", token);  // Log the token for debugging
+    // console.log("Token received:", token);  // Log the token for debugging
     const decoded = jwt.verify(token, process.env.JWT_SECRET);
     req.user = decoded;
     next();
