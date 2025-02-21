@@ -2,6 +2,7 @@
 
 import Link from "next/link";
 import { FiHome, FiBell, FiFileText, FiHelpCircle } from "react-icons/fi";
+import { MdOutlineComputer } from "react-icons/md";
 
 const Sidebar = ({ isExpanded }) => {
   return (
@@ -20,7 +21,11 @@ const Sidebar = ({ isExpanded }) => {
           <div className="flex items-center justify-center bg-red-600 border min-w-6 min-h-6 rounded-full text-xs">1</div>
           {isExpanded && <span>Notifications</span>}
         </Link>
-        <Link href="/flashcards" className="flex items-center space-x-2 hover:text-gray-200">
+        <Link href="dashboard/workspace" className="flex items-center space-x-2 hover:text-gray-200">
+          <MdOutlineComputer className="text-xl" />
+          {isExpanded && <span>Workspace</span>}
+        </Link>
+        <Link href="/quizzes" className="flex items-center space-x-2 hover:text-gray-200">
           <FiFileText className="text-xl" />
           {isExpanded && <span>Flashcards</span>}
         </Link>
