@@ -11,6 +11,7 @@ import { useState, useEffect } from "react";
 import { useRouter } from "next/navigation";
 import Cookies from "js-cookie";
 import AuthGuard from "../hoc/AuthGuard";
+import { BsStars } from "react-icons/bs";
 
 function Dashboard() {
   const [sidebarExpanded, setSidebarExpanded] = useState(true);
@@ -68,7 +69,7 @@ function Dashboard() {
         <div className="p-6 bg-light-gray min-h-screen pt-20">
           {/* Header */}
           <div className="flex justify-between items-center">
-            <h1 className="text-2xl mt-2 font-semibold">Hi {firstname.charAt(0).toUpperCase() + firstname.substring(1, firstname.length)}! View your most recent flashcards and quizzes.</h1>
+            <h1 className="text-xl mt-0 font-regular">Hi {firstname.charAt(0).toUpperCase() + firstname.substring(1, firstname.length)}, view your most recent flashcards and quizzes.</h1>
             <div className={`flex items-center space-x-2 bg-white px-4 py-2 rounded-lg shadow ${checklistHidden ? 'hidden': ''}`}>
               <FiCheckCircle className="text-blue text-lg" />
               <span>Created an account</span>
@@ -89,7 +90,7 @@ function Dashboard() {
           </div>
 
           {/* Recents Section */}
-          <div className="bg-white p-6 rounded-lg shadow-md mt-6">
+          <div className="bg-white p-6 rounded-lg shadow-md mt-4">
             <h2 className="text-xl font-semibold mb-4">Recents</h2>
             <div className="grid grid-cols-1 md:grid-cols-2 gap-4">
               {/* Flashcards */}
@@ -126,7 +127,10 @@ function Dashboard() {
 
           {/* Generate with AI Section */}
           <div className="bg-white p-6 rounded-lg shadow-md mt-6">
-            <h2 className="text-xl font-semibold mb-4">Generate from text with AI</h2>
+            <div className="flex">
+              <h2 className="text-xl font-semibold mb-4 me-1">Generate from text with AI</h2>
+              <BsStars className="mt-1 text-lg"/>
+            </div>
             <textarea className="w-full p-4 border rounded-lg bg-gray-100" placeholder="Add your notes here"></textarea>
             <div className="flex items-center mt-4 space-x-4">
               <button className="flex items-center space-x-2 bg-blue text-white px-6 py-2 rounded-lg hover:bg-blue-dark transition">
