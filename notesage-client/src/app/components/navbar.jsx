@@ -8,7 +8,7 @@ const Navbar = () => {
   const [isOpen, setIsOpen] = useState(false);
 
   return (
-    <nav className="bg-white px-6 md:px-24 py-2 flex justify-between items-center shadow-md">
+    <nav className="bg-white px-6 md:px-24 py-3 flex justify-between items-center shadow-md">
       {/* Logo */}
       <div className="flex items-center">
         <div className="bg-blue text-white font-bold text-lg w-10 h-10 flex items-center justify-center rounded-full">
@@ -22,8 +22,8 @@ const Navbar = () => {
         <Link href="/" className="text-gray font-semibold focus:underline hover:underline">
           Home
         </Link>
-        <Link href="/how-it-works" className="text-gray font-semibold focus:underline hover:underline">
-          How it Works
+        <Link href="/getting-started" className="text-gray font-semibold focus:underline hover:underline">
+          How it works
         </Link>
         <Link href="/about" className="text-gray font-semibold focus:underline hover:underline">
           About Us
