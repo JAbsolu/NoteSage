@@ -36,8 +36,8 @@ const Signin = () => {
       const result = await response.json();
 
       if (response.ok && result.token) {
-        Cookies.set("user-id", result.userId, { expires: 1, secure: true });
-        Cookies.set("auth-token", result.token, { expires: 1, secure: true });
+        Cookies.set("user-id", result.userId, { secure: true });
+        Cookies.set("auth-token", result.token, { secure: true });
         router.push("/dashboard");
       } else {
         setLoginMssg(result.message);
