@@ -15,6 +15,7 @@ const DashboardNavbar = ({ toggleSidebar, firstName, lastName, emailAddress }) =
       router.push("/login"); // Redirect user to login page
   }
 
+
   return (
     <nav className="bg-white px-6 py-4 flex justify-between items-center fixed top-0 left-0 w-full z-50">
       {/* Left Section: Hamburger Menu & Logo */}
