@@ -19,7 +19,7 @@ const createCard = async (req, res) => {
 
     await newCard.save();
 
-    res.status(201).json({ message: "Card created succesfully" });
+    res.status(201).json({ message: `Card created succesfully`, result: result});
   } catch (err) {
     res.status(500).json({ message: "Error creating the card", error: err.message });
   }

@@ -2,10 +2,10 @@
 
 import Image from "next/image";
 import Link from "next/link";
-import Navbar from './components/navbar';
+import Navbar from '../components/Navbar';
 import './globals.css';
 import homeImage from "../../public/home-img.png";
-import Footer from "./components/footer";
+import Footer from "../components/Footer";
 import AuthCheck from "./hoc/AuthCheck";
 
 const Home = () => {

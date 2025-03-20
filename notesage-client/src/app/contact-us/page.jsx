@@ -1,4 +1,4 @@
-import Navbar from "../components/navbar";  // Make sure the path is correct
+import Navbar from "../../components/Navbar";  // Make sure the path is correct
 
 export default function ContactUs() {
   return (

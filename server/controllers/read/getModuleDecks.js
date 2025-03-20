@@ -1,4 +1,4 @@
-const Deck = require("../../models/Card");
+const Deck = require("../../models/Deck");
 const Module = require("../../models/Module");
 
 const getModuleDecks = async (req, res) => {
@@ -12,7 +12,7 @@ const getModuleDecks = async (req, res) => {
     const decks = await Deck.find({ moduleId: id });
 
     if (decks.length > 0) return res.status(200).json({ message: "all decks retrieved", data: decks });
-    else return res.status(200).json({ message: "no decks found ", data: [] });
+    else return res.status(200).json({ message: "no decks found ", data: decks });
 
   } catch (err) {
     res.status(400).json({ message: "server error", error: err.message });

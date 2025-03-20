@@ -8,7 +8,7 @@ const AuthGuard = (WrappedComponent) => {
     const [loading, setLoading] = useState(true);
 
     useEffect(() => {
-      const token = Cookies.get("auth-token"); // Read the auth cookie
+      const token = Cookies.get("token"); // Read the auth cookie
       if (!token) {
         router.push("/login"); // Redirect to login if not authenticated
       } else {

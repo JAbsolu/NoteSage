@@ -1,17 +1,18 @@
 "use client";
 
-import Sidebar from "@/app/components/sidebar";
+import Sidebar from "@/components/Sidebar";
 import Link from "next/link";
 import { FiUpload, FiCheckCircle, FiCircle } from "react-icons/fi";
 import { TfiArrowCircleLeft } from "react-icons/tfi";
 import { IoMdClose } from "react-icons/io";
 import { MdOutlineQuiz } from "react-icons/md";
-import DashboardNavbar from "../components/DashboardNavbar";
+import DashboardNavbar from "../../components/DashboardNavbar";
 import { useState, useEffect } from "react";
 import { useRouter } from "next/navigation";
 import Cookies from "js-cookie";
 import AuthGuard from "../hoc/AuthGuard";
 import { BsStars } from "react-icons/bs";
+import { getCookie } from "@/util/cookies";
 
 function Dashboard() {
   const [sidebarExpanded, setSidebarExpanded] = useState(true);
@@ -20,38 +21,53 @@ function Dashboard() {
   const [firstname, setFirstname] = useState('');
   const [lastname, setLastname] = useState('');
   const [emailaddress, setEmailaddress] = useState('');
+  const userId = getCookie("userId");
 
   //get user and user info
   const getUser = async (id) => {
-    const url = `http://localhost/user?id=${id}`;
-
-    const request = await fetch(url, {
-      method: "GET",
-      headers: {
-        "Content-Type": "application/json"
-      }
-    });
-
-    const result = await request.json()
-      if (request.ok) {
-        const user = result.data;
-        setFirstname(user.firstName);
-        setLastname(user.lastName);
-        setEmailaddress(user.emailAddress);
-      }
+    if (!id) {
+      console.log("User id required to get user");
+      return;
+    }
+    
+    try {
+      const response = await fetch(`http://localhost/user?id=${id}`, {
+        method: "GET",
+        headers: {
+          "Content-Type": "application/json"
+        }
+      });
+  
+      const result = await response.json()
+        if (response.ok) {
+          const user = result.data;
+          setFirstname(user.firstName);
+          setLastname(user.lastName);
+          setEmailaddress(user.emailAddress);
+          
+        } else {
+          console.log(response.status, response.statusText, "Error getting user")
+        }
+    } catch(error) {
+      console.log(error);
+    }
   }
 
   // read user id from cookies
-  useEffect(()=> {
+  useEffect(() => {
     try {
-      const userId = Cookies.get("user-id");
-      if (userId) getUser(userId)
-      else throw error;
+        console.log("User ID from cookie:", userId); // Debugging
 
-    } catch(error) {
-      console.error(error);
+        if (userId) {
+            getUser(userId);
+        } else {
+            console.warn("User ID not found in cookies");
+        }
+    } catch (error) {
+        console.error("Error reading user ID from cookie:", error);
     }
-  }, []);
+}, []);
+
 
   return (
     <div className="flex bg-light-gray">

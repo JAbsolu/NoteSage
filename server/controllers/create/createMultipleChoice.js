@@ -1,18 +1,18 @@
 const MultipleChoice = require("../../models/MultipleChoice");
-const Test = require("../../models/Test");
+const Quiz = require("../../models/Quiz");
 
 
 const createMultipleChoice = async (req, res) => {
   try {
-    const { testId, question, choices } = req.body;
+    const { quizId, question, choices } = req.body;
 
     // error handling for ids
-    const test = await Test.findById(testId);
-    if (!test) return res.status(400).json({ message: "test not found "});
+    const quiz = await Quiz.findById(quizId);
+    if (!quiz) return res.status(400).json({ message: "quiz not found "});
 
     // create new multiple choice
     const multipleChoice = new MultipleChoice({
-      testId,
+      quizId,
       question,
       choices: {
         "A": null,

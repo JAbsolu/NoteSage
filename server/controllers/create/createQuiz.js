@@ -1,7 +1,7 @@
-const Test = require("../../models/Test");
+const Quiz = require("../../models/Quiz");
 const Module = require("../../models/Module");
 
-const createTest = async (req, res) => {
+const createQuiz = async (req, res) => {
   try {
     const { moduleId, title, description } = req.body;
 
@@ -9,21 +9,21 @@ const createTest = async (req, res) => {
     const module = await Module.findById(moduleId);
     if (!module) return res.status(400).json({ message: "module not found" });
 
-    // create new test
-    const test = new Test({
+    // create new Quiz
+    const quiz = new Quiz({
       moduleId,
       title,
       description,
       contents: []
     });
 
-    //save the new test
-    await test.save();
+    //save the new Quiz
+    await quiz.save();
 
-    res.status(201).json({ message: "test has been created" });
+    res.status(201).json({ message: "Quiz has been created" });
   } catch (err) {
     res.status(500).json({ message: "server error", error: err.message });
   }
 }
 
-module.exports = createTest;
+module.exports = createQuiz;
