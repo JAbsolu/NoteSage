@@ -1,6 +1,6 @@
 import { useEffect, useState } from "react";
 import { useRouter } from "next/navigation";
-import Cookies from "js-cookie";
+import { getCookie } from "@/util/cookies";
 
 const AuthCheck = (WrappedComponent) => {
   return (props) => {
@@ -8,7 +8,7 @@ const AuthCheck = (WrappedComponent) => {
     const [isChecking, setIsChecking] = useState(true); // Prevent page rendering until checked
 
     useEffect(() => {
-      const token = Cookies.get("auth-token");
+      const token = getCookie("token");
 
       if (token) {
         router.replace("/dashboard"); // Redirect immediately

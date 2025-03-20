@@ -3,10 +3,11 @@
 import Cookies from "js-cookie";
 import Link from "next/link";
 import { useState } from "react";
-import Navbar from "@/app/components/navbar";
-import Footer from "../components/footer";
+import Navbar from "@/components/Navbar";
+import Footer from "../../components/Footer";
 import { useRouter } from "next/navigation";
 import AuthCheck from "../hoc/AuthCheck";
+import { setCookie } from "@/util/cookies";
 
 const Signin = () => {
   const [formData, setFormData] = useState({
@@ -36,8 +37,14 @@ const Signin = () => {
       const result = await response.json();
 
       if (response.ok && result.token) {
-        Cookies.set("user-id", result.userId, { secure: true });
-        Cookies.set("auth-token", result.token, { secure: true });
+        const userId = result.userId;
+        const token = result.token;
+        Cookies.set("userId", userId, { expires: 7, secure: true });
+        Cookies.set("token", token, { expires: 7, secure : true })
+        console.log("userid:", userId, "token:", token);
+        
+        // setCookie("userId", result.userId, {expires: 7, secure: true})
+        // setCookie("token", result.token, {expires: 7, secure: true})
         router.push("/dashboard");
       } else {
         setLoginMssg(result.message);

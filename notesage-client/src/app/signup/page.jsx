@@ -2,8 +2,8 @@
 
 import Link from "next/link";
 import { useState } from "react";
-import Navbar from "../components/navbar";
-import Footer from "../components/footer";
+import Navbar from "../../components/Navbar";
+import Footer from "../../components/Footer";
 import { useRouter } from "next/navigation";
 import AuthCheck from "../hoc/AuthCheck";
 
