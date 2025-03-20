@@ -1,12 +1,12 @@
 const { default: mongoose, model } = require("mongoose");
 
-const TestSchema = new mongoose.Schema({
+const QuizSchema = new mongoose.Schema({
   moduleId: { type: mongoose.Schema.Types.ObjectId, ref: "Module" },
   title: String,
   description: String,
   contents: []
 });
 
-const Test = mongoose.model("Test", TestSchema);
+const Quiz = mongoose.model("Test", QuizSchema);
 
-module.exports = Test;
+module.exports = Quiz;

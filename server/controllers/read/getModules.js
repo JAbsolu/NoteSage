@@ -2,27 +2,27 @@ const Card = require("../../models/Card");
 const Deck = require("../../models/Deck");
 const Module = require("../../models/Module");
 const MultipleChoice = require("../../models/MultipleChoice");
-const Test = require("../../models/Test");
+const Quiz = require("../../models/Quiz");
 
 const getModules = async (req, res) => {
   try {
     // get modules
     const modules = await Module.find();
     modules.forEach(async (module) => {
-      // add tests and decks to modules
+      // add quizzes and decks to modules
       const moduleId = module._id;
-      const tests = await Test.find({ moduleId: moduleId });
+      const quizzes = await Quiz.find({ moduleId: moduleId });
       const decks = await Deck.find({ moduleId: moduleId });
-      if (tests.length > 0) module.tests = [...tests]
+      if (quizzes.length > 0) module.quizzes = [...quizzes]
       if (decks.length > 0) module.decks = [...decks]
       await module.save();
       
-      // add multiple choices to test's contents
-      tests.forEach(async (test) => {
-        const testId = test._id;
-        const choices = await MultipleChoice.find({ testId: testId });
-        if (choices.length > 0) test.contents = [...choices];
-        await test.save();
+      // add multiple choices to quiz's contents
+      quizzes.forEach(async (quiz) => {
+        const quizId = quiz._id;
+        const choices = await MultipleChoice.find({ quizId: quizId });
+        if (choices.length > 0) quiz.contents = [...choices];
+        await quiz.save();
       })
       
       // add cards to deck's contents

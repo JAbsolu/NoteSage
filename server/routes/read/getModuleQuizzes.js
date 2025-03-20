@@ -1,9 +1,9 @@
 const express = require("express");
-const getModuleTests = require("../../controllers/read/getModuleTests");
+const getModuleQuizzes = require("../../controllers/read/getModuleQuizzes");
 const authMiddleware = require("../../middleware");
 
 const router = express.Router();
 
-router.get("/", getModuleTests);
+router.get("/", authMiddleware, getModuleQuizzes);
 
 module.exports = router;
