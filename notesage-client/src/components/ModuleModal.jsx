@@ -1,16 +1,20 @@
 import { getCookie } from "@/util/cookies";
-import React from "react";
+import React, { useState } from "react";
 
-const ModuleModal = ({ title, description, closeModal, setNewModuleTitle, setNewModuleDescription }) => {
-  const userId = getCookie("userId");
+const ModuleModal = ({ closeModal, userId}, token) => {
+  const [newModuleTitle, setNewModuleTitle] = useState("");
+  const [isPublic, setIsPublic] = useState(false);
+
+  // API Base URL
+const API_BASE_URL = process.env.API_BASE_URL || "http://localhost";
   
   const createModal = () => {
-    createModule();
+    createModule(userId);
     closeModal(); // Close modal after creating the deck
   };
 
   // create module
-  const createModule = async () => {
+  const createModule = async (id) => {
     if (!userId) {
       console.log("User id required!");
       return;
@@ -24,19 +28,19 @@ const ModuleModal = ({ title, description, closeModal, setNewModuleTitle, setNew
           Authorization: token,
         },
         body: JSON.stringify({ 
-          userId: userId,
-          title: title,
-          decks: [],
-          tests: [],
-          public: true
+          userId: id,
+          title: newModuleTitle,
+          decks: new Array(),
+          tests: new Array(),
+          public: isPublic
         }),
       });
 
       if (response.ok) {
         const result = await response.json(); // print the result in the console to confirm the card is created
-        console.log(response.status, "Flashcard created successfully", result);
+        console.log(response.status, "Module created successfully", result);
       } else {
-        console.log(response.status, "Error creating flashcard");
+        console.log(response.status, "Error creating module");
       }
     } catch (error) {
       console.log(error);
@@ -55,17 +59,17 @@ const ModuleModal = ({ title, description, closeModal, setNewModuleTitle, setNew
 
         <input
           type="text"
-          placeholder="Enter deck title..."
-          value={title}
+          placeholder="Enter module title..."
+          value={newModuleTitle}
           onChange={(e) => setNewModuleTitle(e.target.value)}
           className="w-full p-3 border rounded-lg mb-2"
         />
-        <textarea
-          placeholder="Add a description..."
-          value={description}
-          onChange={(e) => setNewModuleDescription(e.target.value)}
-          className="w-full p-3 border rounded-lg"
-        ></textarea>
+        
+        {/* module visability option */}
+        <span className="flex gap-4">
+          <label className="block mt-4 text-sm">Public</label>
+          <input type="checkbox" className="mt-4" onChange={() => isPublic ? setIsPublic(false) : setIsPublic(true)}/>
+        </span>
 
         {/* Modal Actions */}
         <div className="flex justify-end space-x-2 mt-4">

@@ -1,10 +1,51 @@
-import React from "react";
+import React, { useState } from "react";
 
-const QuizModal = ({ title, description, closeModal, setNewQuizTitle, setNewQuizDescription }) => {
+const QuizModal = ({ moduleId, token, closeModal}) => {
+  const [newTitle, setNewTitle] = useState("");
+  const [newDescription, setNewDescription] = useState("");
+
+  const API_BASE_URL = process.env.API_BASE_URL || "http://localhost";
   
   const createModal = () => {
+    createQuiz(moduleId);
     closeModal(); // Close modal after creating the deck
   };
+
+  //create quiz
+  const createQuiz = async(id) => {
+    if (!id) {
+      console.log("No module id provided");
+      return;
+    }
+
+    try {
+      const response = await fetch(`${API_BASE_URL}/create-quiz`, {
+        method: "POST",
+        headers: {
+          "Content-Type": "application/json",
+          "Authorization": token
+        },
+        body: JSON.stringify({
+          moduleId: moduleId,
+          title: newTitle,
+          description: newDescription,
+          contents: []
+        })
+      })
+
+      // get result
+      const result = await response.json();
+
+      if (response.ok) {
+        console.log(response.status, "Quizz created succesfully", result);
+      } else {
+        console.log(response.status, result);
+      }
+
+    } catch (error) {
+      console.log(error);
+    }
+  }
 
   return (
     <div
@@ -19,14 +60,14 @@ const QuizModal = ({ title, description, closeModal, setNewQuizTitle, setNewQuiz
         <input
           type="text"
           placeholder="Enter quiz title..."
-          value={title}
-          onChange={(e) => setNewQuizTitle(e.target.value)}
+          value={newTitle}
+          onChange={(e) => setNewTitle(e.target.value)}
           className="w-full p-3 border rounded-lg mb-2"
         />
         <textarea
           placeholder="Add a description..."
-          value={description}
-          onChange={(e) => setNewQuizDescription(e.target.value)}
+          value={newDescription}
+          onChange={(e) => setNewDescription(e.target.value)}
           className="w-full p-3 border rounded-lg"
         ></textarea>
 
