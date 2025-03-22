@@ -1,10 +1,9 @@
 "use client";
 
-import Cookies from "js-cookie";
 import Link from "next/link";
 import { useState } from "react";
 import Navbar from "@/components/Navbar";
-import Footer from "../../components/Footer";
+import Footer from "@/components/Footer";
 import { useRouter } from "next/navigation";
 import AuthCheck from "../hoc/AuthCheck";
 import { setCookie } from "@/util/cookies";
@@ -39,12 +38,9 @@ const Signin = () => {
       if (response.ok && result.token) {
         const userId = result.userId;
         const token = result.token;
-        Cookies.set("userId", userId, { expires: 7, secure: true });
-        Cookies.set("token", token, { expires: 7, secure : true })
-        console.log("userid:", userId, "token:", token);
-        
-        // setCookie("userId", result.userId, {expires: 7, secure: true})
-        // setCookie("token", result.token, {expires: 7, secure: true})
+        setCookie("userId", userId, {expires: 7, secure: true});
+        setCookie("token", token, {expires: 7, secure: true});
+        // console.log("userid:", userId, "token:", token); // for testing
         router.push("/dashboard");
       } else {
         setLoginMssg(result.message);
