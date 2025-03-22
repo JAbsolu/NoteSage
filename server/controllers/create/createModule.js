@@ -13,8 +13,8 @@ const createModule = async (req, res) => {
     const module = new Module({
       userId,
       title,
-      decks: [],
-      tests: [],
+      decks,
+      tests,
       public
     });
 
