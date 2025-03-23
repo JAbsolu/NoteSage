@@ -61,7 +61,7 @@ const Signin = () => {
 
         {/* Sign-In Card */}
         <div className="relative bg-white shadow-lg rounded-xl p-12 w-full max-w-lg">
-          <h2 className="text-center text-2xl font-semibold text-gray">Sign in to your account</h2>
+          <h2 className="text-center text-xl text-gray">Sign in to your account</h2>
 
           <form onSubmit={handleSubmit} className="mt-6">
             {/* Input Fields */}
@@ -72,7 +72,7 @@ const Signin = () => {
                 placeholder="Email address"
                 value={formData.email}
                 onChange={handleChange}
-                className="w-full p-3 bg-gray-200 rounded-lg focus:outline-none focus:ring-2 focus:ring-blue"
+                className="w-full p-3 bg-gray-100 rounded-lg focus:outline-none focus:ring-2 focus:ring-blue"
                 required
               />
               <input
@@ -81,7 +81,7 @@ const Signin = () => {
                 placeholder="Password"
                 value={formData.password}
                 onChange={handleChange}
-                className="w-full p-3 bg-gray-200 rounded-lg focus:outline-none focus:ring-2 focus:ring-blue"
+                className="w-full p-3 bg-gray-100 rounded-lg focus:outline-none focus:ring-2 focus:ring-blue"
                 required
               />
             </div>
@@ -89,7 +89,7 @@ const Signin = () => {
             {/* Submit Button */}
             <button
               type="submit"
-              className="w-full mt-6 py-3 bg-blue text-white font-semibold rounded-lg hover:bg-blue-dark transition"
+              className="w-full mt-4 py-3 bg-blue text-white font-semibold rounded-lg hover:bg-blue-dark transition"
             >
               Sign in
             </button>

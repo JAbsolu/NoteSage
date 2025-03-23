@@ -10,9 +10,7 @@ import DeckModal from "../../../components/DeckModal";
 import ModuleModal from "../../../components/ModuleModal";
 import QuizModal from "@/components/QuizModal";
 import AiGeneration from "@/components/AiGeneration";
-import LessonGroup from "@/components/LessonGroups";
-import FlashcardSets from "@/components/FlashcardSets";
-import QuizzesGroup from "@/components/QuizzesGroup";
+import LessonGroups from "@/components/LessonGroups";
 
 // API Base URL
 const API_BASE_URL = process.env.API_BASE_URL || "http://localhost";
@@ -474,10 +472,7 @@ const WorkSpace = () => {
             {/* Col 2 */}
             <div className="w-1/2">
               {/* modules */}
-              <LessonGroup modules={modules} firstName={firstName} />
-              <FlashcardSets decks={decks} firstName={firstName} />
-              <QuizzesGroup quizzes={quizzes} firstName={firstName} />
-             
+              <LessonGroups modules={modules} firstName={firstName} setShowDecks={moduleId} />
             </div>
 
           </div>
@@ -486,8 +481,8 @@ const WorkSpace = () => {
           <AiGeneration/>
         </div>
 
+        {isModuleModalOpen && <ModuleModal closeModal={() => setIsModuleModalOpen(false)} userId={userId} token={token} />}
         {isModalOpen && <DeckModal closeModal={() => setIsModalOpen(false)} moduleId={moduleId} />}
-        {isModuleModalOpen && <ModuleModal closeModal={() => setIsModuleModalOpen(false)} userId={userId} token={token}/>}
         {isQuizModalOpen && <QuizModal moduleId={moduleId} token={token} closeModal={() => setIsQuizModalOpen(false)} />}
       </div>
     </div>
