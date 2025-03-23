@@ -2,7 +2,6 @@
 
 import { useState, useEffect } from "react";
 import Cookies from "js-cookie";
-import Link from "next/link";
 import DashboardNavbar from "../../../components/DashboardNavbar";
 import Sidebar from "../../../components/Sidebar";
 import { CiSquarePlus } from "react-icons/ci";
@@ -288,16 +287,16 @@ const WorkSpace = () => {
       <Sidebar isExpanded={sidebarExpanded} />
 
       <div className="flex-1 bg-grey-200 shadow flex flex-col mt-16">
-        <h1 className="mt-6 ps-3 mb-4 text-xl">Welcome to your workspace</h1>
+        <h1 className="mt-6 ps-3 mb-4 text-xl text-black">Welcome to your workspace</h1>
 
         <div className="flex flex-col bg-white border py-2 mx-2 rounded-md">
           <div className="flex">
             {/* Col 1 */}
             <div className="bg-white px-6 w-1/2 mx-2 mt-4 rounded">
-              <h3 className="mb-3 text-lg font-bold">Create Flashcards</h3>
+              <h3 className="mb-3 text-lg font-bold text-black">Create Flashcards</h3>
 
               {/* Modules Selection */}
-              <div className="flex">
+              <div className="flex text-black">
                 <select
                   onChange={(e) => {
                     setModuleId(e.target.value);
