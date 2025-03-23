@@ -22,6 +22,10 @@ body {
   font-size: 11pt;
 }
 
+p {
+  color: black !important;
+}
+
 .bg-blue {
   background-color: #2489D3;
 }

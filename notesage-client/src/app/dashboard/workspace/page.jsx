@@ -375,7 +375,7 @@ const WorkSpace = () => {
                   onChange={(e) => setQuizId(e.target.value)}
                   className="p-2 border rounded-lg lg:w-11/12 sm:w-full me-2 pe-16"
                 >
-                  <option value="">Select Quiz</option>
+                  <option value="" className="text-black">Select Quiz</option>
                   {quizzes ? quizzes.map((quiz) => (
                     <option key={quiz._id} value={quiz._id}>
                       {quiz.title}
@@ -439,7 +439,7 @@ const WorkSpace = () => {
               
               {/* Correct answer checkbox */}
               <span className="flex gap-3 space-y-4">
-                <p className="mt-2 text-lg">Correct choice: </p>
+                <p className="mt-2 text-lg text-black">Correct choice: </p>
                 {Object.keys(checkedItems).map((key, index) => {
                   // If none is selected OR this one is selected, show it
                   if (!selectedKey || selectedKey === key) {
