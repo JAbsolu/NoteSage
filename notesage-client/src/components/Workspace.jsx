@@ -172,7 +172,7 @@ const FlashcardsComponent = ({firstName, lastName, emailAddress, module, userId,
   return (
     <>
       {/* Main Content */}
-      <div className="flex-1 flex flex-col mt-16">
+      <div className="flex-1 flex flex-col mt-16 text-black">
 
         {/* Content Section */}
         <div className="p-6">
