@@ -351,13 +351,13 @@ const WorkSpace = () => {
               <input
                 type="text"
                 placeholder="Flaschard front"
-                className="mt-4 p-2 border lg:w-11/12 sm:w-full rounded-md"
+                className="mt-4 p-2 border lg:w-11/12 sm:w-full rounded-md text-black"
                 value={front}
                 onChange={(e) => setFront(e.target.value)}
               />
               <textarea
                 placeholder="Flashcard back"
-                className="mt-4 p-2 border lg:w-11/12 sm:w-full rounded-md"
+                className="mt-4 p-2 border lg:w-11/12 sm:w-full rounded-md text-black"
                 value={back}
                 onChange={(e) => setBack(e.target.value)}
               ></textarea>
@@ -400,7 +400,7 @@ const WorkSpace = () => {
               {/* Quizz Input Fields */}
               <textarea
                 placeholder="Enter Question"
-                className="mt-4 p-2 border lg:w-11/12 sm:w-full rounded-md"
+                className="mt-4 p-2 border lg:w-11/12 sm:w-full rounded-md text-black"
                 value={quizQuestion}
                 onChange={(e) => setQuizQuestion(e.target.value)}
               ></textarea>
@@ -408,7 +408,7 @@ const WorkSpace = () => {
                 type="text"
                 placeholder="Choice A"
                 name="A"
-                className="mt-4 p-2 border h-[2.8em] lg:w-11/12 sm:w-full rounded-md"
+                className="mt-4 p-2 border h-[2.8em] lg:w-11/12 sm:w-full rounded-md text-black"
                 value={multipleChoices.A}
                 onChange={handleChoiceChange}
               ></textarea>
@@ -416,7 +416,7 @@ const WorkSpace = () => {
                 type="text"
                 placeholder="Choice B"
                 name="B"
-                className="mt-4 p-2 border h-[2.8em] lg:w-11/12 sm:w-full rounded-md"
+                className="mt-4 p-2 border h-[2.8em] lg:w-11/12 sm:w-full rounded-md text-black"
                 value={multipleChoices.B}
                 onChange={handleChoiceChange}
               ></textarea>
@@ -424,7 +424,7 @@ const WorkSpace = () => {
                 type="text"
                 placeholder="Choice C"
                 name="C"
-                className="mt-4 p-2 border h-[2.8em] lg:w-11/12 sm:w-full rounded-md"
+                className="mt-4 p-2 border h-[2.8em] lg:w-11/12 sm:w-full rounded-md text-black"
                 value={multipleChoices.C}
                 onChange={handleChoiceChange}
               ></textarea>
@@ -432,7 +432,7 @@ const WorkSpace = () => {
                 type="text"
                 placeholder="Choice D"
                 name="D"
-                className="mt-4 p-2 border h-[2.8em] lg:w-11/12 sm:w-full rounded-md"
+                className="mt-4 p-2 border h-[2.8em] lg:w-11/12 sm:w-full rounded-md text-black"
                 value={multipleChoices.D}
                 onChange={handleChoiceChange}
               ></textarea>
