@@ -114,7 +114,7 @@ const WorkSpace = () => {
   // get modules
   const getModules = async (id) => {
     try {
-      const response = await fetch(`${API_BASE_URL}/modules?id=${id}`, {
+      const response = await fetch(`${API_BASE_URL}/user-modules?id=${id}`, {
         method: "GET",
         headers: {
           "Content-Type": "application/json",

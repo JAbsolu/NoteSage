@@ -12,7 +12,7 @@ const Home = () => {
   return (
     <>
       <Navbar />
-      <section className="bg-light-gray min-h-[87vh] flex items-start justify-center px-6 py-20">
+      <section className="bg-light-gray min-h-[88vh] flex items-start justify-center px-6 py-20">
         <div className="max-w-8xl mx-40 flex flex-col md:flex-row items-center justify-between w-full">
           
           {/* Left Side - Text & Buttons */}
