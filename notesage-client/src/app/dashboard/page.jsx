@@ -70,7 +70,7 @@ function Dashboard() {
 
 
   return (
-    <div className="flex bg-light-gray">
+    <div className="flex bg-light-gray text-black">
       {/* Sidebar (Expandable) */}
       <div className={`fixed inset-y-0 left-0 transition-all duration-300 ${sidebarExpanded ? "w-64" : "w-20"}`}>
         <Sidebar isExpanded={sidebarExpanded} />

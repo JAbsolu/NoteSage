@@ -18,7 +18,7 @@ const DashboardNavbar = ({ toggleSidebar, firstName, lastName, emailAddress }) =
 
 
   return (
-    <nav className="bg-white px-6 py-4 flex justify-between items-center fixed top-0 left-0 w-full z-50">
+    <nav className="bg-white px-6 py-4 flex justify-between items-center fixed top-0 left-0 w-full z-50 text-black">
       {/* Left Section: Hamburger Menu & Logo */}
       <div className="flex items-center space-x-4">
         {/* Hamburger Menu Button */}
