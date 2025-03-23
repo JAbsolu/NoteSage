@@ -6,9 +6,9 @@ const getModuleQuizzes = async (req, res) => {
     const moduleQuizzes = await Quiz.find({ moduleId : id });
 
     if (moduleQuizzes.length > 0) {
-      res.status(200).json({ message: `all quizzes have been retrieved`, data: moduleQuizzes });
+      res.status(200).json({ message: `all module quizzes have been retrieved`, data: moduleQuizzes });
     } else {
-      res.status(200).json({ message: `no quizzes choices found` });
+      res.status(200).json({ message: `no module quizzes choices found` });
     }
   } catch (err) {
     res.status(500).json({ message: "server error", error: err.message });

@@ -34,6 +34,7 @@ const updateDeck = require('./routes/update/updateDeck');
 const updateMultipleChoice = require('./routes/update/updateMultipleChoice');
 const updateUser = require('./routes/update/updateUser');
 const updateUserInfo = require('./routes/update/updateUserInfo');
+const updateQuiz = require("./routes/update/updateQuiz");
  
 // create express app
 const app = express();
@@ -75,6 +76,7 @@ app.use("/update-deck", updateDeck);
 app.use("/update-choice", updateMultipleChoice);
 app.use("/update-user", updateUser);
 app.use("/update-user-info", updateUserInfo);
+app.use("/update-quiz", updateQuiz);
 
 // save port and start server
 const PORT = 80;
