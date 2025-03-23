@@ -2,17 +2,24 @@
 
 import DashboardNavbar from "@/components/DashboardNavbar";
 import Sidebar from "@/components/Sidebar";
-import { useState } from "react";
+import { getCookie } from "@/util/cookies";
+import { useEffect, useState } from "react";
 
 const Quizzes = () => {
   const [firstName, setFirstName] = useState("");
   const [lastName, setLastName] = useState("");
   const [emailAddress, setEmailAddress] = useState("");
   const [sidebarExpanded, setSidebarExpanded] = useState(false);
+  const userId = getCookie("userId");
+  const token = getCookie("token");
+
+  useEffect(() =>  {
+    getUser(userId)
+  })
 
   const getUser = async (id) => {
     try {
-      const response = await fetch(`${API_BASE_URL}/user?id=${id}`, {
+      const response = await fetch(`http://localhost/user?id=${id}`, {
         method: "GET",
         headers: {
           "Content-Type": "application/json",
