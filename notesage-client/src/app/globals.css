@@ -22,10 +22,9 @@ body {
   font-size: 11pt;
 }
 
-p {
+h1, h2, h3, h4 , h5, p {
   color: black !important;
 }
-
 .bg-blue {
   background-color: #2489D3;
 }
