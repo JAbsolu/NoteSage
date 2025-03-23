@@ -22,24 +22,24 @@ const Sidebar = ({ isExpanded }) => {
       <nav className="flex flex-col space-y-6">
         <Link href="/dashboard" className="flex items-center space-x-2 hover:text-gray-200">
           <FiHome className="text-xl" />
-          {isExpanded && <span>Home</span>}
+          {isExpanded && <span className="text-white">Home</span>}
         </Link>
         <Link href="/notifications" className="flex items-center space-x-2 hover:text-gray-200">
           <FiBell className="text-xl -me-4" />
           <div className="flex items-center justify-center bg-red-600 border min-w-6 min-h-6 rounded-full text-xs">{allNotifications?.length || "0"}</div>
-          {isExpanded && <span>Notifications</span>}
+          {isExpanded && <span className="text-white">Notifications</span>}
         </Link>
         <Link href="/dashboard/workspace" className="flex items-center space-x-2 hover:text-gray-200">
           <MdOutlineComputer className="text-xl" />
-          {isExpanded && <span>Workspace</span>}
+          {isExpanded && <span className="text-white">Workspace</span>}
         </Link>
-        <Link href="/quizzes" className="flex items-center space-x-2 hover:text-gray-200">
+        <Link href="/dashboard/flashcards" className="flex items-center space-x-2 hover:text-gray-200">
           <FiFileText className="text-xl" />
-          {isExpanded && <span>Flashcards</span>}
+          {isExpanded && <span className="text-white">Flashcards</span>}
         </Link>
-        <Link href="/quizzes" className="flex items-center space-x-2 hover:text-gray-200">
+        <Link href="/dashboard/quizzes" className="flex items-center space-x-2 hover:text-gray-200">
           <FiHelpCircle className="text-xl" />
-          {isExpanded && <span>Quizzes</span>}
+          {isExpanded && <span className="text-white">Quizzes</span>}
         </Link>
       </nav>
     </div>
