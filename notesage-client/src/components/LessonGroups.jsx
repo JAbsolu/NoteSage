@@ -92,7 +92,7 @@ const LessonGroups = ({ firstName }) => {
   // get modules
   const getModules = async (id) => {
     try {
-      const response = await fetch(`${API_BASE_URL}/modules?id=${id}`, {
+      const response = await fetch(`${API_BASE_URL}/user-modules?id=${id}`, {
         method: "GET",
         headers: {
           "Content-Type": "application/json",
@@ -134,17 +134,17 @@ const LessonGroups = ({ firstName }) => {
                 <p className="text-sm text-gray-600">{modules.length} total items - <span className="text-xs"> created by {firstName}</span></p>
               </div>
               <div className="flex justify-center items-center gap-4 ms-4">
-                <span className="flex gap-2 hover:text-[#2489D3]" 
+                <span className="flex gap-2 hover:text-[#2489D3] hover:cursor-pointer" 
                   onClick={() => { 
                     setIsModalOpen(true);
                     setModuleTitle(module.title);
                     setIsSetPublic(module.public);
                   }}
                 > 
-                  Edit
+                  Update
                   <FaRegEdit className="text-xl" /> 
                 </span>
-                <span className="flex gap-2 hover:text-[#2489D3]"> Delete<FiDelete className="text-xl" /> </span>
+                <span className="flex gap-2 hover:text-[#2489D3]  hover:cursor-pointer"> Delete<FiDelete className="text-xl" /> </span>
               </div>
             </div>
           </div>

@@ -66,7 +66,7 @@ const QuizzesGroup = ({quizzes, firstName, moduleId }) => {
                     }}
                     className="flex gap-2 hover:text-[#2489D3]"
                   > 
-                    Edit
+                    Update
                     <FaRegEdit className="text-xl" /> 
                   </span>
                   <span className="flex gap-2 hover:text-[#2489D3]"> Delete<FiDelete className="text-xl" /> </span>

@@ -73,7 +73,7 @@ const FlashcardSets = ({ decks, firstName, moduleId }) => {
                     setDeckTitle(deck.title);
                   }}
                 >
-                  <span>Edit</span>
+                  <span>Update</span>
                   <FaRegEdit className="text-xl" />
                 </div>
                 <span className="flex gap-2 hover:text-[#2489D3] cursor-pointer"> Delete<FiDelete className="text-xl" /> </span>
