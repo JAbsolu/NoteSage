@@ -292,8 +292,8 @@ const WorkSpace = () => {
         <div className="flex flex-col bg-white border py-2 mx-2 rounded-md">
           <div className="flex">
             {/* Col 1 */}
-            <div className="bg-white px-6 w-1/2 mx-2 mt-4 rounded">
-              <h3 className="mb-3 text-lg font-bold text-black">Create Flashcards</h3>
+            <div className="bg-white px-6 w-[40%] mx-2 mt-4 rounded">
+              <p className="mb-3 font-bold text-black">Create Flashcards</p>
 
               {/* Modules Selection */}
               <div className="flex text-black">
@@ -366,9 +366,9 @@ const WorkSpace = () => {
                   Submit
                 </button>
               </div>
-
+                  
               {/* Create quiz */}
-              <h3 className="mb-3 mt-8 text-lg font-bold">Create Quiz</h3>
+              <p className="mb-3 mt-4 font-bold">Create Quiz</p>
               {/* Deck Selection */}
               <div className="flex mt-4">
                 <select
@@ -399,14 +399,14 @@ const WorkSpace = () => {
 
               {/* Quizz Input Fields */}
               <textarea
-                placeholder="Enter Question"
+                placeholder="enter question"
                 className="mt-4 p-2 border lg:w-11/12 sm:w-full rounded-md text-black"
                 value={quizQuestion}
                 onChange={(e) => setQuizQuestion(e.target.value)}
               ></textarea>
               <textarea
                 type="text"
-                placeholder="Choice A"
+                placeholder="option A"
                 name="A"
                 className="mt-4 p-2 border h-[2.8em] lg:w-11/12 sm:w-full rounded-md text-black"
                 value={multipleChoices.A}
@@ -414,7 +414,7 @@ const WorkSpace = () => {
               ></textarea>
               <textarea
                 type="text"
-                placeholder="Choice B"
+                placeholder="option B"
                 name="B"
                 className="mt-4 p-2 border h-[2.8em] lg:w-11/12 sm:w-full rounded-md text-black"
                 value={multipleChoices.B}
@@ -422,7 +422,7 @@ const WorkSpace = () => {
               ></textarea>
               <textarea
                 type="text"
-                placeholder="Choice C"
+                placeholder="option C"
                 name="C"
                 className="mt-4 p-2 border h-[2.8em] lg:w-11/12 sm:w-full rounded-md text-black"
                 value={multipleChoices.C}
@@ -430,7 +430,7 @@ const WorkSpace = () => {
               ></textarea>
               <textarea
                 type="text"
-                placeholder="Choice D"
+                placeholder="option D"
                 name="D"
                 className="mt-4 p-2 border h-[2.8em] lg:w-11/12 sm:w-full rounded-md text-black"
                 value={multipleChoices.D}
@@ -439,20 +439,20 @@ const WorkSpace = () => {
               
               {/* Correct answer checkbox */}
               <span className="flex gap-3 space-y-4">
-                <p className="mt-2 text-lg text-black">Correct choice: </p>
+                <p className="mt-4 text-black">Correct choice: </p>
                 {Object.keys(checkedItems).map((key, index) => {
                   // If none is selected OR this one is selected, show it
                   if (!selectedKey || selectedKey === key) {
                     return (
-                      <label key={index} className="flex items-center space-x-2 cursor-pointer mt-2">
+                      <label key={index} className="flex text-md items-center space-x-2  mt-2">
                         <input
                           type="checkbox"
                           name={key}
                           checked={checkedItems[key]}
                           onChange={handleCheckboxChange}
-                          className="w-4 h-4"
+                          className="w-auto h-auto cursor-pointer"
                         />
-                        <span>{`Option  ${key}`}</span>
+                        <span>{`${key}`}</span>
                       </label>
                     );
                   }
@@ -469,7 +469,7 @@ const WorkSpace = () => {
             </div>
 
             {/* Col 2 */}
-            <div className="w-1/2">
+            <div className="w-[60%]">
               {/* modules */}
               <LessonGroups modules={modules} firstName={firstName} setShowDecks={moduleId} />
             </div>
