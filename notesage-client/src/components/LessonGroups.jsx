@@ -19,6 +19,7 @@ const LessonGroups = ({ firstName }) => {
   const [lessonGroupId, setLessonGroupId] = useState("");
   const [moduleTitle, setModuleTitle] = useState("");
   const [isSetPublic, setIsSetPublic] = useState(false);
+  const [errors, setErrors] = useState({});
   
 
   useEffect(() => {
@@ -113,42 +114,92 @@ const LessonGroups = ({ firstName }) => {
     }
   };
 
+  //delete module
+  const deleteModule = async(id) => {
+    if (!id) {
+      console.log("id is required");
+      setErrors(prev => ({
+        ...prev,
+        error: "unable to delete lesson group, id error"
+      }))
+      return;
+    }
+
+    const headers = {
+      "Content-Type": "application/json",
+      "Authorization": token
+    }
+
+    try {
+      const response = await fetch(`http://localhost/delete-module?id=${id}`, {
+        method: "DELETE",
+        headers: headers,
+      })
+
+      const result = await response.json();
+
+      if (!response.ok) {
+        console.log("Status:", response.status, result.message);
+        return;
+      }
+
+      console.log("Status:", response.status, result.message);
+
+    } catch(error) {
+     console.log(error);
+    }
+  }
+
   return (
     <>
-      <h3 className="font-bold text-lg mt-4 mb-3 ps-10">Lesson Groups</h3>
-      <div className="flex flex-wrap gap-4 w-full max-h-[16em] overflow-scroll ps-10">
-        {modules.map((module, index) => (
-          <div key={index} 
-            href="#" 
-            onClick={() => { 
-              getModuleDecks(module._id);
-              getQuizzes(module._id);
-              setLessonGroupId(module._id);
-            }} 
-            className="block"
-          >
-            <div className="flex flex items-center bg-gray-100 p-3 rounded-lg shadow hover:bg-gray-200 transition">
-              <span className="bg-black text-white px-2 py-1 rounded font-bold">LG</span>
-              <div className="ml-4">
-                <h3 className="font-bold">{module.title}</h3>
-                <p className="text-sm text-gray-600">{modules.length} total items - <span className="text-xs"> created by {firstName}</span></p>
-              </div>
-              <div className="flex justify-center items-center gap-4 ms-4">
-                <span className="flex gap-2 hover:text-[#2489D3] hover:cursor-pointer" 
-                  onClick={() => { 
-                    setIsModalOpen(true);
-                    setModuleTitle(module.title);
-                    setIsSetPublic(module.public);
-                  }}
-                > 
-                  Update
-                  <FaRegEdit className="text-xl" /> 
-                </span>
-                <span className="flex gap-2 hover:text-[#2489D3]  hover:cursor-pointer"> Delete<FiDelete className="text-xl" /> </span>
-              </div>
+      <h3 className="font-bold mt-4 mb-3">Lesson Groups</h3>
+      <div className="flex flex-wrap gap-4 w-full max-h-[16em] overflow-scroll">
+      {modules.map((module, index) => (
+        <div
+          key={module._id} 
+          onClick={() => { 
+            getModuleDecks(module._id);
+            getQuizzes(module._id);
+            setLessonGroupId(module._id);
+          }} 
+          className="block hover:cursor-pointer"
+        >
+          <div className="flex items-center bg-gray-100 p-3 rounded-lg shadow hover:bg-gray-200 transition">
+            <span className="bg-black text-white px-2 py-1 rounded font-bold">LG</span>
+            <div key={module._id} className="ml-4">
+              <h3 className="font-bold">{module.title}</h3>
+              <p className="text-sm text-gray-600">
+                <span className="text-xs"> created by {firstName}</span>
+              </p>
+            </div>
+            <div className="flex justify-end items-center gap-4 ms-10">
+              <span
+                className="flex gap-1 hover:text-[#2489D3] hover:cursor-pointer text-xs" 
+                onClick={(e) => {
+                  e.stopPropagation(); // Prevents triggering the parent onClick
+                  setIsModalOpen(true);
+                  setModuleTitle(module.title);
+                  setIsSetPublic(module.public);
+                }}
+              > 
+                Update
+                <FaRegEdit className="text-xl" /> 
+              </span>
+              <span 
+                className="flex gap-1 hover:text-[#2489D3] hover:cursor-pointer text-xs"
+                onClick={(e) => {
+                  e.stopPropagation(); 
+                  deleteModule(module._id);
+                  getModules(userId)
+                }}
+              > 
+                Delete
+                <FiDelete className="text-xl" /> 
+              </span>
             </div>
           </div>
-        ))}
+        </div>
+      ))}
       </div>
       <FlashcardSets decks={decks} firstName={firstName} moduleId={lessonGroupId}/>
       <QuizzesGroup quizzes={quizzes} firstName={firstName} moduleId={lessonGroupId}/>

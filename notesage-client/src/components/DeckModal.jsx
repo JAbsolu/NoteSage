@@ -5,9 +5,9 @@ const DeckModal = ({ closeModal, moduleId }) => {
   const [newDeckTitle, setNewDeckTitle] = useState("");
   const [newDeckDescription, setNewDeckDescription] = useState("");
   const [isPublic, setIsPublic] = useState(false);
-
   const token = Cookies.get("auth-token");
 
+  // create dekcs
   const createDeck = async () => {
     if (!moduleId) {
       console.log("Module ID not found. Unable to create deck.");
@@ -38,6 +38,37 @@ const DeckModal = ({ closeModal, moduleId }) => {
         closeModal(); // Close modal after successful creation
       } else {
         console.log(response.status, response.statusText, "Failed to create deck.");
+      }
+    } catch (error) {
+      console.log(error);
+    }
+
+    getModuleDecks(moduleId);
+  };
+
+  // get module decks
+  const getModuleDecks = async (id) => {
+    if (!id) {
+      console.log("No module selected.");
+      return;
+    }
+
+    try {
+      const response = await fetch(`http://localhost/module-decks?id=${id}`, {
+        method: "GET",
+        headers: {
+          "Content-Type": "application/json",
+          "Authorization": token,
+        },
+      });
+
+      const result = await response.json();
+
+      if (response.ok) {
+        console.log("Status:", response.status, result.message);
+        setDecks(result.data);
+      } else {
+        console.log("Status:", response.status, result.message);
       }
     } catch (error) {
       console.log(error);
@@ -77,7 +108,12 @@ const DeckModal = ({ closeModal, moduleId }) => {
           <button onClick={closeModal} className="bg-gray-300 px-4 py-2 rounded-lg hover:bg-gray-400">
             Cancel
           </button>
-          <button onClick={createDeck} className="bg-blue-500 text-white px-4 py-2 rounded-lg hover:bg-blue-700">
+          <button 
+            onClick={() => {
+              createDeck();
+              getModuleDecks(moduleId)
+            }} 
+            className="bg-blue-500 text-white px-4 py-2 rounded-lg hover:bg-blue-700">
             Create
           </button>
         </div>

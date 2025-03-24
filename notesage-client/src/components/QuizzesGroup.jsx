@@ -44,19 +44,50 @@ const QuizzesGroup = ({quizzes, firstName, moduleId }) => {
     }
   }
 
+  //delete quiz
+  const deleteQuiz = async(id) => {
+    if (!id) {
+      console.log("no quiz id provided");
+      return;
+    }
+
+    try {
+      const headers = {
+        "Content-Type": "application/json",
+        "Authorization": token
+      }
+
+      const response = await fetch(`http://localhost/delete-quiz?id=${id}`, {
+        method: "DELETE",
+        headers: headers
+      })
+
+      const result = await response.json();
+
+      if (!response.ok) {
+        console.log("Status:", response.status, result.message);
+      }
+
+      console.log("Status:", response.status, result.message);
+
+    } catch(error) {
+      console.log(error);
+    }
+  }
+
   return (
     <>
-      { quizzes && quizzes.length > 0 ? <h3 className="font-semibold mt-8 mb-3 ps-10">Quizzes</h3> : null }
-      <div className="flex flex-wrap gap-4 w-full max-h-[16em] overflow-scroll ps-10">
+      { quizzes && quizzes.length > 0 ? <h3 className="font-semibold mt-8 mb-3">Quizzes</h3> : null }
+      <div className="flex flex-wrap gap-4 w-full max-h-[16em] overflow-scroll">
         { quizzes ? quizzes.map((quiz, index) => (
-            <Link key={index} href={`#`} className="block">
+            <div key={quiz._id} className="block hover:cursor-pointer">
               <div className="flex flex items-center bg-gray-100 p-3 rounded-lg shadow hover:bg-gray-200 transition">
                 <span className="bg-black text-white px-2 py-1 rounded font-bold">Q</span>
                 <div className="ml-4">
                   <h3 className="font-bold">{quiz.title}</h3>
-                  <p className="text-sm text-gray-600">{quizzes.length} total items - <span className="text-xs"> created by {firstName}</span></p>
+                  <p className="text-sm text-gray-600"><span className="text-xs"> created by {firstName}</span></p>
                 </div>
-                <div className="flex justify-center items-center gap-4 ms-4">
+                <div className="flex justify-center items-center gap-4 ms-6">
                   <span 
                     onClick={() => {
                       setQuizId(quiz._id);
@@ -69,10 +100,19 @@ const QuizzesGroup = ({quizzes, firstName, moduleId }) => {
                     Update
                     <FaRegEdit className="text-xl" /> 
                   </span>
-                  <span className="flex gap-2 hover:text-[#2489D3]"> Delete<FiDelete className="text-xl" /> </span>
+                  <span 
+                    onClick={() => {
+                      deleteQuiz(quiz._id);
+                      getQuizzes(moduleId);
+                    }}
+                    className="flex gap-2 hover:text-[#2489D3]"
+                  > 
+                    Delete
+                    <FiDelete className="text-xl" /> 
+                  </span>
                 </div>
               </div>
-            </Link>
+            </div>
           )) : null
         } 
       </div>
