@@ -35,6 +35,7 @@ const updateMultipleChoice = require('./routes/update/updateMultipleChoice');
 const updateUser = require('./routes/update/updateUser');
 const updateUserInfo = require('./routes/update/updateUserInfo');
 const updateQuiz = require("./routes/update/updateQuiz");
+const deleteRoutes = require("./routes/deletes/deletes");
  
 // create express app
 const app = express();
@@ -77,6 +78,9 @@ app.use("/update-choice", updateMultipleChoice);
 app.use("/update-user", updateUser);
 app.use("/update-user-info", updateUserInfo);
 app.use("/update-quiz", updateQuiz);
+
+// all delete routes
+app.use("/", deleteRoutes);
 
 // save port and start server
 const PORT = 80;
