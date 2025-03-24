@@ -10,7 +10,7 @@ const UserInfo = require("../../models/UserInfo")
 // delete user
 exports.deleteUser = async(req, res) => {
   try {
-    const { id } = req.body;
+    const { id } = req.query;
 
     const deletedUser = await User.findOneAndDelete({ _id: id });
     if (!deletedUser) {
