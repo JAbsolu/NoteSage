@@ -46,24 +46,54 @@ const FlashcardSets = ({ decks, firstName, moduleId }) => {
     }
   };
 
+  //delete decks
+  const deleteDeck = async(id) => {
+    if (!id) {
+      console.log("no deck id provided");
+      return;
+    }
+
+    try {
+      const headers = {
+        "Content-Type": "application/json",
+        "Authorization": token
+      }
+
+      const response = await fetch(`http://localhost/delete-deck?id=${id}`, {
+        method: "DELETE",
+        headers: headers
+      })
+
+      const result = await response.json();
+
+      if (!response.ok) {
+        console.log("Status:", response.status, result.message);
+      }
+
+      console.log("Status:", response.status, result.message);
+
+    } catch(error) {
+      console.log(error);
+    }
+  }
+
   return (
     <>
-      {decks ? <h3 className="font-semibold mt-8 mb-3 ps-10">Flashcard Sets</h3> : null}
-      <div className="flex flex-wrap gap-4 w-full max-h-[16em] overflow-scroll ps-10">
+      {decks ? <h3 className="font-semibold mt-8 mb-3">Flashcard Sets</h3> : null}
+      <div className="flex flex-wrap gap-4 w-full max-h-[16em] overflow-scroll">
         {decks ? decks.map((deck, index) => (
-          <div key={index} className="block cursor-pointer">
+          <div key={index} className="block hover:cursor-pointer">
             <div
               className="flex items-center bg-gray-100 p-3 rounded-lg shadow hover:bg-gray-200 transition"
-              onClick={() => console.log("Card clicked")}
             >
               <span className="bg-black text-white px-2 py-1 rounded font-bold">FS</span>
               <div className="ml-4">
                 <h3 className="font-bold">{deck.title}</h3>
-                <p className="text-sm text-gray-600">{decks.length} flashcards - <span className="text-xs"> created by {firstName}</span></p>
+                <p className="text-sm text-gray-600"><span className="text-xs"> created by {firstName}</span></p>
               </div>
-              <div className="flex justify-center items-center gap-4 ms-4">
+              <div className="flex justify-center items-center gap-4 ms-6">
                 <div
-                  className="flex gap-2 hover:text-[#2489D3] cursor-pointer"
+                  className="flex gap-2 hover:text-[#2489D3] cursor-pointer text-xs"
                   onClick={(e) => {
                     e.stopPropagation();
                     console.log("Edit clicked");
@@ -76,7 +106,16 @@ const FlashcardSets = ({ decks, firstName, moduleId }) => {
                   <span>Update</span>
                   <FaRegEdit className="text-xl" />
                 </div>
-                <span className="flex gap-2 hover:text-[#2489D3] cursor-pointer"> Delete<FiDelete className="text-xl" /> </span>
+                <span 
+                  onClick={() => {
+                    deleteDeck(deck._id);
+                    getModuleDecks(moduleId);
+                  }}
+                  className="flex gap-2 hover:text-[#2489D3] cursor-pointer text-xs"
+                > 
+                  Delete
+                  <FiDelete className="text-xl" /> 
+                </span>
               </div>
             </div>
           </div>

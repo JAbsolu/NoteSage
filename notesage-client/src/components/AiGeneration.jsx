@@ -4,9 +4,9 @@ const AiGeneration = () => {
   return (
     <div className="p-6 rounded-lg mt-6 mx-2">
             <div className="flex">
-              <h2 className="text-lg font-bold mb-4 me-1">
+              <p className="font-bold mb-4 me-1">
                 Generate from text with AI
-              </h2>
+              </p>
               <BsStars className="mt-1 text-lg" />
             </div>
             <textarea
