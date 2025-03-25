@@ -1,7 +1,9 @@
 import { getCookie } from "@/util/cookies";
 import { useEffect, useState } from "react";
 import { FaRegEdit } from "react-icons/fa";
-import { FiDelete } from "react-icons/fi";
+import { RxCross1 } from "react-icons/rx";
+import { PiCardsThree } from "react-icons/pi";
+
 
 // API Base URL
 const API_BASE_URL = process.env.API_BASE_URL || "http://localhost";
@@ -79,21 +81,21 @@ const FlashcardSets = ({ decks, firstName, moduleId }) => {
 
   return (
     <>
-      {decks ? <h3 className="font-semibold mt-8 mb-3">Flashcard Sets</h3> : null}
+      {decks ? <h3 className="font-semibold text-lg mt-8 mb-3">Flashcard Groups</h3> : null}
       <div className="flex flex-wrap gap-4 w-full max-h-[16em] overflow-scroll">
-        {decks ? decks.map((deck, index) => (
-          <div key={index} className="block hover:cursor-pointer">
-            <div
-              className="flex items-center bg-gray-100 p-3 rounded-lg shadow hover:bg-gray-200 transition"
-            >
-              <span className="bg-black text-white px-2 py-1 rounded font-bold">FS</span>
-              <div className="ml-4">
-                <h3 className="font-bold">{deck.title}</h3>
-                <p className="text-sm text-gray-600"><span className="text-xs"> created by {firstName}</span></p>
+        {decks ? decks.map((deck) => (
+          <div key={deck._id} className="hover:cursor-pointer w-[95%]">
+            <div className="flex items-center bg-gray-100 p-3 rounded-lg shadow hover:bg-gray-200 transition">
+              <span className="bg-dark-blue text-white px-2 py-2 rounded font-bold"><PiCardsThree className="text-xl font-semibold"/></span>
+              <div key={deck._id} className="ml-4 min-w-[25em]">
+                <h3 className="font-semibold">{deck.title}</h3>
+                <p className="text-sm text-gray-600">
+                  <span className="text-xs"> created by {firstName}</span>
+                </p>
               </div>
-              <div className="flex justify-center items-center gap-4 ms-6">
-                <div
-                  className="flex gap-2 hover:text-[#2489D3] cursor-pointer text-xs"
+              <div className="flex justify-end items-center gap-4 ms-10 w-full">
+                <span
+                  className="flex gap-1 hover:text-[#2489D3] hover:cursor-pointer text-xs" 
                   onClick={(e) => {
                     e.stopPropagation();
                     console.log("Edit clicked");
@@ -102,24 +104,22 @@ const FlashcardSets = ({ decks, firstName, moduleId }) => {
                     setDeckDescription(deck.description);
                     setDeckTitle(deck.title);
                   }}
-                >
-                  <span>Update</span>
-                  <FaRegEdit className="text-xl" />
-                </div>
+                > 
+                  <FaRegEdit className="text-xl" /> 
+                </span>
                 <span 
+                  className="flex gap-1 hover:text-red-600 hover:cursor-pointer text-xs"
                   onClick={() => {
                     deleteDeck(deck._id);
                     getModuleDecks(moduleId);
                   }}
-                  className="flex gap-2 hover:text-[#2489D3] cursor-pointer text-xs"
                 > 
-                  Delete
-                  <FiDelete className="text-xl" /> 
+                  <RxCross1 className="text-xl" /> 
                 </span>
               </div>
             </div>
-          </div>
-        )) : null}
+          </div> )) : null
+        }
         {isModalOpen && <Modal closeModal={() => setIsModalOpen(false)} deckId={deckId} title={deckTitle} description={deckDescription} token={token} onUpdateComplete={() => getModuleDecks(moduleId)} />}
       </div>
     </>

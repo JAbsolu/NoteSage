@@ -209,20 +209,24 @@ const WorkSpace = () => {
           Authorization: token,
         },
         body: JSON.stringify({ 
+          userId: userId,
           deckId: deckId,
           front: front,
           back: back
         }),
       });
 
-      if (response.ok) {
-        const result = await response.json(); // print the result in the console to confirm the card is created
-        console.log("Flashcard created successfully", result);
-        setFront("");
-        setBack("");
-      } else {
-        console.log("Error creating flashcard");
+      const result = await response.json();
+
+      if (!response.ok) {
+        console.log("Status", response.status, result.message);
+        return;
       }
+
+      console.log("Status", response.status, result.message);
+      setFront("");
+      setBack("");
+      
     } catch (error) {
       console.log(error);
     }
@@ -286,14 +290,14 @@ const WorkSpace = () => {
       />
       <Sidebar isExpanded={sidebarExpanded} />
 
-      <div className="flex-1 bg-grey-200 shadow flex flex-col mt-16">
-        <h1 className="mt-6 ps-3 mb-4 text-xl text-black">Welcome to your workspace</h1>
+      <div className="flex-1 bg-grey-200 shadow flex flex-col mt-14">
+        <h1 className="mt-6 ps-3 mb-2 font-semibold text-xl text-black">Welcome to your workspace</h1>
 
         <div className="flex flex-col bg-white border py-2 mx-2 rounded-md">
           <div className="flex">
             {/* Col 1 */}
-            <div className="bg-white px-6 w-[40%] mx-2 mt-4 rounded">
-              <p className="mb-3 font-bold text-black">Create Flashcards</p>
+            <div className="bg-white px-6 w-[50%] mx-2 mt-4 rounded">
+              <p className="mb-5 font-semibold text-lg text-black">Create lesson Group, flashcard groups, and flashcards</p>
 
               {/* Modules Selection */}
               <div className="flex text-black">
@@ -315,7 +319,7 @@ const WorkSpace = () => {
 
                 <CiSquarePlus
                   onClick={() => setIsModuleModalOpen(true)}
-                  className="text-4xl text-gray-400 cursor-pointer hover:text-blue-400"
+                  className="text-4xl text-blue cursor-pointer hover:text-blue-400"
                 />
               </div>
 
@@ -325,7 +329,7 @@ const WorkSpace = () => {
                   onChange={(e) => setDeckId(e.target.value)}
                   className="p-2 border rounded-lg lg:w-11/12 sm:w-full me-2 pe-16"
                 >
-                  <option value="">Select a flashcard set</option>
+                  <option value="">Select a flashcard group</option>
                   {decks ? decks.map((deck) => (
                     <option key={deck._id} value={deck._id}>
                       {deck.title}
@@ -343,7 +347,7 @@ const WorkSpace = () => {
                       setIsModalOpen(true);
                     }
                   }}
-                  className="text-4xl text-gray-400 cursor-pointer hover:text-blue-400"
+                  className="text-4xl text-blue cursor-pointer hover:text-blue-400"
                 />
               </div>
 
@@ -362,13 +366,13 @@ const WorkSpace = () => {
                 onChange={(e) => setBack(e.target.value)}
               ></textarea>
               <div className="flex justify-end mt-2 mb-2 pe-8">
-                <button className="bg-white py-2 px-4 me-5 text-gray-500 border rounded hover:text-blue" onClick={createFlashcard}>
+                <button className="bg-blue py-2 px-4 me-5 text-white font-semibold border rounded hover:text-blue" onClick={createFlashcard}>
                   Submit
                 </button>
               </div>
                   
               {/* Create quiz */}
-              <p className="mb-3 mt-4 font-bold">Create Quiz</p>
+              <p className="mb-3 mt-4 text-lg font-semibold">Create Quiz</p>
               {/* Deck Selection */}
               <div className="flex mt-4">
                 <select
@@ -393,7 +397,7 @@ const WorkSpace = () => {
                       setIsQuizModalOpen(true);
                     }
                   }}
-                  className="text-4xl text-gray-400 cursor-pointer hover:text-blue-400"
+                  className="text-4xl text-blue cursor-pointer hover:text-blue-400"
                 />
               </div>
 
@@ -462,14 +466,14 @@ const WorkSpace = () => {
 
               {/* Create flashcard button */}
               <div className="flex justify-end mt-4 mb-2 pe-8">
-                <button className="bg-white py-2 px-4 me-5 text-gray-500 border rounded hover:text-blue" onClick={() => createMultipleChoice(quizId)}>
+                <button className="bg-blue py-2 px-4 me-5 text-white font-semibold border rounded hover:text-blue" onClick={() => createMultipleChoice(quizId)}>
                   Submit
                 </button>
               </div>
             </div>
 
             {/* Col 2 */}
-            <div className="w-[60%]">
+            <div className="w-[50%]">
               {/* modules */}
               <LessonGroups modules={modules} firstName={firstName} setShowDecks={moduleId} />
             </div>

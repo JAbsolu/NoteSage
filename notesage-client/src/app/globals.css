@@ -29,6 +29,14 @@ h1, h2, h3, h4 , h5, p, span, input {
   background-color: #2489D3;
 }
 
+.bg-dark-blue {
+  background-color: #0f4a9e;
+}
+
+.text-dark-blue {
+  color: #0f4a9e;
+}
+
 .text-blue {
   color: #2489D3;
 }

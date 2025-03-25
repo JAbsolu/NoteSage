@@ -2,7 +2,8 @@ import { getCookie } from "@/util/cookies";
 import Link from "next/link";
 import { useEffect, useState } from "react";
 import { FaRegEdit } from "react-icons/fa";
-import { FiDelete } from "react-icons/fi";
+import { RxCross1 } from "react-icons/rx";
+import { MdOutlineQuiz } from "react-icons/md";
 
 const QuizzesGroup = ({quizzes, firstName, moduleId }) => {
   const token = getCookie("token");
@@ -77,44 +78,44 @@ const QuizzesGroup = ({quizzes, firstName, moduleId }) => {
 
   return (
     <>
-      { quizzes && quizzes.length > 0 ? <h3 className="font-semibold mt-8 mb-3">Quizzes</h3> : null }
+      {quizzes && quizzes.length > 0 ? <h3 className="font-semibold text-lg mt-8 mb-3">Quizzes</h3> : null }
       <div className="flex flex-wrap gap-4 w-full max-h-[16em] overflow-scroll">
-        { quizzes ? quizzes.map((quiz, index) => (
-            <div key={quiz._id} className="block hover:cursor-pointer">
-              <div className="flex flex items-center bg-gray-100 p-3 rounded-lg shadow hover:bg-gray-200 transition">
-                <span className="bg-black text-white px-2 py-1 rounded font-bold">Q</span>
-                <div className="ml-4">
-                  <h3 className="font-bold">{quiz.title}</h3>
-                  <p className="text-sm text-gray-600"><span className="text-xs"> created by {firstName}</span></p>
-                </div>
-                <div className="flex justify-center items-center gap-4 ms-6">
-                  <span 
-                    onClick={() => {
-                      setQuizId(quiz._id);
-                      setTitle(quiz.title);
-                      setDescription(quiz.description);
-                      setModalOpen(true);
-                    }}
-                    className="flex gap-2 hover:text-[#2489D3]"
-                  > 
-                    Update
-                    <FaRegEdit className="text-xl" /> 
-                  </span>
-                  <span 
-                    onClick={() => {
-                      deleteQuiz(quiz._id);
-                      getQuizzes(moduleId);
-                    }}
-                    className="flex gap-2 hover:text-[#2489D3]"
-                  > 
-                    Delete
-                    <FiDelete className="text-xl" /> 
-                  </span>
-                </div>
+        {quizzes ? quizzes.map((quiz) => (
+          <div key={quiz._id} className="hover:cursor-pointer min-w-[95%]">
+            <div className="flex items-center bg-gray-100 p-3 rounded-lg shadow hover:bg-gray-200 transition">
+              <span className="bg-dark-blue text-white px-2 py-1 rounded font-bold"><MdOutlineQuiz className="text-lg"/></span>
+              <div key={quiz._id} className="ml-4 w-full">
+                <h3 className="font-semibold">{quiz.title}</h3>
+                <p className="text-sm text-gray-600">
+                  <span className="text-xs"> created by {firstName}</span>
+                </p>
+              </div>
+              {/* actions */}
+              <div className="flex w-full justify-end items-end gap-3 w-full">
+                <span
+                  className="flex flex-col gap-1 hover:text-[#2489D3] hover:cursor-pointer text-xs" 
+                  onClick={() => {
+                    setQuizId(quiz._id);
+                    setTitle(quiz.title);
+                    setDescription(quiz.description);
+                    setModalOpen(true);
+                  }}
+                > 
+                  <FaRegEdit className="text-lg" /> 
+                </span>
+                <span 
+                  className="flex gap-1 hover:text-red-600 hover:cursor-pointer text-xs"
+                  onClick={() => {
+                    deleteQuiz(quiz._id);
+                    getQuizzes(moduleId);
+                  }}
+                > 
+                  <RxCross1 className="text-lg" /> 
+                </span>
               </div>
             </div>
-          )) : null
-        } 
+          </div> )) : null
+        }
       </div>
      {modalOpen && <Modal closeModal={() => setModalOpen(false)} quizId={quizId} token={token} title={title} description={description} onUpdateComplete={() => getQuizzes(moduleId) } />}
     </>
