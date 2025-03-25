@@ -4,14 +4,15 @@ const Deck = require("../../models/Deck");
 const createCard = async (req, res) => {
   try {
 
-    const { deckId, front, back } = req.body;
-    const deck = await Deck.findById(deckId);
+    const { userId, deckId, front, back } = req.body;
+    const deck = await Deck.findById({ _id: deckId });
 
     // error handling for user and deck
     if (!deck) return res.status(400).json({ message: "deck not found" });
 
     // create the new card
     const newCard = new Card({
+      userId,
       deckId,
       front,
       back
@@ -19,9 +20,9 @@ const createCard = async (req, res) => {
 
     await newCard.save();
 
-    res.status(201).json({ message: `Card created succesfully`, result: result});
-  } catch (err) {
-    res.status(500).json({ message: "Error creating the card", error: err.message });
+    res.status(200).json({ message: `flashcard ${newCard._id} created succesfully`});
+  } catch (error) {
+    res.status(500).json({ message: error.message });
   }
 }
 
