@@ -6,16 +6,12 @@ const getDeckCards = async (req, res) => {
     const { id } = req.query;
 
     // handle errors for id
-    const deck = await Deck.findById(id);
+    const deck = await Deck.findById({ _id: id });
     if (!deck) return res.status(400).json({ message: "invalid deck id"});
 
     const cards = await Card.find({ deckId: id });
 
-    if (cards.length > 0) {
-      return res.status(200).json({ message: "all cards retrieved ", data: cards })
-    } else {
-      return res.status(200).json({ message: "no cards found", data: [] });
-    }
+    res.status(200).json({ message: "all cards retrieved ", data: cards })
 
   } catch (err) {
     res.status(500).json({ message: "server error", error: err.message });

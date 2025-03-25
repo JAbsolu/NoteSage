@@ -4,7 +4,7 @@ const getUserDecks = async (req, res) => {
   try {
     const { id } = req.query;
 
-    const decks = await Deck.find({ _id: id})
+    const decks = await Deck.find({ userId: id})
 
     if (decks.length === 0) return res.status(200).json({ message: `no decks found for user ${id}`, data: decks });
 
