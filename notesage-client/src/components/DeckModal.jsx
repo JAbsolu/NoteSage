@@ -1,11 +1,13 @@
 import React, { useState } from "react";
 import Cookies from "js-cookie";
+import { getCookie } from "@/util/cookies";
 
 const DeckModal = ({ closeModal, moduleId }) => {
   const [newDeckTitle, setNewDeckTitle] = useState("");
   const [newDeckDescription, setNewDeckDescription] = useState("");
   const [isPublic, setIsPublic] = useState(false);
-  const token = Cookies.get("auth-token");
+  const token = getCookie("token");
+  const userId = getCookie("userId");
 
   // create dekcs
   const createDeck = async () => {
@@ -24,6 +26,7 @@ const DeckModal = ({ closeModal, moduleId }) => {
           Authorization: token,
         },
         body: JSON.stringify({
+          userId: userId,
           moduleId: moduleId,
           title: newDeckTitle,
           description: newDeckDescription,

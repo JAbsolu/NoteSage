@@ -4,6 +4,6 @@ const authMiddleware = require("../../middleware/index");
 
 const router = express.Router();
 
-router.get("/", decks);
+router.get("/", authMiddleware, decks);
 
 module.exports = router;

@@ -1,8 +1,10 @@
+import { getCookie } from "@/util/cookies";
 import React, { useState } from "react";
 
 const QuizModal = ({ moduleId, token, closeModal}) => {
   const [newTitle, setNewTitle] = useState("");
   const [newDescription, setNewDescription] = useState("");
+  const userId = getCookie("userId");
 
   const API_BASE_URL = process.env.API_BASE_URL || "http://localhost";
   
@@ -26,6 +28,7 @@ const QuizModal = ({ moduleId, token, closeModal}) => {
           "Authorization": token
         },
         body: JSON.stringify({
+          userId: userId,
           moduleId: moduleId,
           title: newTitle,
           description: newDescription,

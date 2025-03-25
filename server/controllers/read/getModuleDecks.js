@@ -5,7 +5,7 @@ const getModuleDecks = async (req, res) => {
   try {
     const { id } = req.query;
     // check if the id belongs to a module
-    const module = await Module.findById(id);
+    const module = await Module.findById({ _id: id });
     if (!module) return res.status(400).json({ message: "invalid module id "});
 
     //find decks
@@ -15,7 +15,7 @@ const getModuleDecks = async (req, res) => {
     else return res.status(200).json({ message: "no decks found ", data: decks });
 
   } catch (err) {
-    res.status(400).json({ message: "server error", error: err.message });
+    res.status(500).json({ message: "server error", error: err.message });
   }
 }
 

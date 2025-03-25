@@ -3,7 +3,7 @@ const Module = require("../../models/Module");
 
 const createQuiz = async (req, res) => {
   try {
-    const { moduleId, title, description } = req.body;
+    const { userId, moduleId, title, description } = req.body;
 
     // handle errors for userids
     const module = await Module.findById(moduleId);
@@ -11,6 +11,7 @@ const createQuiz = async (req, res) => {
 
     // create new Quiz
     const quiz = new Quiz({
+      userId,
       moduleId,
       title,
       description,
