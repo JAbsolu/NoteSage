@@ -6,6 +6,6 @@ const authMiddleware = require("../../middleware");
 const router = express.Router();
 
 //make post request to create card
-router.post("/", createCard);
+router.post("/", authMiddleware, createCard);
 
 module.exports = router;

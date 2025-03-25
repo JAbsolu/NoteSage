@@ -1,9 +1,11 @@
 "use client";
 
 import Link from "next/link";
-import { FiHome, FiBell, FiFileText, FiHelpCircle } from "react-icons/fi";
+import { FiHome, FiBell, FiFileText } from "react-icons/fi";
 import { MdOutlineComputer } from "react-icons/md";
+import { MdOutlineQuiz } from "react-icons/md";
 import { useEffect, useState } from "react";
+import { PiCardsThree } from "react-icons/pi";
 
 const Sidebar = ({ isExpanded }) => {
   const [allNotifications, setAllNotifications] = useState([]);
@@ -15,11 +17,8 @@ const Sidebar = ({ isExpanded }) => {
 
   return (
     <div className={`bg-blue text-white ${isExpanded ? "w-64" : "w-20"} min-h-screen p-4 mt-4 transition-all duration-300`}>
-      {/* Logo */}
-      <h2 className={`text-2xl font-bold mb-8 ${!isExpanded && "hidden"} md:block`}>NoteSage</h2>
-
       {/* Nav Links */}
-      <nav className="flex flex-col space-y-6">
+      <nav className="flex flex-col space-y-6 mt-14">
         <Link href="/dashboard" className="flex items-center space-x-2 hover:text-gray-200">
           <FiHome className="text-xl" />
           {isExpanded && <span className="text-white">Home</span>}
@@ -34,11 +33,11 @@ const Sidebar = ({ isExpanded }) => {
           {isExpanded && <span className="text-white">Workspace</span>}
         </Link>
         <Link href="/dashboard/flashcards" className="flex items-center space-x-2 hover:text-gray-200">
-          <FiFileText className="text-xl" />
+          <PiCardsThree className="text-xl" />
           {isExpanded && <span className="text-white">Flashcards</span>}
         </Link>
         <Link href="/dashboard/quizzes" className="flex items-center space-x-2 hover:text-gray-200">
-          <FiHelpCircle className="text-xl" />
+          <MdOutlineQuiz className="text-xl" />
           {isExpanded && <span className="text-white">Quizzes</span>}
         </Link>
       </nav>

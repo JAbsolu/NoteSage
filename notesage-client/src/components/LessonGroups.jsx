@@ -1,10 +1,11 @@
 import { getCookie } from "@/util/cookies";
 import Link from "next/link";
 import { useEffect, useState } from "react";
-import { FaRegEdit } from "react-icons/fa";
-import { FiDelete } from "react-icons/fi";
 import FlashcardSets from "./FlashcardSets";
 import QuizzesGroup from "./QuizzesGroup";
+import { FaRegEdit } from "react-icons/fa";
+import { RxCross1 } from "react-icons/rx";
+import { FaBook } from "react-icons/fa";
 
 // API Base URL
 const API_BASE_URL = process.env.API_BASE_URL || "http://localhost";
@@ -153,8 +154,8 @@ const LessonGroups = ({ firstName }) => {
 
   return (
     <>
-      <h3 className="font-bold mt-4 mb-3">Lesson Groups</h3>
-      <div className="flex flex-wrap gap-4 w-full max-h-[16em] overflow-scroll">
+      <h3 className="font-semibold text-lg mt-4 mb-5">Lesson Groups</h3>
+      <div className="flex flex-col justify-between gap-3 overflow-scroll">
       {modules.map((module) => (
         <div
           key={module._id} 
@@ -163,19 +164,22 @@ const LessonGroups = ({ firstName }) => {
             getQuizzes(module._id);
             setLessonGroupId(module._id);
           }} 
-          className="block hover:cursor-pointer"
+          className="hover:cursor-pointer min-w-[33em] max-w-[95%]"
         >
-          <div className="flex items-center bg-gray-100 p-3 rounded-lg shadow hover:bg-gray-200 transition">
-            <span className="bg-black text-white px-2 py-1 rounded font-bold">LG</span>
-            <div key={module._id} className="ml-4">
-              <h3 className="font-bold">{module.title}</h3>
-              <p className="text-sm text-gray-600">
-                <span className="text-xs"> created by {firstName}</span>
-              </p>
+          <div className="flex bg-gray-100 p-3 rounded-lg shadow hover:bg-gray-200 transition">
+            <div className="flex justify-center items-center">
+              <span className="bg-dark-blue text-white px-2 py-2 rounded font-bold"><FaBook className="text-lg"/></span>
+              <div key={module._id} className="ml-4 min-w-[25em]">
+                <h3 className="font-semibold">{module.title}</h3>
+                <p className="text-sm text-gray-600">
+                  <span className="text-md"> created by {firstName}</span>
+                </p>
+              </div>
             </div>
-            <div className="flex justify-end items-center gap-4 ms-10">
+           {/* actions */}
+            <div className="flex w-full justify-end items-end gap-3">
               <span
-                className="flex gap-1 hover:text-[#2489D3] hover:cursor-pointer text-xs" 
+                className="flex flex-col gap-1 hover:text-[#2489D3] hover:cursor-pointer text-xs" 
                 onClick={(e) => {
                   e.stopPropagation(); // Prevents triggering the parent onClick
                   setIsModalOpen(true);
@@ -183,21 +187,20 @@ const LessonGroups = ({ firstName }) => {
                   setIsSetPublic(module.public);
                 }}
               > 
-                Update
-                <FaRegEdit className="text-xl" /> 
+                <FaRegEdit className="text-lg" /> 
               </span>
               <span 
-                className="flex gap-1 hover:text-[#2489D3] hover:cursor-pointer text-xs"
+                className="flex gap-1 hover:text-red-600 hover:cursor-pointer text-xs"
                 onClick={(e) => {
                   e.stopPropagation(); 
                   deleteModule(module._id);
                   getModules(userId)
                 }}
               > 
-                Delete
-                <FiDelete className="text-xl" /> 
+                <RxCross1 className="text-lg" /> 
               </span>
             </div>
+
           </div>
         </div>
       ))}
