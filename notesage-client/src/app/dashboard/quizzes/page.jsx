@@ -5,7 +5,7 @@ import Sidebar from "@/components/Sidebar";
 import { getCookie } from "@/util/cookies";
 import { useEffect, useState } from "react";
 
-const QuizzesPage = () => {
+const FlaschardsPage = () => {
   const [firstName, setFirstName] = useState("");
   const [lastName, setLastName] = useState("");
   const [emailAddress, setEmailAddress] = useState("");
@@ -54,4 +54,4 @@ const QuizzesPage = () => {
   )
 }
 
-export default QuizzesPage;
+export default FlaschardsPage;

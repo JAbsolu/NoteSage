@@ -22,6 +22,7 @@ function Dashboard() {
   const [lastname, setLastname] = useState('');
   const [emailaddress, setEmailaddress] = useState('');
   const userId = getCookie("userId");
+  const token = getCookie("token");
 
   //get user and user info
   const getUser = async (id) => {
@@ -34,7 +35,8 @@ function Dashboard() {
       const response = await fetch(`http://localhost/user?id=${id}`, {
         method: "GET",
         headers: {
-          "Content-Type": "application/json"
+          "Content-Type": "application/json",
+          "Authorization": token
         }
       });
   

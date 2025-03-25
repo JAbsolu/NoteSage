@@ -48,6 +48,7 @@ const LessonGroups = ({ firstName }) => {
 
       if (response.ok) {
         console.log("Status:", response.status, result.message);
+        console.log("module decks:", result)
         setDecks(result.data);
       } else {
         console.log("Status:", response.status, result.message);
@@ -154,7 +155,7 @@ const LessonGroups = ({ firstName }) => {
     <>
       <h3 className="font-bold mt-4 mb-3">Lesson Groups</h3>
       <div className="flex flex-wrap gap-4 w-full max-h-[16em] overflow-scroll">
-      {modules.map((module, index) => (
+      {modules.map((module) => (
         <div
           key={module._id} 
           onClick={() => { 

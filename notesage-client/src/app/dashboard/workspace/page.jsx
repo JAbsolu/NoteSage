@@ -84,7 +84,7 @@ const WorkSpace = () => {
       getQuizzes(moduleId);
       getModuleDecks(moduleId);
     }
-  }, [userId, token]);
+  }, [moduleId, token]);
 
   /*------------------------------API CALLS-----------------------------------*/
   const getUser = async (id) => {
