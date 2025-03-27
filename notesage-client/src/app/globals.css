@@ -64,3 +64,11 @@ h1, h2, h3, h4 , h5, p, span, input {
 .border-blue {
   border-color: #2489D3;
 }
+
+.paper-background {
+  background-image: url("../../public/6787.jpg");
+}
+
+.notebook-background {
+  background-image: url("../../public/notebook2.jpg");
+}
