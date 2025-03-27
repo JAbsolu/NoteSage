@@ -18,7 +18,7 @@ const WorkSpace = () => {
   const [firstName, setFirstName] = useState("");
   const [lastName, setLastName] = useState("");
   const [emailAddress, setEmailAddress] = useState("");
-  const [sidebarExpanded, setSidebarExpanded] = useState(false);
+  const [sidebarExpanded, setSidebarExpanded] = useState(true);
   const [isModalOpen, setIsModalOpen] = useState(false);
   const [isModuleModalOpen, setIsModuleModalOpen] = useState(false);
   const [isQuizModalOpen, setIsQuizModalOpen] = useState(false);
@@ -290,12 +290,12 @@ const WorkSpace = () => {
       />
       <Sidebar isExpanded={sidebarExpanded} />
 
-      <div className="flex-1 bg-grey-200 shadow flex flex-col mt-14">
-        <h1 className="mt-6 ps-3 mb-2 font-semibold text-xl text-black">Welcome to your workspace</h1>
+      <div className="flex-1 bg-grey-200 shadow-lg px-3 flex flex-col mt-14">
+        <h1 className="mt-7 ps-3 mb-4 text-xl text-black">Welcome to your workspace</h1>
 
         <div className="flex flex-col bg-white border py-2 mx-2 rounded-md">
           <div className="flex">
-            {/* Col 1 */}
+            {/* Col 1 */} 
             <div className="bg-white px-6 w-[50%] mx-2 mt-4 rounded">
               <p className="mb-5 font-semibold text-lg text-black">Create lesson Group, flashcard groups, and flashcards</p>
 

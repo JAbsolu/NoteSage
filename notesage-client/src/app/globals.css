@@ -1,4 +1,6 @@
 @import url('https://fonts.googleapis.com/css2?family=Open+Sans:wght@400;600;700&display=swap');
+@import url('https://fonts.googleapis.com/css2?family=Forum&family=Geist+Mono:wght@100..900&display=swap');
+
 @tailwind base;
 @tailwind components;
 @tailwind utilities;
@@ -18,8 +20,12 @@
 body {
   color: var(--foreground);
   background: var(--background);
-  font-family: 'Open Sans', sans-serif;
+  font-family: 'Open Sans';
   font-size: 11pt;
+}
+
+.open-sans {
+  font-family: 'Open Sans';
 }
 
 h1, h2, h3, h4 , h5, p, span, input {
@@ -45,6 +51,10 @@ h1, h2, h3, h4 , h5, p, span, input {
   background-color: #1d689f;
 }
 
+.bg-darkest-blue {
+  background-color: #001f39;
+}
+
 .text-gray {
   color: #2c2c2c;
 }
@@ -63,4 +73,12 @@ h1, h2, h3, h4 , h5, p, span, input {
 
 .border-blue {
   border-color: #2489D3;
+}
+
+.paper-background {
+  background-image: url("../../public/6787.jpg");
+}
+
+.notebook-background {
+  background-image: url("../../public/notebook2.jpg");
 }
