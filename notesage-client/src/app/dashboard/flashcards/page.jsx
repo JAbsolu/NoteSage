@@ -18,7 +18,7 @@ const FlaschardsPage = () => {
   const [firstName, setFirstName] = useState("");
   const [lastName, setLastName] = useState("");
   const [emailAddress, setEmailAddress] = useState("");
-  const [sidebarExpanded, setSidebarExpanded] = useState(false);
+  const [sidebarExpanded, setSidebarExpanded] = useState(true);
   const [deckId, setDeckId] = useState("");
   const [decks, setDecks] = useState([]);
   const [userdecks, setUserDecks] = useState([]);
@@ -190,14 +190,14 @@ const FlaschardsPage = () => {
                   }}
                 >
                   <div className="flex items-center min-h-[4.8em] bg-gray-100 py-1 px-3 rounded-lg hover:bg-gray-200 transition">
-                    <span className="bg-dark-blue text-white px-3 py-3 rounded font-bold">
+                    <span className="bg-black text-white px-2 py-2 rounded font-bold">
                       <PiCardsThree className="text-xl font-semibold"/>
                     </span>
                     <div key={deck._id} className="ml-4">
                       <h3 className="font-bold">{deck.title}</h3>
                       <p className="text-xs text-gray-600">
                         {deck.description} <br/>
-                        <button className="text-dark-blue font-semibold mt-2 flex gap-2 text-xl hover:text-blue-500">
+                        {/* <button className="text-dark-blue font-semibold mt-2 flex gap-2 text-xl hover:text-blue-500">
                           <MdOutlineGridView
                               onClick={() => {
                                 getDeckFlashcards(deck._id);
@@ -205,7 +205,7 @@ const FlaschardsPage = () => {
                                 setDeckId(deck._id);
                               }}
                           />
-                        </button>
+                        </button> */}
                       </p>
                     </div>
                   </div>
@@ -228,7 +228,7 @@ const FlaschardsPage = () => {
                     }}
                   >
                     <div className="flex items-center min-h-[4.8em] bg-gray-100 px-3 py-1 rounded-lg hover:bg-gray-200 transition">
-                      <span className="bg-dark-blue text-white px-3 py-3 rounded font-bold">
+                      <span className="bg-black text-white px-2 py-2 rounded font-bold">
                         <PiCardsThree className="text-xl"/>
                       </span>
                       <div key={set._id} className="ml-4">
@@ -236,7 +236,7 @@ const FlaschardsPage = () => {
                         <p className="text-xs text-gray-600">
                           {set.description}
                           <br/>
-                          <button className="text-dark-blue font-semibold mt-2 flex gap-2 text-xl hover:text-blue-500">
+                          {/* <button className="text-dark-blue font-semibold mt-2 flex gap-2 text-xl hover:text-blue-500">
                             <MdOutlineGridView
                                 onClick={() => {
                                   getDeckFlashcards(set._id);
@@ -244,7 +244,7 @@ const FlaschardsPage = () => {
                                   setDeckId(set._id);
                                 }}
                             />
-                          </button>
+                          </button> */}
                         </p>
                       </div>
                     </div>

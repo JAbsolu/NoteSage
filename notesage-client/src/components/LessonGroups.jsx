@@ -170,8 +170,8 @@ const LessonGroups = ({ firstName }) => {
             <div className="flex justify-center items-center">
               <span className="bg-dark-blue text-white px-2 py-2 rounded font-bold"><FaBook className="text-lg"/></span>
               <div key={module._id} className="ml-4 min-w-[25em]">
-                <h3 className="font-semibold">{module.title}</h3>
-                <p className="text-sm text-gray-600">
+                <h3 className="font-bold">{module.title}</h3>
+                <p className="text-xs text-gray-600">
                   <span className="text-md"> created by {firstName}</span>
                 </p>
               </div>

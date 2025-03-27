@@ -1,4 +1,6 @@
 @import url('https://fonts.googleapis.com/css2?family=Open+Sans:wght@400;600;700&display=swap');
+@import url('https://fonts.googleapis.com/css2?family=Forum&family=Geist+Mono:wght@100..900&display=swap');
+
 @tailwind base;
 @tailwind components;
 @tailwind utilities;
@@ -18,8 +20,12 @@
 body {
   color: var(--foreground);
   background: var(--background);
-  font-family: 'Open Sans', sans-serif;
+  font-family: 'Open Sans';
   font-size: 11pt;
+}
+
+.open-sans {
+  font-family: 'Open Sans';
 }
 
 h1, h2, h3, h4 , h5, p, span, input {
