@@ -191,7 +191,7 @@ const FlaschardsPage = () => {
                 >
                   <div className="flex items-center min-h-[4.8em] bg-gray-100 py-1 px-3 rounded-lg hover:bg-gray-200 transition">
                     <span className="bg-dark-blue text-white px-3 py-3 rounded font-bold">
-                      <PiCardsThree className="text-2xl font-semibold"/>
+                      <PiCardsThree className="text-xl font-semibold"/>
                     </span>
                     <div key={deck._id} className="ml-4">
                       <h3 className="font-semibold">{deck.title}</h3>
@@ -224,12 +224,12 @@ const FlaschardsPage = () => {
                     className="block hover:cursor-pointer"
                     onClick={() => {
                       setIsStudyCardModal(true);
-                      setDeckFlashcards(set._id)
+                      getDeckFlashcards(set._id)
                     }}
                   >
                     <div className="flex items-center min-h-[4.8em] bg-gray-100 px-3 py-1 rounded-lg hover:bg-gray-200 transition">
                       <span className="bg-dark-blue text-white px-3 py-3 rounded font-bold">
-                        <PiCardsThree className="text-2xl"/>
+                        <PiCardsThree className="text-xl"/>
                       </span>
                       <div key={set._id} className="ml-4">
                         <h3 className="font-semibold">{set.title}</h3>
@@ -262,7 +262,7 @@ const FlaschardsPage = () => {
               className="flex flex-wrap gap-3"
               onClick={() => {
                 setIsStudyCardModal(true);
-                getDeckFlashcards(deck._id)
+                getDeckFlashcards(deckId);
               }}
             >
               { deckFlashcards ? deckFlashcards.map((card, index) => (
@@ -373,8 +373,6 @@ const StudyFlashcardModal = ({ closeModal, flashcards, deckTitle }) => {
   const [showFront, setShowFront] = useState(true);
   const [isCompleted, setIsCompleted] = useState(false);
 
-  console.log("flashcards:", flashcards, "Deck title:", deckTitle);
-
   // Handle edge case if no flashcards are provided
   if (!flashcards || flashcards.length === 0) {
     return (
@@ -439,10 +437,10 @@ const StudyFlashcardModal = ({ closeModal, flashcards, deckTitle }) => {
         if (e.target === e.currentTarget) closeModal();
       }}
     >
-      <div className="bg-white paper-background p-6 rounded-lg shadow-lg w-[90%] h-[80%] flex flex-col justify-between">
+      <div className="bg-darkest-blue p-6 rounded-lg shadow-lg w-[90%] h-[80%] flex flex-col justify-between">
         {/* Modal Header */}
         <div className="flex justify-between items-center">
-          <p className="text-xl font-bold">{deckTitle || ""}</p>
+          <p className="text-xl text-white text-center w-full">{deckTitle || ""}</p>
           <button
             onClick={closeModal}
             className="text-black rounded-lg hover:bg-red-400 hover:text-gray-500 p-1"
@@ -476,12 +474,14 @@ const StudyFlashcardModal = ({ closeModal, flashcards, deckTitle }) => {
           <div className="flex flex-col justify-end items-center h-full">
             {/* Flashcard Container */}
             <div
-              className="relative w-[60em] h-[40em] max-w-[85%] max-h-[83%] px-20 flex justify-center items-center cursor-pointer bg-gray-100 shadow-lg text-xl font-semibold"
+              className="relative w-[40em] bg-gray-300 h-[20em] max-w-[85%] max-h-[83%] px-20 flex justify-center items-center cursor-pointer bg-gray-100 shadow-lg text-xl font-semibold"
               onClick={handleCardClick}
             >
-              {showFront
-                ? flashcards[currentIndex]?.front || "No term available"
-                : flashcards[currentIndex]?.back || "No definition available"}
+              {showFront 
+                
+                ? <p className="font-bold">{flashcards[currentIndex]?.front || "No term available"}</p>
+                : <p className="font-normal">{flashcards[currentIndex]?.back || "No definition available"}</p>
+              }
             </div>
 
             {/* Pagination and Navigation */}

@@ -45,6 +45,10 @@ h1, h2, h3, h4 , h5, p, span, input {
   background-color: #1d689f;
 }
 
+.bg-darkest-blue {
+  background-color: #001f39;
+}
+
 .text-gray {
   color: #2c2c2c;
 }
