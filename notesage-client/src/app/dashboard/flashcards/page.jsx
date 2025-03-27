@@ -175,10 +175,10 @@ const FlaschardsPage = () => {
       <Sidebar isExpanded={sidebarExpanded} />
 
       {/* main section */}
-      <div className="text-black w-screen min-h-auto border mt-16 px-2 py-2">
-        <div className="flex">
-          <div className="bg-white w-full px-4 py-4 mt-4 flex flex-col gap-3">   
-            <p className="font-bold"> My Flashcard Groups</p>
+      <div className="text-black w-screen min-h-auto border mt-16 px-6 py-2">
+        <div className="flex shadow mt-4 rounded-lg">
+          <div className="bg-white w-full px-4 py-4 flex flex-col gap-3">   
+            <h2 className="font-semibold text-lg mb-2"> My Flashcard Groups</h2>
             {
               userdecks? userdecks.map((deck) => (
                 <div
@@ -194,7 +194,7 @@ const FlaschardsPage = () => {
                       <PiCardsThree className="text-xl font-semibold"/>
                     </span>
                     <div key={deck._id} className="ml-4">
-                      <h3 className="font-semibold">{deck.title}</h3>
+                      <h3 className="font-bold">{deck.title}</h3>
                       <p className="text-xs text-gray-600">
                         {deck.description} <br/>
                         <button className="text-dark-blue font-semibold mt-2 flex gap-2 text-xl hover:text-blue-500">
@@ -214,8 +214,8 @@ const FlaschardsPage = () => {
               }
             </div>
 
-            <div className="bg-white w-full px-4 pb-4 mt-4 flex flex-col gap-3">
-              <p className="text-black font-bold mt-4 mb-2">Popular Flashcard Groups on NoteSage</p>
+            <div className="bg-white w-full px-4 pb-4 mt-0 flex flex-col gap-3">
+              <h2 className="text-black text-lg font-semibold mt-4 mb-2">Popular Flashcard Groups on NoteSage</h2>
               {
                 decks ? decks.map((set) => (
                   set.public && (
@@ -232,7 +232,7 @@ const FlaschardsPage = () => {
                         <PiCardsThree className="text-xl"/>
                       </span>
                       <div key={set._id} className="ml-4">
-                        <h3 className="font-semibold">{set.title}</h3>
+                        <h3 className="font-bold">{set.title}</h3>
                         <p className="text-xs text-gray-600">
                           {set.description}
                           <br/>
@@ -382,9 +382,9 @@ const StudyFlashcardModal = ({ closeModal, flashcards, deckTitle }) => {
           if (e.target === e.currentTarget) closeModal();
         }}
       >
-        <div className="bg-white p-6 rounded-lg shadow-lg w-[90%] md:w-[80%] h-[90%] flex flex-col justify-between">
+        <div className="bg-white p-6 rounded-lg shadow-lg w-[90%] h-[80%] flex flex-col justify-between">
           {/* Modal Header */}
-          <div className="flex justify-between items-center">
+          <div className="flex justify-end items-center">
             <button
               onClick={closeModal}
               className="text-black rounded-lg hover:bg-red-400 hover:text-gray-500 p-1"
@@ -437,7 +437,7 @@ const StudyFlashcardModal = ({ closeModal, flashcards, deckTitle }) => {
         if (e.target === e.currentTarget) closeModal();
       }}
     >
-      <div className="bg-darkest-blue p-6 rounded-lg shadow-lg w-[90%] h-[80%] flex flex-col justify-between">
+      <div className="bg-white p-6 rounded-lg w-[90%] h-[80%] flex flex-col justify-between">
         {/* Modal Header */}
         <div className="flex justify-between items-center">
           <p className="text-xl text-white text-center w-full">{deckTitle || ""}</p>
@@ -474,7 +474,7 @@ const StudyFlashcardModal = ({ closeModal, flashcards, deckTitle }) => {
           <div className="flex flex-col justify-end items-center h-full">
             {/* Flashcard Container */}
             <div
-              className="relative w-[40em] bg-gray-300 h-[20em] max-w-[85%] max-h-[83%] px-20 flex justify-center items-center cursor-pointer bg-gray-100 shadow-lg text-xl font-semibold"
+              className="relative w-[40em h-[20em] max-w-[85%] max-h-[83%] px-20 flex justify-center items-center cursor-pointer text-xl font-semibold"
               onClick={handleCardClick}
             >
               {showFront 
