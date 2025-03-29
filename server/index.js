@@ -37,6 +37,7 @@ const updateUser = require('./routes/update/updateUser');
 const updateUserInfo = require('./routes/update/updateUserInfo');
 const updateQuiz = require("./routes/update/updateQuiz");
 const deleteRoutes = require("./routes/deletes/deletes");
+const sendEmail = require("./routes/email/index");
  
 // create express app
 const app = express();
@@ -80,6 +81,7 @@ app.use("/update-choice", updateMultipleChoice);
 app.use("/update-user", updateUser);
 app.use("/update-user-info", updateUserInfo);
 app.use("/update-quiz", updateQuiz);
+app.use("/send-email", sendEmail);
 
 // all delete routes
 app.use("/", deleteRoutes);
