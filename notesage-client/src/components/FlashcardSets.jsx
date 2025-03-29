@@ -86,7 +86,7 @@ const FlashcardSets = ({ decks, firstName, moduleId }) => {
         {decks ? decks.map((deck) => (
           <div key={deck._id} className="hover:cursor-pointer w-[95%]">
             <div className="flex items-center bg-gray-100 p-3 rounded-lg shadow hover:bg-gray-200 transition">
-              <span className="bg-dark-blue text-white px-2 py-2 rounded font-bold"><PiCardsThree className="text-xl font-semibold"/></span>
+              <span className="bg-black text-white px-3 py-3 rounded font-bold"><PiCardsThree className="text-xl font-semibold"/></span>
               <div key={deck._id} className="ml-4 min-w-[25em]">
                 <h3 className="font-semibold">{deck.title}</h3>
                 <p className="text-sm text-gray-600">

@@ -83,7 +83,7 @@ const QuizzesGroup = ({quizzes, firstName, moduleId }) => {
         {quizzes ? quizzes.map((quiz) => (
           <div key={quiz._id} className="hover:cursor-pointer min-w-[95%]">
             <div className="flex items-center bg-gray-100 p-3 rounded-lg shadow hover:bg-gray-200 transition">
-              <span className="bg-dark-blue text-white px-2 py-1 rounded font-bold"><MdOutlineQuiz className="text-lg"/></span>
+              <span className="bg-black text-white px-3 py-3 rounded font-bold"><MdOutlineQuiz className="text-lg"/></span>
               <div key={quiz._id} className="ml-4 w-full">
                 <h3 className="font-semibold">{quiz.title}</h3>
                 <p className="text-sm text-gray-600">
