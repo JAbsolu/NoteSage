@@ -8,7 +8,7 @@ const AboutPage = () => {
   return (
     <>
     <Navbar />
-    <div className="flex bg-gray-150 justify-center flex-column h-[86.5vh]">  
+    <div className="flex bg-light-gray justify-center flex-column h-[86.5vh]">  
       {/* Right Side - About Us Section */}
       <div className="w-1/2 p-10 flex flex-col text-auto">
         <h2 className="text-2xl font-semibold mb-2 text-start mb-6">About us</h2>

@@ -22,7 +22,7 @@ const Navbar = () => {
         <Link href="/" className="text-gray hover:text-blue">
           Home
         </Link>
-        <Link href="/getting-started" className="text-gray focus:underline hover:underline">
+        <Link href="/howItWorks" className="text-gray focus:underline hover:underline">
           How it works
         </Link>
         <Link href="/about" className="text-gray hover:text-blue">
@@ -57,7 +57,7 @@ const Navbar = () => {
         <Link href="/" className="text-blue font-semibold" onClick={() => setIsOpen(false)}>
           Home
         </Link>
-        <Link href="/how-it-works" className="text-gray font-semibold hover:text-blue" onClick={() => setIsOpen(false)}>
+        <Link href="howItWorks" className="text-gray font-semibold hover:text-blue" onClick={() => setIsOpen(false)}>
           How it Works
         </Link>
         <Link href="/about" className="text-gray font-semibold hover:text-blue" onClick={() => setIsOpen(false)}>
