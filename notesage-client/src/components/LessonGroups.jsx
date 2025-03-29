@@ -168,7 +168,7 @@ const LessonGroups = ({ firstName }) => {
         >
           <div className="flex bg-gray-100 p-3 rounded-lg shadow hover:bg-gray-200 transition">
             <div className="flex justify-center items-center">
-              <span className="bg-dark-blue text-white px-2 py-2 rounded font-bold"><FaBook className="text-lg"/></span>
+              <span className="bg-black text-white px-3 py-3 rounded font-bold"><FaBook className="text-lg"/></span>
               <div key={module._id} className="ml-4 min-w-[25em]">
                 <h3 className="font-bold">{module.title}</h3>
                 <p className="text-xs text-gray-600">
