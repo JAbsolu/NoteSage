@@ -58,7 +58,7 @@ const DashboardNavbar = ({ toggleSidebar, firstName, lastName, emailAddress }) =
               {`${firstName.charAt(0).toUpperCase()}${firstName.substring(1, firstName.length)} ${lastName.charAt(0).toUpperCase()}${lastName.substring(1, lastName.length)}`}
             </div>
             <Link
-              href="/settings"
+              href="/setting"
               className="flex items-center px-4 py-2 text-gray-700 hover:bg-gray-100"
               onClick={() => setDropdownOpen(false)}
             >
