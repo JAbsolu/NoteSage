@@ -4,6 +4,7 @@ import { About, FinalStatement, Offer, Purpose, WhyNoteSage } from "../../../pub
 import Footer from "../../components/Footer";
 import Navbar from "../../components/Navbar";
 
+
 const AboutPage = () => {
   return (
     <>
