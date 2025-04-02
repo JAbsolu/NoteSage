@@ -1,10 +1,12 @@
+import Footer from "@/components/Footer";
 import Navbar from "../../components/Navbar";  // Make sure the path is correct
+
 
 export default function ContactUs() {
   return (
     <>
-      <Navbar />  {/* ✅ Navbar is added at the top */}
-      <div className="min-h-screen bg-blue-500 pt-20 flex flex-col items-center justify-center">
+      <Navbar />  {/*  Navbar is added at the top */}
+      <div className="min-h-[87vh] bg-blue-500 pt-20 flex flex-col items-center justify-center">
         <div className="bg-white p-8 rounded-lg shadow-lg w-full max-w-md">
           <h2 className="text-2xl font-bold text-center text-gray-900">
             Contact Us
@@ -49,6 +51,8 @@ export default function ContactUs() {
           </form>
         </div>
       </div>
+      <Footer />  {/*  Footer is added at the bottom */}
     </>
   );
 }
+

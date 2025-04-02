@@ -4,6 +4,7 @@ import { CreateOrganize, GenerateFlashcards, StudyReview, TrackImprove, FinalSta
 import Footer from "../../components/Footer";
 import Navbar from "../../components/Navbar";
 
+
 const HowItWorksPage = () => {
   return (
     <>
