@@ -37,3 +37,5 @@ const sendEmail = async (req, res) => {
         console.log(error)
     }
 }
+
+module.exports = sendEmail;
