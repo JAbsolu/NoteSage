@@ -35,12 +35,17 @@ const Signin = () => {
     
       const result = await response.json();
 
+      if (!response.ok) {
+        console.log("Status:", response.status, result);
+        return;
+      }
+
       if (response.ok && result.token) {
         const userId = result.userId;
         const token = result.token;
         setCookie("userId", userId, {expires: 7, secure: true});
         setCookie("token", token, {expires: 7, secure: true});
-        // console.log("userid:", userId, "token:", token); // for testing
+        console.log("userid:", userId, "token:", token); // for testing
         router.push("/dashboard");
       } else {
         setLoginMssg(result.message);
