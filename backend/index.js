@@ -23,6 +23,7 @@ const getUsers = require("./routes/read/getUsers");
 const getUser = require("./routes/read/getUser");
 const getUserInfo = require("./routes/read/getUserInfo");
 const getQuizzes = require('./routes/read/getQuizzes');
+const getUserQuizzes = require("./routes/read/getUserQuizzes");
 const getChoices = require("./routes/read/getChoices")
 const getQuizzMchoices = require('./routes/read/getQuizzMchoices');
 const getUserDecks = require("./routes/read/getUserDecks");
@@ -69,6 +70,7 @@ app.use("/user", getUser);
 app.use("/user-info", getUserInfo);
 app.use("/user-decks", getUserDecks);
 app.use("/quizzes", getQuizzes);
+app.use("/user-quizzes", getUserQuizzes);
 app.use("/choices", getChoices);
 app.use("/quiz-choices", getQuizzMchoices);
 app.use("/register", register);

@@ -1,9 +1,9 @@
-const getModuleDecks = require("../../controllers/read/getModuleDecks");
 const express = require("express");
+const getUserQuizzes = require("../../controllers/read/getUserQuizzes");
 const authMiddleware = require("../../middleware/index");
 
 const router = express.Router();
 
-router.get("/", getModuleDecks);
+router.get("/", authMiddleware, getUserQuizzes);
 
 module.exports = router;

@@ -35,10 +35,10 @@ const Navbar = () => {
 
       {/* Auth Buttons (Desktop) */}
       <div className="hidden md:flex space-x-4">
-        <Link href="/login" className="px-6 py-1 border-2 border-blue text-blue rounded-full hover:bg-blue hover:text-white transition">
+        <Link href="/login" className="px-6 py-1 border-2 border-blue text-blue rounded-full hover:bg-blue hover:font-semibold transition">
           Sign in
         </Link>
-        <Link href="/signup" className="px-6 py-1 border-2 border-blue bg-blue text-white rounded-full hover:bg-blue-dark transition">
+        <Link href="/signup" className="px-6 py-1 border-2 border-blue bg-blue text-white rounded-full hover:bg-blue-600 transition">
           Sign up
         </Link>
       </div>

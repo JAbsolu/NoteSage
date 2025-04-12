@@ -1,64 +1,39 @@
 "use client"
 
+// Import components and utilities
 import DashboardNavbar from "@/components/DashboardNavbar";
 import Sidebar from "@/components/Sidebar";
 import { getCookie } from "@/util/cookies";
 import { useEffect, useState } from "react";
+import { IoMdExpand } from "react-icons/io";
+import { MdDeleteOutline } from "react-icons/md";
+import { PiCardsThree } from "react-icons/pi";
 
 const QuizzesPage = () => {
+  // ---------------------- State Declarations ---------------------- //
   const [firstName, setFirstName] = useState("");
   const [lastName, setLastName] = useState("");
   const [emailAddress, setEmailAddress] = useState("");
-  const [sidebarExpanded, setSidebarExpanded] = useState(false);
+  const [sidebarExpanded, setSidebarExpanded] = useState(true);
+  const [userQuizzes, setUserQuizzes] = useState([]);
+  const [quizId, setQuizId] = useState([]);
+  const [quizzes, setQuizzes] = useState([]);
+  const [quizQuestions, setQuizQuestions] = useState([]);
+  const [isModalOpen, setIsModalOpen] = useState(false);
+  const [isQuizModal, setIsQuizModal] = useState(false);
+
+  // Get token and userId from cookies
   const userId = getCookie("userId");
   const token = getCookie("token");
-  
-  // Dummy quiz data state
-  const [quizzes, setQuizzes] = useState([
-    {
-      _id: "1",
-      userid: "user1",
-      moduleId: "module1",
-      title: "Sample Quiz 1",
-      description: "This is a sample quiz",
-      contents: [
-        {
-          question: "What is 2+2?",
-          options: ["3", "4", "5", "6"],
-          correctAnswer: "4"
-        },
-        {
-          question: "What is the capital of France?",
-          options: ["London", "Berlin", "Paris", "Madrid"],
-          correctAnswer: "Paris"
-        }
-      ]
-    }
-  ]);
-  const [newQuiz, setNewQuiz] = useState({
-    title: "",
-    description: "",
-    contents: [{ question: "", options: ["", "", "", ""], correctAnswer: "" }]
-  });
-  const [editingQuizId, setEditingQuizId] = useState(null);
-  const [takingQuiz, setTakingQuiz] = useState(null);
-  const [userAnswers, setUserAnswers] = useState({});
-  const [quizResult, setQuizResult] = useState(null);
-  const [showQuizDialog, setShowQuizDialog] = useState(false);
 
-  useEffect(() => {
-    getUser(userId);
-    // In a real app, you would fetch quizzes here
-    // fetchQuizzes();
-  }, []);
-
+  // ---------------------- API Calls ---------------------- //
   const getUser = async (id) => {
     try {
       const response = await fetch(`http://localhost/user?id=${id}`, {
         method: "GET",
         headers: {
           "Content-Type": "application/json",
-          "Authorization": token,
+          Authorization: token,
         },
       });
 
@@ -75,388 +50,408 @@ const QuizzesPage = () => {
     }
   };
 
-  // Dummy CRUD operations
-  const createQuiz = () => {
-    const quizToAdd = {
-      ...newQuiz,
-      _id: Date.now().toString(),
-      userid: userId,
-      moduleId: "module1" // In real app, this would be selected
-    };
-    setQuizzes([...quizzes, quizToAdd]);
-    /*setNewQuiz({
-      title: "",
-      description: "",
-      contents: [{ question: "", options: ["", "", "", ""], correctAnswer: "" }]
-    });*/
-    resetQuizForm();
-  };
+  // get quizzes
+  const getQuizzes = async () => {
+    try {
+      const response = await fetch(`http://localhost/quizzes`, {
+        method: "GET",
+        headers: {
+          "Content-Type": "application/json",
+          Authorization: token,
+        },
+      });
 
-  const updateQuiz = () => {
-    setQuizzes(quizzes.map(quiz => 
-      quiz._id === editingQuizId ? { ...quiz, ...newQuiz } : quiz
-    ));
-    setEditingQuizId(null);
-    /*setNewQuiz({
-      title: "",
-      description: "",
-      contents: [{ question: "", options: ["", "", "", ""], correctAnswer: "" }]
-    });*/
-    resetQuizForm();
-  };
+      const result = await response.json();
 
-  const deleteQuiz = (id) => {
-    setQuizzes(quizzes.filter(quiz => quiz._id !== id));
-  };
+      if (!response.ok) {
+        console.log(response.status, response.statusText, result.message);
+        return;
+      }
 
-  const startEditQuiz = (quiz) => {
-    setEditingQuizId(quiz._id);
-    setNewQuiz({
-      title: quiz.title,
-      description: quiz.description,
-      contents: quiz.contents
-    });
-  };
-  const resetQuizForm = () => {
-    setNewQuiz({
-      title: "",
-      description: "",
-      contents: [{ question: "", options: ["", "", "", ""], correctAnswer: "" }]
-    });
-  };
-// Take Quiz functions
-const startTakingQuiz = (quiz) => {
-  setTakingQuiz(quiz);
-  setUserAnswers({});
-  setQuizResult(null);
-  setShowQuizDialog(true);
-};
-const submitQuiz = () => {
-  if (!takingQuiz) return;
-  
-  let correctCount = 0;
-  takingQuiz.contents.forEach((question, index) => {
-    if (userAnswers[index] === question.correctAnswer) {
-      correctCount++;
+      console.log(response.status, response.statusText, result.message, result.data);
+      setQuizzes(result.data);
+
+    } catch (error) {
+      console.log(error);
     }
-  });
-  
-  const score = Math.round((correctCount / takingQuiz.contents.length) * 100);
-  setQuizResult({
-    score,
-    correctCount,
-    totalQuestions: takingQuiz.contents.length
-  });
-};
-
-const closeQuizDialog = () => {
-  setShowQuizDialog(false);
-  setTakingQuiz(null);
-  setUserAnswers({});
-  setQuizResult(null);
-};
-
-
-const handleAnswerSelect = (questionIndex, selectedAnswer) => {
-  setUserAnswers({
-    ...userAnswers,
-    [questionIndex]: selectedAnswer
-  });
-};
-  const handleInputChange = (e) => {
-    const { name, value } = e.target;
-    setNewQuiz({ ...newQuiz, [name]: value });
   };
 
-  const handleQuestionChange = (index, field, value) => {
-    const updatedContents = [...newQuiz.contents];
-    updatedContents[index][field] = value;
-    setNewQuiz({ ...newQuiz, contents: updatedContents });
+  //get userQuizzes
+  const getUserQuizzes = async (id) => {
+    try {
+      const response = await fetch(`http://localhost/user-quizzes?id=${id}`, {
+        method: "GET",
+        headers: {
+          "Content-Type": "application/json",
+          Authorization: token,
+        },
+      });
+
+      const result = await response.json();
+
+      if (!response.ok) {
+        console.log(response.status, response.statusText, result.message);
+        return;
+      }
+
+      console.log(response.status, response.statusText, result.message, result.data);
+      setUserQuizzes(result.data);
+
+    } catch (error) {
+      console.log(error);
+    }
   };
 
-  const handleOptionChange = (questionIndex, optionIndex, value) => {
-    const updatedContents = [...newQuiz.contents];
-    updatedContents[questionIndex].options[optionIndex] = value;
-    setNewQuiz({ ...newQuiz, contents: updatedContents });
-  };
 
-  const addNewQuestion = () => {
-    setNewQuiz({
-      ...newQuiz,
-      contents: [
-        ...newQuiz.contents,
-        { question: "", options: ["", "", "", ""], correctAnswer: "" }
-      ]
-    });
-  };
+  // ---------------------- useEffect ---------------------- //
+  useEffect(() => {
+    getUser(userId);
+  }, [userId]);
 
+  useEffect(() => {
+    getQuizzes();
+  }, [])
+
+  useEffect(() => {
+    getUserQuizzes(userId);
+  }, [])
+
+
+  // ---------------------- Component JSX ---------------------- //
   return (
-    <div className="min-h-screen bg-gray-50">
-
+    <div className=" flex min-h-screen bg-gray-50">
+      {/* Navbar and Sidebar */}
       <DashboardNavbar
         toggleSidebar={() => setSidebarExpanded(!sidebarExpanded)}
         firstName={firstName}
         lastName={lastName}
         emailAddress={emailAddress}
       />
-      <div className="flex pt-16">
+      <Sidebar isExpanded={sidebarExpanded} />
 
-      <div className={`fixed h-full ${sidebarExpanded ? 'w-64' : 'w-20'} transition-all duration-300`}>
-          <Sidebar isExpanded={sidebarExpanded} />
-        </div>
+      {/* Main Section */}
+      <div className="text-black w-screen min-h-auto border mt-16 px-6 py-2">
+        <div className="flex shadow mt-4 rounded-lg">
+          <div className="bg-white w-full px-4 py-4 flex flex-col gap-3">
+            <h2 className="font-semibold text-lg mb-2">My Quizzes</h2>
 
-      
-      {/* Main Content - adjusts based on sidebar width */}
-        <div className={`flex-1 ${sidebarExpanded ? 'ml-64' : 'ml-20'} transition-all duration-300 p-8`}>
-          
-
-        <h1 className="text-2xl font-bold mb-6">Quizzes</h1>
-        
-        {/* Quiz Form */}
-        <div className="bg-white p-6 rounded-lg shadow-md mb-8">
-          <h2 className="text-xl font-semibold mb-4">
-            {editingQuizId ? "Edit Quiz" : "Create New Quiz"}
-          </h2>
-          <div className="space-y-4">
-            <div>
-              <label className="block text-sm font-medium text-gray-700">Title</label>
-              <input
-                type="text"
-                name="title"
-                value={newQuiz.title}
-                onChange={handleInputChange}
-                className="mt-1 block w-full rounded-md border-gray-300 shadow-sm p-2 border"
-              />
-            </div>
-            <div>
-              <label className="block text-sm font-medium text-gray-700">Description</label>
-              <textarea
-                name="description"
-                value={newQuiz.description}
-                onChange={handleInputChange}
-                className="mt-1 block w-full rounded-md border-gray-300 shadow-sm p-2 border"
-              />
-            </div>
-            
-            {newQuiz.contents.map((content, questionIndex) => (
-              <div key={questionIndex} className="border p-4 rounded-lg">
-                <div className="mb-3">
-                  <label className="block text-sm font-medium text-gray-700">Question {questionIndex + 1}</label>
-                  <input
-                    type="text"
-                    value={content.question}
-                    onChange={(e) => handleQuestionChange(questionIndex, 'question', e.target.value)}
-                    className="mt-1 block w-full rounded-md border-gray-300 shadow-sm p-2 border"
-                  />
-                </div>
-                
-                <div className="grid grid-cols-2 gap-4 mb-3">
-                  {content.options.map((option, optionIndex) => (
-                    <div key={optionIndex}>
-                      <label className="block text-sm font-medium text-gray-700">
-                        Option {optionIndex + 1}
-                      </label>
-                      <input
-                        type="text"
-                        value={option}
-                        onChange={(e) => handleOptionChange(questionIndex, optionIndex, e.target.value)}
-                        className="mt-1 block w-full rounded-md border-gray-300 shadow-sm p-2 border"
-                      />
-                    </div>
-                  ))}
-                </div>
-                
-                <div>
-                  <label className="block text-sm font-medium text-gray-700">Correct Answer</label>
-                  <select
-                    value={content.correctAnswer}
-                    onChange={(e) => handleQuestionChange(questionIndex, 'correctAnswer', e.target.value)}
-                    className="mt-1 block w-full rounded-md border-gray-300 shadow-sm p-2 border"
-                  >
-                    {content.options.map((option, index) => (
-                      <option key={index} value={option}>
-                        Option {index + 1} {option && `(${option})`}
-                      </option>
-                    ))}
-                  </select>
+            {/* User Quizzes List */}
+            {userQuizzes?.map((quiz) => (
+              <div
+                key={quiz._id}
+                className="block hover:cursor-pointer"
+                onClick={() => {
+                  setIsQuizModal(true);
+                  getQuizQuestions(quiz._id);
+                }}
+              >
+                <div className="flex items-center min-h-[4.8em] bg-gray-100 py-1 px-3 rounded-lg hover:bg-gray-200 transition">
+                  <span className="bg-black text-white px-2 py-2 rounded font-bold">
+                    <PiCardsThree className="text-xl font-semibold" />
+                  </span>
+                  <div className="ml-4">
+                    <h3 className="font-bold">{quiz.title}</h3>
+                    <p className="text-xs text-gray-600">
+                      {quiz.description}
+                      <br />
+                      {/* <button className="text-dark-blue font-semibold mt-2 flex gap-2 text-xl hover:text-blue-500">
+                        <MdOutlineGridView ... />
+                      </button> */}
+                    </p>
+                  </div>
                 </div>
               </div>
             ))}
-            
-            <button
-              onClick={addNewQuestion}
-              className="px-4 py-2 bg-gray-200 text-gray-800 rounded-md hover:bg-gray-300"
-            >
-              Add Another Question
-            </button>
-            
-            <div className="flex justify-end space-x-4">
-              {editingQuizId && (
-                <button
-                  onClick={() => {
-                    setEditingQuizId(null);
-                    setNewQuiz({
-                      title: "",
-                      description: "",
-                      contents: [{ question: "", options: ["", "", "", ""], correctAnswer: "" }]
-                    });
-                  }}
-                  className="px-4 py-2 bg-gray-200 text-gray-800 rounded-md hover:bg-gray-300"
-                >
-                  Cancel
-                </button>
-              )}
-              <button
-                onClick={editingQuizId ? updateQuiz : createQuiz}
-                className="px-4 py-2 bg-blue-600 text-white rounded-md hover:bg-blue-700"
-              >
-                {editingQuizId ? "Update Quiz" : "Create Quiz"}
-              </button>
-            </div>
           </div>
-        </div>
-        
-        {/* Quiz List */}
-        <div className="space-y-6">
-          {quizzes.map((quiz) => (
-            <div key={quiz._id} className="bg-white p-6 rounded-lg shadow-md">
-              <div className="flex justify-between items-start">
-                <div>
-                  <h3 className="text-lg font-semibold">{quiz.title}</h3>
-                  <p className="text-gray-600">{quiz.description}</p>
-                  <p className="text-sm text-gray-500 mt-2">
-                    {quiz.contents.length} question{quiz.contents.length !== 1 ? 's' : ''}
-                  </p>
-                </div>
-                <div className="flex space-x-2">
-                <button
-                    onClick={() => startTakingQuiz(quiz)}
-                    className="px-3 py-1 bg-green-500 text-white rounded-md hover:bg-green-600 text-sm"
-                  >
-                    Take Quiz
-                  </button>
 
-                  <button
-                    onClick={() => startEditQuiz(quiz)}
-                    className="px-3 py-1 bg-yellow-500 text-white rounded-md hover:bg-yellow-600 text-sm"
+          {/* Public Quizzes on NoteSage */}
+          <div className="bg-white w-full px-4 pb-4 mt-0 flex flex-col gap-3">
+            <h2 className="text-black text-lg font-semibold mt-4 mb-2">Quizzes on NoteSage</h2>
+            {quizzes?.map(
+              (quiz) =>
+                // quiz.public && (
+                  <div
+                    key={quiz._id}
+                    className="block hover:cursor-pointer"
+                    onClick={() => {
+                      setIsQuizModal(true);
+                      getQuizQuestions(quiz._id);
+                    }}
                   >
-                    Edit
-                  </button>
-                  <button
-                    onClick={() => deleteQuiz(quiz._id)}
-                    className="px-3 py-1 bg-red-500 text-white rounded-md hover:bg-red-600 text-sm"
-                  >
-                    Delete
-                  </button>
-                </div>
-              </div>
-              
-              {/* Quiz Questions Preview */}
-              <div className="mt-4 space-y-3">
-                {quiz.contents.slice(0, 2).map((content, index) => (
-                  <div key={index} className="border-t pt-3">
-                    <p className="font-medium">{content.question}</p>
-                    <ul className="list-disc list-inside text-sm text-gray-600">
-                      {content.options.map((option, optIndex) => (
-                        <li key={optIndex} className={option === content.correctAnswer ? 'text-green-600 font-medium' : ''}>
-                          {option}
-                        </li>
-                      ))}
-                    </ul>
-                  </div>
-                ))}
-                {quiz.contents.length > 2 && (
-                  <p className="text-sm text-gray-500">+ {quiz.contents.length - 2} more questions...</p>
-                )}
-              </div>
-            </div>
-          ))}
-        </div>
-      </div>
-      </div>
-      {/* Quiz Dialog */}
-      {showQuizDialog && takingQuiz && (
-        <div className="fixed inset-0 bg-black bg-opacity-50 flex items-center justify-center p-4 z-50">
-          <div className="bg-white rounded-lg shadow-xl w-full max-w-2xl max-h-[90vh] overflow-y-auto">
-            <div className="p-6">
-              <div className="flex justify-between items-center mb-4">
-                <h2 className="text-xl font-semibold">{takingQuiz.title}</h2>
-                <button 
-                  onClick={closeQuizDialog}
-                  className="text-gray-500 hover:text-gray-700"
-                >
-                  <svg xmlns="http://www.w3.org/2000/svg" className="h-6 w-6" fill="none" viewBox="0 0 24 24" stroke="currentColor">
-                    <path strokeLinecap="round" strokeLinejoin="round" strokeWidth={2} d="M6 18L18 6M6 6l12 12" />
-                  </svg>
-                </button>
-              </div>
-              
-              {quizResult ? (
-                <div className="text-center py-8">
-                  <h3 className="text-2xl font-bold mb-4">Quiz Results</h3>
-                  <div className="text-4xl font-bold mb-2" style={{ 
-                    color: quizResult.score >= 70 ? 'green' : quizResult.score >= 50 ? 'orange' : 'red'
-                  }}>
-                    {quizResult.score}%
-                  </div>
-                  <p className="text-lg mb-6">
-                    You got {quizResult.correctCount} out of {quizResult.totalQuestions} questions correct
-                  </p>
-                  <button
-                    onClick={closeQuizDialog}
-                    className="px-6 py-2 bg-blue-600 text-white rounded-md hover:bg-blue-700"
-                  >
-                    Close
-                  </button>
-                </div>
-              ) : (
-                <>
-                  <p className="mb-6 text-gray-600">{takingQuiz.description}</p>
-                  
-                  <div className="space-y-6">
-                    {takingQuiz.contents.map((question, index) => (
-                      <div key={index} className="border-b pb-4">
-                        <h4 className="font-medium mb-3">{index + 1}. {question.question}</h4>
-                        <div className="space-y-2">
-                          {question.options.map((option, optIndex) => (
-                            <div key={optIndex} className="flex items-center">
-                              <input
-                                type="radio"
-                                id={`q${index}-o${optIndex}`}
-                                name={`question-${index}`}
-                                checked={userAnswers[index] === option}
-                                onChange={() => handleAnswerSelect(index, option)}
-                                className="mr-2"
-                              />
-                              <label htmlFor={`q${index}-o${optIndex}`} className="cursor-pointer">
-                                {option}
-                              </label>
-                            </div>
-                          ))}
-                        </div>
+                    <div className="flex items-center min-h-[4.8em] bg-gray-100 px-3 py-1 rounded-lg hover:bg-gray-200 transition">
+                      <span className="bg-black text-white px-2 py-2 rounded font-bold">
+                        <PiCardsThree className="text-xl" />
+                      </span>
+                      <div className="ml-4">
+                        <h3 className="font-bold">{quiz.title}</h3>
+                        <p className="text-xs text-gray-600">
+                          {quiz.description}
+                          <br />
+                          {/* <button className="text-dark-blue font-semibold mt-2 flex gap-2 text-xl hover:text-blue-500">
+                            <MdOutlineGridView ... />
+                          </button> */}
+                        </p>
                       </div>
-                    ))}
+                    </div>
                   </div>
-                  
-                  <div className="mt-8 flex justify-end">
-                    <button
-                      onClick={submitQuiz}
-                      disabled={Object.keys(userAnswers).length !== takingQuiz.contents.length}
-                      className={`px-6 py-2 rounded-md text-white ${Object.keys(userAnswers).length === takingQuiz.contents.length ? 'bg-blue-600 hover:bg-blue-700' : 'bg-gray-400 cursor-not-allowed'}`}
-                    >
-                      Submit Quiz
-                    </button>
-                  </div>
-                </>
-              )}
-            </div>
+                // )
+            )}
           </div>
         </div>
-      )}
+
+        {/* Flashcards Preview Section */}
+        <div className="bg-white px-4 py-2 mt-1 flex flex-col min-h-[20.2em]">
+          <div
+            className="flex flex-wrap gap-3"
+            onClick={() => {
+              setIsQuizModal(true);
+              getQuizQuestions(quizId);
+            }}
+          >
+            {quizQuestions?.slice(0, 6).map((question) => (
+              <div
+                key={question._id}
+                className="flex flex-col justify-between bg-gray-100 py-2 px-3 rounded-md h-[8em] cursor-pointer max-w-[21.68em] hover:bg-gray-200"
+              >
+                {/* Flashcard front and back */}
+                <div>
+                  <p className="font-bold text-gray-700 mb-1 text-md">{question.question}</p>
+                  {/* <p className="text-xs text-gray-600 h-[3.7em] overflow-hidden">{question.back}</p> */}
+                </div>
+                {/* Flashcard actions */}
+                <div className="flex justify-between pt-4">
+                  <IoMdExpand className="hover:text-blue-500 hover:text-lg" />
+                  <MdDeleteOutline
+                    onClick={() => {
+                      setIsModalOpen(true);
+                      setFlashcardId(question._id);
+                    }}
+                    className="text-lg text-red-500 hover:text-red-700 hover:text-xl"
+                  />
+                </div>
+              </div>
+            ))}
+          </div>
+        </div>
+      </div>
+
+      {/* Modals - Leave commented */}
+      {/* {isModalOpen && <Modal closeModal={...} />} */}
+      {/* {isStudyCardModal && <takeQuizModal closeModal={...} />} */}
     </div>
-
-
   );
 };
+
+// const Modal = ({ closeModal, cardId, token, onComplete} ) => {
+
+  //   const handleDelete =  () => {
+  //     deleteFlashcard(cardId);
+  //     onComplete();
+  //     closeModal();
+  //   };
+  
+  //   // delete flashcard
+  //   const deleteFlashcard = async(id) => {
+  //     if (!id) {
+  //       console.log("no card id provided");
+  //       return;
+  //     } 
+    
+  //     const headers = {
+  //       "Content-Type": "application/json",
+  //       "Authorization": token
+  //     }
+    
+  //     try {
+  //       const response = await fetch(http://localhost/delete-card?id=${id}, {
+  //         method: "DELETE",
+  //         headers: headers
+  //       })
+    
+  //       const result = await response.json();
+    
+  //       if (!response.ok) {
+  //         console.log("Status:", response.status, result.message);
+  //         return;
+  //       }
+    
+  //       console.log("Status:", response.status, result.message);
+  //     } catch(err) {
+    
+  //     }
+  //   }
+  
+  //   return (
+  //     <div
+  //       className="fixed inset-0 bg-gray-900 bg-opacity-50 flex justify-center items-center z-50"
+  //       onClick={(e) => {
+  //         if (e.target === e.currentTarget) closeModal();
+  //       }}
+  //     >
+  //       <div className="bg-white p-6 rounded-lg shadow-lg w-96">
+  //         <h2 className="text-lg font-semibold mb-4">Are you sure you want to delete this multiple choice question? </h2>
+  //         <div className="flex justify-end space-x-2 mt-4">
+  //           <button onClick={closeModal} className="bg-gray-300 px-4 py-2 rounded-lg hover:bg-gray-400">
+  //             Cancel
+  //           </button>
+  //           <button 
+  //             onClick={handleDelete} 
+  //             className="bg-red-600 text-white px-4 py-2 rounded-lg hover:bg-red-400 hover:text-gray-500">
+  //             Delete
+  //           </button>
+  //         </div>
+  //       </div>
+  //     </div>
+  //   );
+  // }
+  
+  
+  // const takeQuizModal = ({ closeModal, flashcards, deckTitle }) => {
+  //   const [currentIndex, setCurrentIndex] = useState(0);
+  //   const [showFront, setShowFront] = useState(true);
+  //   const [isCompleted, setIsCompleted] = useState(false);
+  
+  //   // Handle edge case if no flashcards are provided
+  //   if (!flashcards || flashcards.length === 0) {
+  //     return (
+  //       <div
+  //         className="fixed inset-0 bg-gray-900 bg-opacity-50 flex justify-center items-center z-50"
+  //         onClick={(e) => {
+  //           if (e.target === e.currentTarget) closeModal();
+  //         }}
+  //       >
+  //         <div className="bg-white p-6 rounded-lg shadow-lg w-[90%] h-[80%] flex flex-col justify-between">
+  //           {/* Modal Header */}
+  //           <div className="flex justify-end items-center">
+  //             <button
+  //               onClick={closeModal}
+  //               className="text-black rounded-lg hover:bg-red-400 hover:text-gray-500 p-1"
+  //             >
+  //               <RxCross1 />
+  //             </button>
+  //           </div>
+  //           <div className="flex justify-center items-center h-full text-gray-600 text-lg">
+  //             No flashcards available.
+  //           </div>
+  //         </div>
+  //       </div>
+  //     );
+  //   }
+  
+  //   // Handle "Next" button click
+  //   const handleNext = () => {
+  //     if (currentIndex < flashcards.length - 1) {
+  //       setCurrentIndex(currentIndex + 1);
+  //       setShowFront(true);
+  //     } else {
+  //       setIsCompleted(true);
+  //     }
+  //   };
+  
+  //   // Handle "Previous" button click
+  //   const handlePrev = () => {
+  //     if (currentIndex > 0) {
+  //       setCurrentIndex(currentIndex - 1);
+  //       setShowFront(true);
+  //     }
+  //   };
+  
+  //   // Show next/previous or show completed options
+  //   const handleRestart = () => {
+  //     setCurrentIndex(0);
+  //     setIsCompleted(false);
+  //     setShowFront(true);
+  //   };
+  
+  //   // Toggle between front and back
+  //   const handleCardClick = () => {
+  //     setShowFront(!showFront);
+  //   };
+  
+  //   return (
+  //     <div
+  //       className="fixed inset-0 bg-gray-900 bg-opacity-50 flex justify-center items-center z-50"
+  //       onClick={(e) => {
+  //         if (e.target === e.currentTarget) closeModal();
+  //       }}
+  //     >
+  //       <div className="bg-white p-6 rounded-lg w-[90%] h-[80%] flex flex-col justify-between">
+  //         {/* Modal Header */}
+  //         <div className="flex justify-between items-center">
+  //           <p className="text-xl text-white text-center w-full">{deckTitle || ""}</p>
+  //           <button
+  //             onClick={closeModal}
+  //             className="text-black rounded-lg hover:bg-red-400 hover:text-gray-500 p-1"
+  //           >
+  //             <RxCross1 />
+  //           </button>
+  //         </div>
+  
+  //         {/* Show Completion Message */}
+  //         {isCompleted ? (
+  //           <div className="flex flex-col items-center justify-center h-full">
+  //             <p className="text-2xl font-bold text-green-600 mb-4">
+  //               You've completed all the flashcards!
+  //             </p>
+  //             <div className="flex gap-4">
+  //               <button
+  //                 onClick={handleRestart}
+  //                 className="bg-blue-500 text-white px-4 py-2 rounded-lg hover:bg-blue-600"
+  //               >
+  //                 Start Over
+  //               </button>
+  //               <button
+  //                 onClick={closeModal}
+  //                 className="bg-red-500 text-white px-4 py-2 rounded-lg hover:bg-red-600"
+  //               >
+  //                 Done
+  //               </button>
+  //             </div>
+  //           </div>
+  //         ) : (
+  //           <div className="flex flex-col justify-end items-center h-full">
+  //             {/* Flashcard Container */}
+  //             <div
+  //               className="relative w-[40em h-[20em] max-w-[85%] max-h-[83%] px-20 flex justify-center items-center cursor-pointer text-xl font-semibold"
+  //               onClick={handleCardClick}
+  //             >
+  //               {showFront 
+                  
+  //                 ? <p className="font-bold">{flashcards[currentIndex]?.front || "No term available"}</p>
+  //                 : <p className="font-normal">{flashcards[currentIndex]?.back || "No definition available"}</p>
+  //               }
+  //             </div>
+  
+  //             {/* Pagination and Navigation */}
+  //             <div className="w-full pb-8">
+  //               <div className="flex gap-6 justify-center items-center mt-6">
+  //                 <button
+  //                   onClick={handlePrev}
+  //                   disabled={currentIndex === 0}
+  //                   className={px-4 py-2 rounded-lg ${
+  //                     currentIndex === 0
+  //                       ? "bg-gray-300 text-gray-500 cursor-not-allowed"
+  //                       : "bg-dark-blue text-white hover:bg-blue-600"
+  //                   }}
+  //                 >
+  //                   Previous
+  //                 </button>
+  //                 <p className="text-gray-600">
+  //                   {currentIndex + 1} / {flashcards.length}
+  //                 </p>
+  //                 <button
+  //                   onClick={handleNext}
+  //                   className="bg-dark-blue text-white px-8 py-2 rounded-lg hover:bg-blue-600"
+  //                 >
+  //                   {currentIndex === flashcards.length - 1 ? "Finish" : "Next"}
+  //                 </button>
+  //               </div>
+  //             </div>
+  //           </div>
+  //         )}
+  //       </div>
+  //     </div>
+  //   );
+  // };
 
 export default QuizzesPage;

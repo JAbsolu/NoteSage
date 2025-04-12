@@ -6,7 +6,7 @@ export default function ContactUs() {
   return (
     <>
       <Navbar />  {/*  Navbar is added at the top */}
-      <div className="min-h-[87vh] bg-blue-500 pt-20 flex flex-col items-center justify-center">
+      <div className="min-h-[87vh] bg-blue pt-20 flex flex-col items-center justify-center">
         <div className="bg-white p-8 rounded-lg shadow-lg w-full max-w-md">
           <h2 className="text-2xl font-bold text-center text-gray-900">
             Contact Us
