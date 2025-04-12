@@ -34,7 +34,17 @@ const Signup = () => {
       })
     
       const result = await response.json();
-      setRegistrationMessage(result.message)
+
+      if (!response.ok) {
+        console.log("error creatig user", result.message);
+        return;
+      }
+
+      if (response.ok) {
+        const userId = result.data._id
+        createNotificationList(userId);
+        setRegistrationMessage(result.message)
+      }
 
       // alert(JSON.stringify(result))
       if (response.ok) router.push("/login");
@@ -43,6 +53,29 @@ const Signup = () => {
     }
     
   };
+
+  const createNotificationList = async (userId) => {
+    try {
+      const response = await fetch(`http://localhost/create-notification-list?id=${userId}`, {
+        method: "POST",
+        headers: {
+          "Content-Type": "application/json",
+        },
+      })
+
+      const result = await response.json();
+
+      if (!response.ok) {
+        console.log("error creating notification list", result.message);
+        return;
+      }
+
+      console.log("Notification list created", result.message);
+
+    } catch (error) {
+      console.log(error.message);
+    }
+  }
 
   return (
     <>
