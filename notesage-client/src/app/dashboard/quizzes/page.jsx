@@ -98,7 +98,6 @@ const QuizzesPage = () => {
       setUserQuizzes(result.data);
 
     } catch (error) {
-      console.log(error);
     }
   };
 
