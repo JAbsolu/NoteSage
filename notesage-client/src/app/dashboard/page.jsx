@@ -107,41 +107,49 @@ function Dashboard() {
             </div>
           </div>
 
-          {/* Recents Section */}
-          <div className="bg-white p-6 rounded-lg shadow-md mt-4">
-            <h2 className="text-xl font-semibold mb-4">Recents</h2>
-            <div className="grid grid-cols-1 md:grid-cols-2 gap-4">
-              {/* Flashcards */}
-              <div className="space-y-4">
-                {Array(4).fill().map((_, i) => (
-                  <Link key={i} href={`/flashcards/${i + 1}`} className="block">
-                    <div className="flex items-center bg-gray-100 p-3 rounded-lg shadow hover:bg-gray-200 transition">
-                      <span className="bg-black text-white px-2 py-1 rounded">Bb</span>
-                      <div className="ml-4">
-                        <h3 className="font-bold">Flashcard title {i + 1}</h3>
-                        <p className="text-sm text-gray-600">Flashcard deck: 10 terms - by Author</p>
-                      </div>
-                    </div>
-                  </Link>
-                ))}
-              </div>
-
-              {/* Quizzes */}
-              <div className="space-y-4">
-                {Array(4).fill().map((_, i) => (
-                  <Link key={i} href={`/quizzes/${i + 1}`} className="block">
-                    <div className="flex items-center bg-gray-100 p-3 rounded-lg shadow hover:bg-gray-200 transition">
-                      <span className="bg-black text-white px-2 py-1 rounded"><MdOutlineQuiz/></span>
-                      <div className="ml-4">
-                        <h3 className="font-bold">Quiz Title {i + 1}</h3>
-                        <p className="text-sm text-gray-600">Quiz description/subtitle - by Author</p>
-                      </div>
-                    </div>
-                  </Link>
-                ))}
-              </div>
-            </div>
+          {/* Checklist Section */}
+<div className="bg-white p-6 rounded-lg shadow-md mt-4">
+  <h2 className="text-xl font-semibold mb-4">Today's Checklist</h2>
+  <div className="grid grid-cols-1 md:grid-cols-2 gap-4">
+    {/* Flashcards Checklist */}
+    <div className="space-y-4">
+      {Array(4).fill().map((_, i) => (
+        <div key={i} className="flex items-center bg-gray-100 p-3 rounded-lg shadow hover:bg-gray-200 transition">
+          <input type="checkbox" className="w-5 h-5 mr-4" />
+          <span className="bg-black text-white px-2 py-1 rounded">Bb</span>
+          <div className="ml-4">
+            <h3 className="font-bold">Review Flashcard {i + 1}</h3>
+            <p className="text-sm text-gray-600">10 terms - by Author</p>
           </div>
+        </div>
+      ))}
+      {/* Add Task Button for Flashcards */}
+      <button className="w-full mt-2 bg-blue-500 text-white py-2 rounded-lg hover:bg-blue-600 transition">
+        + Add Flashcard Task
+      </button>
+    </div>
+
+    {/* Quizzes Checklist */}
+    <div className="space-y-4">
+      {Array(4).fill().map((_, i) => (
+        <div key={i} className="flex items-center bg-gray-100 p-3 rounded-lg shadow hover:bg-gray-200 transition">
+          <input type="checkbox" className="w-5 h-5 mr-4" />
+          <span className="bg-black text-white px-2 py-1 rounded">
+            <MdOutlineQuiz />
+          </span>
+          <div className="ml-4">
+            <h3 className="font-bold">Take Quiz {i + 1}</h3>
+            <p className="text-sm text-gray-600">Quiz description - by Author</p>
+          </div>
+        </div>
+      ))}
+      {/* Add Task Button for Quizzes */}
+      <button className="w-full mt-2 bg-green-500 text-white py-2 rounded-lg hover:bg-green-600 transition">
+        + Add Quiz Task
+      </button>
+    </div>
+  </div>
+</div>
 
           {/* Generate with AI Section */}
           <div className="bg-white p-6 rounded-lg shadow-md mt-6">
