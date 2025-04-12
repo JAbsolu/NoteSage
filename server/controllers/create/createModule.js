@@ -1,5 +1,6 @@
 const Module = require("../../models/Module");
 const User = require("../../models/User");
+const Notification = require("../../models/Notificatios");
 
 const createModule = async (req, res) => {
   try {
@@ -8,6 +9,8 @@ const createModule = async (req, res) => {
     // error handling for user
     const user = await User.findById(userId);
     if (!user) return res.status(404).json({ message: "User not found" });
+
+    const userNotifications = await Notification.find({ userId: userId });
 
     // create new module
     const module = new Module({
@@ -20,6 +23,9 @@ const createModule = async (req, res) => {
 
     // save the module
     await module.save();
+
+    const notificationArray = userNotifications.notifications;
+    notificationArray.push("User information added!");
     
     res.status(201).json({ mesage: "module has been created "});
   } catch (err) {

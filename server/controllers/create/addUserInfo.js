@@ -1,5 +1,6 @@
 const UserInfo = require("../../models/UserInfo");
 const User = require("../../models/User");
+const Notification = require("../../models/Notificatios");
 
 const addUserInfo = async (req, res) => {
 
@@ -8,6 +9,7 @@ const addUserInfo = async (req, res) => {
 
     // handle errors for ids
     const user = await User.findById(userId);
+    const userNotifications = await Notification.find({ userId: userId });
 
     if (!user) return res.status(400).json({ message: "user not found" });
 
@@ -23,6 +25,11 @@ const addUserInfo = async (req, res) => {
 
     // save user info
     await userInfo.save();
+
+    //save notification 
+    const notificationArray = userNotifications.notifications;
+    notificationArray.push("User information added!");
+    
 
     res.status(201).json({ message: "user info has been added" });
     
