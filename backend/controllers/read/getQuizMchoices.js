@@ -20,4 +20,4 @@ const getTestChoices = async (req, res) => {
   }
 }
 
-module.exports = getTestChoices;
+module.exports = getTestChoices; 
