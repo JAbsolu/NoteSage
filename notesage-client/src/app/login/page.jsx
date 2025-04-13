@@ -46,7 +46,6 @@ const Signin = () => {
       const token = result.token;
       setCookie("userId", userId, {expires: 7, secure: true});
       setCookie("token", token, {expires: 7, secure: true});
-      console.log("userid:", userId, "token:", token); // for testing
       router.push("/dashboard");
       setLoginMssg(result.message);
 

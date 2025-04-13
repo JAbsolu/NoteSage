@@ -15,10 +15,10 @@ const createCard = async (req, res) => {
 
     // create the new card
     const newCard = new Card({
-      userId,
-      deckId,
-      front,
-      back
+      userId: userId,
+      deckId: deckId,
+      front: front,
+      back: back
     });
 
     await newCard.save();

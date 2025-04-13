@@ -46,7 +46,6 @@ function Dashboard() {
           setFirstname(user.firstName);
           setLastname(user.lastName);
           setEmailaddress(user.emailAddress);
-          
         } else {
           console.log(response.status, response.statusText, "Error getting user")
         }
@@ -58,8 +57,6 @@ function Dashboard() {
   // read user id from cookies
   useEffect(() => {
     try {
-        console.log("User ID from cookie:", userId); // Debugging
-
         if (userId) {
             getUser(userId);
         } else {
