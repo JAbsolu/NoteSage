@@ -23,7 +23,7 @@ const Sidebar = ({ isExpanded }) => {
           <FiHome className="text-xl" />
           {isExpanded && <span className="text-white">Home</span>}
         </Link>
-        <Link href="/notifications" className="flex items-center space-x-2 hover:text-gray-200">
+        <Link href="/dashboard/notifications" className="flex items-center space-x-2 hover:text-gray-200">
           <FiBell className="text-xl -me-4" />
           <div className="flex items-center justify-center bg-red-600 border min-w-6 min-h-6 rounded-full text-xs">{allNotifications?.length || "0"}</div>
           {isExpanded && <span className="text-white">Notifications</span>}
