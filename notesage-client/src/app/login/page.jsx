@@ -15,6 +15,7 @@ const Signin = () => {
   });
 
   const [loginMssg, setLoginMssg] = useState(); // handle login error messages
+  const [error, setError] = useState(); // handle login error messages
   const router = useRouter() // use router
 
   const handleChange = (e) => {
@@ -36,23 +37,25 @@ const Signin = () => {
       const result = await response.json();
 
       if (!response.ok) {
-        console.log("Status:", response.status, result);
+        console.log("Status:", response.status, result.message);
+        setError(result.message)
         return;
       }
 
-      if (response.ok && result.token) {
-        const userId = result.userId;
-        const token = result.token;
-        setCookie("userId", userId, {expires: 7, secure: true});
-        setCookie("token", token, {expires: 7, secure: true});
-        console.log("userid:", userId, "token:", token); // for testing
-        router.push("/dashboard");
+      const userId = result.userId;
+      const token = result.token;
+      setCookie("userId", userId, {expires: 7, secure: true});
+      setCookie("token", token, {expires: 7, secure: true});
+      console.log("userid:", userId, "token:", token); // for testing
+      router.push("/dashboard");
+      setLoginMssg(result.message);
+      
       } else {
         setLoginMssg(result.message);
       }
 
     } catch (error) {
-      setLoginMssg(error.message);
+      setError(error.message);
       console.error(error);
     }
   };
@@ -94,21 +97,30 @@ const Signin = () => {
             {/* Submit Button */}
             <button
               type="submit"
-              className="w-full mt-4 py-3 bg-blue text-white font-semibold rounded-lg hover:bg-blue-dark transition"
+              className="w-full mt-4 py-3 bg-blue text-white font-semibold rounded-lg transition hover:bg-blue-600"
             >
               Sign in
             </button>
           </form>
 
           {/* Don't have an account? */}
-          <p className="text-center text-gray mt-4">
+          <p className="text-start text-gray mt-4">
             Don’t have an account?{" "}
             <Link href="/signup" className="text-blue font-semibold hover:underline">
-              Create an account
+              create account
             </Link>
           </p>
-          <p className="text-center mt-4 text-red-500 font-semibold">
+
+          {/* Forgot password */}
+          <Link href="/signup" className="text-blue font-semibold hover:underline">
+            Forgot password?{" "}
+          </Link>
+          
+          <p className="text-center mt-4 text-green-500 font-semibold">
             {loginMssg}
+          </p>
+          <p className="text-center mt-4 text-red-500 font-semibold">
+            {error}
           </p>
         </div>
       </section>
