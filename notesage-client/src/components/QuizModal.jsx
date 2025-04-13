@@ -29,7 +29,7 @@ const QuizModal = ({ moduleId, token, closeModal}) => {
         },
         body: JSON.stringify({
           userId: userId,
-          moduleId: moduleId,
+          moduleId: id,
           title: newTitle,
           description: newDescription,
           contents: []
