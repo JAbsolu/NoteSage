@@ -327,9 +327,9 @@ const WorkSpace = () => {
               <div className="flex mt-4">
                 <select
                   onChange={(e) => setDeckId(e.target.value)}
-                  className="p-2 border rounded-lg lg:w-11/12 sm:w-full me-2 pe-16"
+                  className="p-2 border text-black rounded-lg lg:w-11/12 sm:w-full me-2 pe-16"
                 >
-                  <option value="">Select a flashcard group</option>
+                  <option value="">Select flashcard group</option>
                   {decks ? decks.map((deck) => (
                     <option key={deck._id} value={deck._id}>
                       {deck.title}
@@ -377,11 +377,11 @@ const WorkSpace = () => {
               <div className="flex mt-4">
                 <select
                   onChange={(e) => setQuizId(e.target.value)}
-                  className="p-2 border rounded-lg lg:w-11/12 sm:w-full me-2 pe-16"
+                  className="p-2 border text-black rounded-lg lg:w-11/12 sm:w-full me-2 pe-16"
                 >
                   <option value="" className="text-black">Select Quiz</option>
                   {quizzes ? quizzes.map((quiz) => (
-                    <option key={quiz._id} value={quiz._id}>
+                    <option key={quiz._id} value={quiz._id} className="text-black">
                       {quiz.title}
                     </option>
                   )): (
