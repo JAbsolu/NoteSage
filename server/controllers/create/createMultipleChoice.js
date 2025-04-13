@@ -20,7 +20,7 @@ const createMultipleChoice = async (req, res) => {
     // save the multiple choice
     await multipleChoice.save();
 
-    res.status(201).json({ message: "multiple choice created" })
+    res.status(201).json({ message: "New multiple choice created" })
 
   } catch (err) {
     res.status(500).json({ message: "server error", error: err.message });

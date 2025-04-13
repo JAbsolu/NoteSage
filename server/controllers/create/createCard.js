@@ -10,7 +10,7 @@ const createCard = async (req, res) => {
 
     // error handling for user and deck
     if (!deck) return res.status(400).json({ message: "deck not found" });
-    const userNotifications = await Notification.find({ userId: userId });
+    const userNotifications = await Notification.findOne({ userId: userId });
    
 
     // create the new card
@@ -22,8 +22,8 @@ const createCard = async (req, res) => {
     });
 
     await newCard.save();
-    const notificationArray = userNotifications.notifications;
-    notificationArray.push("New flashcard created!");
+    userNotifications?.notifications.push("New flashcard created!");
+    await userNotifications.save();
 
     res.status(200).json({ message: `flashcard ${newCard._id} created succesfully`});
   } catch (error) {

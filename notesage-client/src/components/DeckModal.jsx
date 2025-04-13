@@ -6,6 +6,7 @@ const DeckModal = ({ closeModal, moduleId }) => {
   const [newDeckTitle, setNewDeckTitle] = useState("");
   const [newDeckDescription, setNewDeckDescription] = useState("");
   const [isPublic, setIsPublic] = useState(false);
+  const [decks, setDecks] = useState([]);
   const token = getCookie("token");
   const userId = getCookie("userId");
 

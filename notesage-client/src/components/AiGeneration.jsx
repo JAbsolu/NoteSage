@@ -56,7 +56,6 @@ const AiGeneration = () => {
     generateWithAi(prompt);
   };
   
-const AiGeneration = () => {
   return (
     <div className="p-6 rounded-lg mt-6 mx-2">
             <div className="flex">
