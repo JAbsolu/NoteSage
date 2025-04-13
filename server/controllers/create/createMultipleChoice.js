@@ -12,9 +12,9 @@ const createMultipleChoice = async (req, res) => {
 
     // create new multiple choice
     const multipleChoice = new MultipleChoice({
-      quizId,
-      question,
-      choices: {}
+      quizId: quizId,
+      question: question,
+      choices: choices
     });
 
     // save the multiple choice

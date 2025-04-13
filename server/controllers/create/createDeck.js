@@ -15,12 +15,12 @@ const createDeck = async (req, res) => {
 
     // create the new deck
     const deck = new Deck({
-      userId,
-      moduleId,
-      title,
-      description,
+      userId: userId,
+      moduleId: moduleId,
+      title: title,
+      description: description,
       contents: new Array(),
-      public,
+      public: public,
     });
 
     // save deck

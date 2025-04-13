@@ -3,6 +3,7 @@ const User = require("../../models/User");
 
 const createNotificationList = async (req, res) => {
   const { id } = req.query;
+  const { title } = req.body;
 
   try {
     // handle errors for ids

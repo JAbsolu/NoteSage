@@ -16,11 +16,11 @@ const addUserInfo = async (req, res) => {
     // create user info
     const userInfo = new UserInfo({
       userId: userId,
-      intro,
-      school,
-      graduationDate,
-      image,
-      socials
+      intro: intro,
+      school: school,
+      graduationDate: graduationDate,
+      image: image,
+      socials: socials
     });
 
     // save user info

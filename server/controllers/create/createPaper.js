@@ -12,10 +12,10 @@ const createPaper = async (req, res) => {
 
     // create new paper
     const paper = new Paper({
-      moduleId,
-      title,
-      body,
-      feedback
+      moduleId: moduleId,
+      title: title,
+      body: body,
+      feedback: feedback
     });
 
     await paper.save();

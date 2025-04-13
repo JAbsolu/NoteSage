@@ -1,6 +1,6 @@
 require('dotenv').config();
 const cors = require("cors");
-const path = require("path");
+const helmet = require("helmet");
 const express = require("express");
 const bodyparser = require("body-parser");
 const dbConnection = require("./database/index")
@@ -44,11 +44,11 @@ const sendEmail = require("./routes/email/index");
  
 // create express app
 const app = express();
-// use cors
-app.use(cors());
-// use body-parser
+app.use(cors({
+  origin: "http://localhost:3000"
+}));
+app.use(helmet());
 app.use(bodyparser.json());
-//connect to the database
 dbConnection();
 
 // Use routes
