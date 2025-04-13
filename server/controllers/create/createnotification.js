@@ -1,19 +1,19 @@
-const Notification = require("../../models/Notificatios");
+const Notification = require("../../models/Notifications");
 const User = require("../../models/User");
 
 const createNotificationList = async (req, res) => {
-  try {
-    const { id } = req.query;
+  const { id } = req.query;
 
+  try {
     // handle errors for ids
     const user = await User.findById(id);
-
-    if (!module) return res.status(400).json({ message: "module not found" });
+    if (!user) return res.status(404).json({ message: "user not found" });
 
     // create new paper
     const notification = new Notification({
       userId: id,
-      notifications: []
+      title: title,
+      date: new Date()
     });
 
     await notification.save();

@@ -49,10 +49,6 @@ const Signin = () => {
       console.log("userid:", userId, "token:", token); // for testing
       router.push("/dashboard");
       setLoginMssg(result.message);
-      
-      } else {
-        setLoginMssg(result.message);
-      }
 
     } catch (error) {
       setError(error.message);
