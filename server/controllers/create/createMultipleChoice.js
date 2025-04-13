@@ -4,7 +4,7 @@ const Quiz = require("../../models/Quiz");
 
 const createMultipleChoice = async (req, res) => {
   try {
-    const { quizId, question, choices } = req.body;
+    const { userId, quizId, question, choices } = req.body;
 
     // error handling for ids
     const quiz = await Quiz.findById(quizId);
@@ -12,6 +12,7 @@ const createMultipleChoice = async (req, res) => {
 
     // create new multiple choice
     const multipleChoice = new MultipleChoice({
+      userId: userId,
       quizId: quizId,
       question: question,
       choices: choices
