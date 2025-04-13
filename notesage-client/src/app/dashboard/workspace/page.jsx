@@ -240,6 +240,7 @@ const WorkSpace = () => {
     }
     
     const body =  {
+      userId: userId,
       quizId: id,
       question: quizQuestion,
       choices: multipleChoices
