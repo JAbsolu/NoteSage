@@ -11,10 +11,10 @@ const register = async (req, res) => {
 
     // create new user
     const user = new User({
-      firstName,
-      lastName,
-      emailAddress,
-      password
+      firstName: firstName,
+      lastName: lastName,
+      emailAddress: emailAddress,
+      password: password
     });
 
     // save the user

@@ -14,10 +14,10 @@ const createQuiz = async (req, res) => {
 
     // create new Quiz
     const quiz = new Quiz({
-      userId,
-      moduleId,
-      title,
-      description,
+      userId: userId,
+      moduleId: moduleId,
+      title: title,
+      description: description,
       contents: []
     });
 

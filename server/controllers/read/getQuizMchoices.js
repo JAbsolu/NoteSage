@@ -6,17 +6,17 @@ const getTestChoices = async (req, res) => {
     const { id } = req.query;
     //check if a test exists with this id
     const quiz = await Quiz.findById(id);
-    if (!quiz) return quiz.status(400).json({ message: "invalid test id" });
+    if (!quiz) return quiz.status(400).json({ message: "invalid quiz id" });
 
-    const choices = await MultipleChoice.find({ testId: id });
+    const choices = await MultipleChoice.find({ quizId: id });
 
     if (choices.length > 0) {
-      res.status(200).json({ message: `all multiple choices for the test ${quiz.title} have been retrieved` });
+      res.status(200).json({ message: `Fetch all questions for quiz ${quiz.title}`, data: choices });
     } else {
-      res.status(200).json({ message: `no multiple choices found` });
+      res.status(200).json({ message: `no questions found for ${quiz.title}`, data: choices });
     }
-  } catch (err) {
-
+  } catch (error) {
+    res.status(500).json({ message: error.message });
   }
 }
 
