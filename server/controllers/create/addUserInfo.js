@@ -1,6 +1,6 @@
 const UserInfo = require("../../models/UserInfo");
 const User = require("../../models/User");
-const Notification = require("../../models/Notificatios");
+const Notification = require("../../models/Notifications");
 
 const addUserInfo = async (req, res) => {
 

@@ -1,6 +1,6 @@
 const Module = require("../../models/Module");
 const User = require("../../models/User");
-const Notification = require("../../models/Notificatios");
+const Notification = require("../../models/Notifications");
 
 const createModule = async (req, res) => {
   try {

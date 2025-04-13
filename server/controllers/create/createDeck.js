@@ -1,6 +1,6 @@
 const Deck = require("../../models/Deck");
 const Module = require("../../models/Module");
-const Notification = require("../../models/Notificatios");
+const Notification = require("../../models/Notifications");
 
 const createDeck = async (req, res) => {
   try {

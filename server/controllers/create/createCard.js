@@ -1,6 +1,6 @@
 const Card = require("../../models/Card");
 const Deck = require("../../models/Deck");
-const Notification = require("../../models/Notificatios");
+const Notification = require("../../models/Notifications");
 
 const createCard = async (req, res) => {
   try {
