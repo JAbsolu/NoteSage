@@ -9,12 +9,11 @@ import {
   Typography,
   CircularProgress,
 } from '@mui/material';
-
 import CloseIcon from '@mui/icons-material/Close';
 import NotificationsActiveIcon from '@mui/icons-material/NotificationsActive';
-
 import { getCookie } from '@/util/cookies';
 import { useEffect, useState } from 'react';
+import { grey } from '@mui/material/colors';
 
 const getSeverity = (text) => {
   const lower = text.toLowerCase();
@@ -25,27 +24,7 @@ const getSeverity = (text) => {
   return 'info';
 };
 
-export default function NotificationsModal({ open, onClose }) {
-  const [notifications, setNotifications] = useState([]);
-  const [loading, setLoading] = useState(true);
-
-  const userId = getCookie("userId");
-
-  useEffect(() => {
-    if (!open) return; // Fetch only when modal opens
-    fetch(`http://localhost/notifications?id=${userId}`)
-      .then((res) => res.json())
-      .then((data) => {
-        const notificationList = data?.data?.[0]?.notifications || [];
-        setNotifications(notificationList);
-        setLoading(false);
-      })
-      .catch((error) => {
-        console.error("Failed to fetch notifications", error);
-        setNotifications([]);
-        setLoading(false);
-      });
-  }, [open]);
+export default function NotificationsModal({ open, onClose, notifications, loading }) {
 
   return (
     <Modal open={open} onClose={onClose}>
@@ -53,7 +32,7 @@ export default function NotificationsModal({ open, onClose }) {
         bgcolor: 'background.paper',
         p: 2,
         borderRadius: 2,
-        maxWidth: 400,
+        maxWidth: 300,
         maxHeight: 600,
         overflowY: "auto",
         scrollbarWidth: "none",  // For Firefox
@@ -61,7 +40,7 @@ export default function NotificationsModal({ open, onClose }) {
         ml: 20,
         mt: 9,
       }}>
-        <Typography variant="h6" className='text-black' mb={2}>Notifications</Typography>
+        <Typography variant="h6" className='text-black' mb={1}>Notifications</Typography>
         {loading ? (
           <Box display="flex" justifyContent="center"><CircularProgress /></Box>
         ) : notifications.length === 0 ? (
@@ -93,10 +72,10 @@ function NotificationItem({ message }) {
           <CloseIcon fontSize="inherit" />
         </IconButton>
       }
-      sx={{ mb: 1 }}
+      sx={{ mb: 1, py: 0.5}}
     >
-      <AlertTitle mb={0}>Notification</AlertTitle>
-      {message}
+      <AlertTitle mb={0} fontSize="10.5pt">Notification</AlertTitle>
+      <Typography fontSize="9pt" color={grey[800]}>{message}</Typography>
     </Alert>
   );
 }

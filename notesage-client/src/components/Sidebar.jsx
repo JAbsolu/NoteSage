@@ -4,10 +4,41 @@ import { FiHome, FiBell } from "react-icons/fi";
 import { MdOutlineComputer, MdOutlineQuiz } from "react-icons/md";
 import { PiCardsThree } from "react-icons/pi";
 import NotificationsModal from "@/components/Notifications"; // Import the Modal
+import { getCookie } from "@/util/cookies";
+
+const getSeverity = (text) => {
+  const lower = text.toLowerCase();
+  if (lower.includes("error") || lower.includes("problem") || lower.includes("server")) return 'error';
+  if (lower.includes("finished") || lower.includes("well done")) return 'success';
+  if (lower.includes("friend") || lower.includes("request")) return 'info';
+  if (lower.includes("mail") || lower.includes("warn")) return 'warning';
+  return 'info';
+};
 
 const Sidebar = ({ isExpanded }) => {
   const [allNotifications, setAllNotifications] = useState([]);
   const [openModal, setOpenModal] = useState(false);
+
+   const [notifications, setNotifications] = useState([]);
+    const [loading, setLoading] = useState(true);
+  
+    const userId = getCookie("userId");
+  
+    useEffect(() => {
+      if (!open) return; // Fetch only when modal opens
+      fetch(`http://localhost/notifications?id=${userId}`)
+        .then((res) => res.json())
+        .then((data) => {
+          const notificationList = data?.data?.[0]?.notifications || [];
+          setNotifications(notificationList);
+          setLoading(false);
+        })
+        .catch((error) => {
+          console.error("Failed to fetch notifications", error);
+          setNotifications([]);
+          setLoading(false);
+        });
+    }, [open]);
 
   useEffect(() => {
     const notifications = JSON.parse(localStorage.getItem("notifications"));
@@ -29,7 +60,7 @@ const Sidebar = ({ isExpanded }) => {
           >
             <FiBell className="text-xl -me-4" />
             <div className="flex items-center justify-center bg-red-600 border min-w-6 min-h-6 rounded-full text-xs">
-              {allNotifications?.length || "0"}
+              {notifications?.length || "0"}
             </div>
             {isExpanded && <span className="text-white">Notifications</span>}
           </button>
@@ -51,7 +82,7 @@ const Sidebar = ({ isExpanded }) => {
         </nav>
       </div>
 
-      <NotificationsModal open={openModal} onClose={() => setOpenModal(false)} />
+      <NotificationsModal open={openModal} onClose={() => setOpenModal(false)} notifications={notifications} loading={loading} />
     </>
   );
 };
