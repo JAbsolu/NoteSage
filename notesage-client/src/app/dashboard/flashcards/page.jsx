@@ -301,3 +301,5 @@ const FlaschardsPage = () => {
     </div>
   )
 }
+
+export default FlaschardsPage;
