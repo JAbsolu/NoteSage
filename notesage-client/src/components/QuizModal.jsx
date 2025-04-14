@@ -1,20 +1,14 @@
 import { getCookie } from "@/util/cookies";
 import React, { useState } from "react";
 
-const QuizModal = ({ moduleId, token, closeModal}) => {
+const QuizModal = ({ moduleId, token, getQuizzes, closeModal }) => {
   const [newTitle, setNewTitle] = useState("");
   const [newDescription, setNewDescription] = useState("");
   const userId = getCookie("userId");
 
   const API_BASE_URL = process.env.API_BASE_URL || "http://localhost";
-  
-  const createModal = () => {
-    createQuiz(moduleId);
-    closeModal(); // Close modal after creating the deck
-  };
 
-  //create quiz
-  const createQuiz = async(id) => {
+  const createQuiz = async (id) => {
     if (!id) {
       console.log("No module id provided");
       return;
@@ -25,30 +19,34 @@ const QuizModal = ({ moduleId, token, closeModal}) => {
         method: "POST",
         headers: {
           "Content-Type": "application/json",
-          "Authorization": token
+          "Authorization": token,
         },
         body: JSON.stringify({
           userId: userId,
           moduleId: id,
           title: newTitle,
           description: newDescription,
-          contents: []
-        })
-      })
+          contents: [],
+        }),
+      });
 
-      // get result
       const result = await response.json();
 
       if (response.ok) {
-        console.log(response.status, "Quizz created succesfully", result);
+        console.log(response.status, "Quiz created successfully", result);
+
+        // Fetch latest quizzes after creating one
+        await getQuizzes(moduleId);
+
+        // Close modal after refresh
+        closeModal();
       } else {
         console.log(response.status, result);
       }
-
     } catch (error) {
       console.log(error);
     }
-  }
+  };
 
   return (
     <div
@@ -74,16 +72,15 @@ const QuizModal = ({ moduleId, token, closeModal}) => {
           className="w-full p-3 border rounded-lg"
         ></textarea>
 
-        {/* Modal Actions */}
         <div className="flex justify-end space-x-2 mt-4">
           <button
-            onClick={closeModal} // Proper function call
+            onClick={closeModal}
             className="bg-gray-300 px-4 py-2 rounded-lg hover:bg-gray-400"
           >
             Cancel
           </button>
           <button
-            onClick={createModal}
+            onClick={() => createQuiz(moduleId)}
             className="bg-blue-500 text-white px-4 py-2 rounded-lg hover:bg-blue-700"
           >
             Create

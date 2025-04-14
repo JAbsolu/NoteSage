@@ -266,7 +266,7 @@ const FlaschardsPage = () => {
               { deckFlashcards ? deckFlashcards.map((card, index) => (
                 index < 6 ? (
                   <div key={card._id} 
-                    className="flex flex-col justify-between bg-gray-100  py-2 px-3 rounded-md h-[8em] cursor-pointer max-w-[25.3em] hover:bg-gray-200"
+                    className="flex flex-col justify-between bg-gray-100  py-2 px-3 h-[8em] cursor-pointer w-full hover:bg-gray-200"
                   >
                     {/* flashcard col 1 */}
                     <div className="">
@@ -301,3 +301,5 @@ const FlaschardsPage = () => {
     </div>
   )
 }
+
+export default FlaschardsPage;

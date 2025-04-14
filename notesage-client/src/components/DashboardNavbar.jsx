@@ -25,19 +25,14 @@ const DashboardNavbar = ({ toggleSidebar, firstName, lastName }) => {
   useEffect(() => {
     // Fetch all data on mount
     Promise.all([
-      fetch("http://localhost/decks",{
-        headers: {
-          "Content-Type":"application/json",
-          "Authorization": token
-        }
-      }).then((res) => res.json()),
-      fetch("http://localhost/modules").then((res) => res.json()),
-      fetch("http://localhost/quizzes").then((res) => res.json()),
+      fetch("http://localhost/decks", { headers: { Authorization: token } }).then(res => res.json()),
+      // fetch("http://localhost/modules", { headers: { Authorization: token } }).then(res => res.json()),
+      fetch("http://localhost/quizzes", { headers: { Authorization: token } }).then(res => res.json()),
     ])
       .then(([decksData, modulesData, quizzesData]) => {
-        setDecks(decksData.data || []);
-        setModules(modulesData.data || []);
-        setQuizzes(quizzesData.data || []);
+        setDecks(decksData?.data || []);
+        setModules(modulesData?.data || []);
+        setQuizzes(quizzesData?.data || []);
       })
       .catch((err) => console.error("Error fetching data:", err));
   }, []);

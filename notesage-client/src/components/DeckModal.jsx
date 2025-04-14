@@ -1,23 +1,18 @@
 import React, { useState } from "react";
-import Cookies from "js-cookie";
 import { getCookie } from "@/util/cookies";
 
-const DeckModal = ({ closeModal, moduleId }) => {
+const DeckModal = ({ closeModal, moduleId, getModuleDecks }) => {
   const [newDeckTitle, setNewDeckTitle] = useState("");
   const [newDeckDescription, setNewDeckDescription] = useState("");
   const [isPublic, setIsPublic] = useState(false);
-  const [decks, setDecks] = useState([]);
   const token = getCookie("token");
   const userId = getCookie("userId");
 
-  // create dekcs
   const createDeck = async () => {
     if (!moduleId) {
       console.log("Module ID not found. Unable to create deck.");
       return;
     }
-
-    console.log("Creating deck for module ID:", moduleId);
 
     try {
       const response = await fetch(`http://localhost/create-deck`, {
@@ -31,48 +26,22 @@ const DeckModal = ({ closeModal, moduleId }) => {
           moduleId: moduleId,
           title: newDeckTitle,
           description: newDeckDescription,
-          contens: [],
+          contents: [], // fix typo here
           public: isPublic
         }),
       });
 
       if (response.ok) {
         const result = await response.json();
-        console.log(response.status, response.statusText, "Deck created successfully", result);
-        closeModal(); // Close modal after successful creation
+        console.log("Deck created successfully:", result.message);
+
+        // Fetch the latest decks after creation
+        await getModuleDecks(moduleId);
+
+        // Close modal after decks are fetched
+        closeModal();
       } else {
-        console.log(response.status, response.statusText, "Failed to create deck.");
-      }
-    } catch (error) {
-      console.log(error);
-    }
-
-    getModuleDecks(moduleId);
-  };
-
-  // get module decks
-  const getModuleDecks = async (id) => {
-    if (!id) {
-      console.log("No module selected.");
-      return;
-    }
-
-    try {
-      const response = await fetch(`http://localhost/module-decks?id=${id}`, {
-        method: "GET",
-        headers: {
-          "Content-Type": "application/json",
-          "Authorization": token,
-        },
-      });
-
-      const result = await response.json();
-
-      if (response.ok) {
-        console.log("Status:", response.status, result.message);
-        setDecks(result.data);
-      } else {
-        console.log("Status:", response.status, result.message);
+        console.log("Failed to create deck.");
       }
     } catch (error) {
       console.log(error);
@@ -87,7 +56,7 @@ const DeckModal = ({ closeModal, moduleId }) => {
       }}
     >
       <div className="bg-white p-6 rounded-lg shadow-lg w-96">
-        <h2 className="text-lg font-semibold mb-4">Create New Deck</h2>
+        <h2 className="text-lg font-semibold mb-4">Create new flashcard set</h2>
 
         <input
           type="text"
@@ -102,22 +71,27 @@ const DeckModal = ({ closeModal, moduleId }) => {
           onChange={(e) => setNewDeckDescription(e.target.value)}
           className="w-full p-3 border rounded-lg"
         ></textarea>
+        
         <span className="flex gap-4">
           <label className="block mt-4 text-sm">Public</label>
-          <input type="checkbox" className="mt-4" onChange={() => isPublic ? setIsPublic(false) : setIsPublic(true)}/>
+          <input 
+            type="checkbox" 
+            className="mt-4" 
+            onChange={() => setIsPublic(!isPublic)} 
+          />
         </span>
-       
 
         <div className="flex justify-end space-x-2 mt-4">
-          <button onClick={closeModal} className="bg-gray-300 px-4 py-2 rounded-lg hover:bg-gray-400">
+          <button 
+            onClick={closeModal} 
+            className="bg-gray-300 px-4 py-2 rounded-lg hover:bg-gray-400"
+          >
             Cancel
           </button>
           <button 
-            onClick={() => {
-              createDeck();
-              getModuleDecks(moduleId)
-            }} 
-            className="bg-blue-500 text-white px-4 py-2 rounded-lg hover:bg-blue-700">
+            onClick={createDeck} 
+            className="bg-blue-500 text-white px-4 py-2 rounded-lg hover:bg-blue-700"
+          >
             Create
           </button>
         </div>

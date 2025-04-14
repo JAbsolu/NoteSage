@@ -3,14 +3,16 @@
 import { useState } from "react";
 import Link from "next/link";
 import { FiMenu, FiX } from "react-icons/fi"; // Import icons for mobile menu
+import { useRouter } from "next/navigation";
 
 const Navbar = () => {
   const [isOpen, setIsOpen] = useState(false);
+  const router = useRouter();
 
   return (
     <nav className="bg-white px-6 md:px-24 py-3 flex justify-between items-center shadow-md">
       {/* Logo */}
-      <div className="flex items-center">
+      <div className="flex items-center hover:cursor-pointer" onClick={() => router.push("/") }>
         <div className="bg-blue text-white font-bold text-lg w-10 h-10 flex items-center justify-center rounded-full">
           NS
         </div>
@@ -19,26 +21,27 @@ const Navbar = () => {
 
       {/* Desktop Navigation Links */}
       <div className="hidden md:flex space-x-6">
-        <Link href="/" className="text-gray hover:text-blue">
+        <Link href="/" className="text-gray hover:text-blue focus:underline hover:underline">
           Home
         </Link>
         <Link href="/howItWorks" className="text-gray focus:underline hover:underline">
           How it works
         </Link>
-        <Link href="/about" className="text-gray hover:text-blue">
+        <Link href="/about" className="text-gray hover:text-blue focus:underline hover:underline">
           About Us
         </Link>
-        <Link href="/contact-us" className="text-gray hover:text-blue">
+        <Link href="/contact-us" className="text-gray hover:text-blue focus:underline hover:underline">
           Contact Us
         </Link>
       </div>
 
       {/* Auth Buttons (Desktop) */}
       <div className="hidden md:flex space-x-4">
-        <Link href="/login" className="px-6 py-1 border-2 border-blue text-blue rounded-full hover:bg-blue hover:font-semibold transition">
+        <Link href="/login" className="px-6 py-1 border-2 border-blue text-blue rounded-full hover:bg-blue hover:font-bold transition">
           Sign in
         </Link>
-        <Link href="/signup" className="px-6 py-1 border-2 border-blue bg-blue text-white rounded-full hover:bg-blue-600 transition">
+        <Link href="/signup" className="px-6 py-1 border-2 border-blue bg-blue text-white rounded-full hover:font-bold transition">
+        Sign up
         </Link>
       </div>
 

@@ -241,16 +241,15 @@ const QuizzesPage = () => {
             {quizQuestions?.slice(0, 6).map((question) => (
               <div
                 key={question._id}
-                className="flex flex-col justify-between bg-gray-100 py-2 px-3 rounded-md h-[8em] cursor-pointer max-w-[21.68em] hover:bg-gray-200"
+                className="flex justify-between bg-gray-100 py-2 px-3 cursor-pointer w-full hover:bg-gray-200"
               >
-                {/* Flashcard front and back */}
+                {/* Quiz and answer*/}
                 <div>
                   <p className="font-bold text-gray-700 mb-1 text-md">{question.question}</p>
-                  {/* <p className="text-xs text-gray-600 h-[3.7em] overflow-hidden">{question.back}</p> */}
+                  <p className="text-xs text-gray-600 h-[3.7em] overflow-hidden">{question.choices["A"]}</p>
                 </div>
                 {/* Flashcard actions */}
-                <div className="flex justify-between pt-4">
-                  <IoMdExpand className="hover:text-blue-500 hover:text-lg" />
+                <div className="pt-4">
                   <MdDeleteOutline
                     onClick={() => {
                       setIsModalOpen(true);
