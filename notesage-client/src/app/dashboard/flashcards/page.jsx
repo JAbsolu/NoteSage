@@ -25,6 +25,7 @@ const FlaschardsPage = () => {
   const [flashcardId, setFlashcardId] = useState("");
   const [isModalOpen, setIsModalOpen] = useState(false);
   const [isStudyCardModal, setIsStudyCardModal] = useState(false);
+  const [defaultFlashCardMessage, setHideDefaultFlashcardMessage] = useState(false);
   const userId = getCookie("userId");
   const token = getCookie("token");
   const router = useRouter();
@@ -259,12 +260,12 @@ const FlaschardsPage = () => {
             <div 
               className="flex flex-wrap gap-3"
               onClick={() => {
-                setIsStudyCardModal(true);
                 getDeckFlashcards(deckId);
+                setIsStudyCardModal(true);
+                setHideDefaultFlashcardMessage(true);
               }}
             >
-              { deckFlashcards ? deckFlashcards.map((card, index) => (
-                index < 6 ? (
+              { deckFlashcards && deckFlashcards.map((card, index) => (
                   <div key={card._id} 
                     className="flex flex-col justify-between bg-gray-100  py-2 px-3 h-[8em] cursor-pointer w-full hover:bg-gray-200"
                   >
@@ -288,10 +289,13 @@ const FlaschardsPage = () => {
                       />
                     </div>
                 </div>
-                ) : ""
-              )) : null
-
+              )) 
               }
+              {deckFlashcards.length === 0 && (
+                <div className="h-[35em] text-gray-500 p-4 italic border-2 border-dashed w-full">
+                  <p className="text-black">Select a flashcard set to view flashcards.</p>
+                </div>
+              )}
           </div>
           </div>
          
