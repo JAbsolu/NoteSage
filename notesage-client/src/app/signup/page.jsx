@@ -15,7 +15,8 @@ const Signup = () => {
     emailAddress: "",
     password: "",
   });
-
+  const [confirmPassword, setConfirmPassword] = useState("");
+  const [signupError, setSignupError] = useState("");
   const [registrationMessage, setRegistrationMessage] = useState(); //handle form error messages
   const router = useRouter(); //use router
 
@@ -25,6 +26,10 @@ const Signup = () => {
 
   const handleSubmit = async (e) => {
     e.preventDefault();
+    if (formData.password !== confirmPassword) {
+      setSignupError("Passwords do not match");
+      return;
+    }
     try {
       const response = await fetch("http://localhost/register", {
         method: "POST",
@@ -109,8 +114,8 @@ const Signup = () => {
                 type="password"
                 name="confirmPassword"
                 placeholder="Confirm password"
-                value={formData.confirmPassword}
-                onChange={handleChange}
+                value={confirmPassword}
+                onChange={(e) => setConfirmPassword(e.target.value)}
                 className="w-full p-3 bg-gray-200 rounded-lg focus:outline-none focus:ring-2 focus:ring-blue"
                 required
               />
@@ -134,6 +139,9 @@ const Signup = () => {
           </p>
           <p className="text-center font-semibold text-blue d-none mt-4">
             {registrationMessage}
+          </p>
+          <p className="text-red-500 text-center">
+            {signupError}
           </p>
         </div>
       </section>

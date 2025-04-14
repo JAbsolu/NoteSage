@@ -25,25 +25,27 @@ const Sidebar = ({ isExpanded }) => {
     const userId = getCookie("userId");
   
     useEffect(() => {
-      if (!open) return; // Fetch only when modal opens
-      fetch(`http://localhost/notifications?id=${userId}`)
-        .then((res) => res.json())
-        .then((data) => {
-          const notificationList = data?.data?.[0]?.notifications || [];
-          setNotifications(notificationList);
-          setLoading(false);
-        })
-        .catch((error) => {
-          console.error("Failed to fetch notifications", error);
-          setNotifications([]);
-          setLoading(false);
-        });
-    }, [open]);
-
-  useEffect(() => {
-    const notifications = JSON.parse(localStorage.getItem("notifications"));
-    setAllNotifications(notifications);
-  }, []);
+      if (!open) return; // Only run when modal is open
+    
+      const interval = setInterval(() => {
+        fetch(`http://localhost/notifications?id=${userId}`)
+          .then((res) => res.json())
+          .then((data) => {
+            const notificationList = data?.data?.[0]?.notifications || [];
+            setNotifications(notificationList);
+            setLoading(false);
+          })
+          .catch((error) => {
+            console.error("Failed to fetch notifications", error);
+            setNotifications([]);
+            setLoading(false);
+          });
+      }, 2000); // every 2 seconds
+    
+      // Cleanup function
+      return () => clearInterval(interval);
+    
+    }, [open, userId]); 
 
   return (
     <>

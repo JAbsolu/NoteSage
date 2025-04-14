@@ -1,16 +1,16 @@
 import { getCookie } from "@/util/cookies";
 import React, { useState } from "react";
 
-const ModuleModal = ({ closeModal, userId}, token) => {
+const ModuleModal = ({ closeModal, userId, token, getModules}) => {
   const [newModuleTitle, setNewModuleTitle] = useState("");
   const [isPublic, setIsPublic] = useState(false);
+  const [modalError, setModalError] = useState("");
 
   // API Base URL
 const API_BASE_URL = process.env.API_BASE_URL || "http://localhost";
   
   const createModal = () => {
     createModule(userId);
-    closeModal(); // Close modal after creating the deck
   };
 
   // create module
@@ -36,9 +36,12 @@ const API_BASE_URL = process.env.API_BASE_URL || "http://localhost";
 
       if (response.ok) {
         const result = await response.json(); // print the result in the console to confirm the card is created
+        await getModules(userId);
+        closeModal();
         console.log(response.status, "Module created successfully", result);
       } else {
         console.log(response.status, "Error creating module");
+        setModalError("Error creating module")
       }
     } catch (error) {
       console.log(error);
@@ -53,7 +56,7 @@ const API_BASE_URL = process.env.API_BASE_URL || "http://localhost";
       }}
     >
       <div className="bg-white p-6 rounded-lg shadow-lg w-96">
-        <h2 className="text-lg font-semibold mb-4">Create New Deck</h2>
+        <h2 className="text-lg font-semibold mb-4">Create New Lesson Group</h2>
 
         <input
           type="text"
@@ -67,6 +70,10 @@ const API_BASE_URL = process.env.API_BASE_URL || "http://localhost";
         <span className="flex gap-4">
           <label className="block mt-4 text-sm">Public</label>
           <input type="checkbox" className="mt-4" onChange={() => isPublic ? setIsPublic(false) : setIsPublic(true)}/>
+        </span>
+
+        <span className="text-red">
+          {modalError}
         </span>
 
         {/* Modal Actions */}

@@ -476,7 +476,7 @@ const WorkSpace = () => {
             {/* Col 2 */}
             <div className="w-[50%]">
               {/* modules */}
-              <LessonGroups modules={modules} firstName={firstName} setShowDecks={moduleId} />
+              <LessonGroups modules={modules} firstName={firstName} setShowDecks={moduleId} getModules={getModules} />
             </div>
 
           </div>
@@ -485,9 +485,9 @@ const WorkSpace = () => {
           <AiGeneration/>
         </div>
 
-        {isModuleModalOpen && <ModuleModal closeModal={() => setIsModuleModalOpen(false)} userId={userId} token={token} />}
-        {isModalOpen && <DeckModal closeModal={() => setIsModalOpen(false)} moduleId={moduleId} />}
-        {isQuizModalOpen && <QuizModal moduleId={moduleId} token={token} closeModal={() => setIsQuizModalOpen(false)} />}
+        {isModuleModalOpen && <ModuleModal closeModal={() => setIsModuleModalOpen(false)} userId={userId} token={token} getModules={getModules}/>}
+        {isModalOpen && <DeckModal closeModal={() => setIsModalOpen(false)} moduleId={moduleId} getModuleDecks={getModuleDecks} />}
+        {isQuizModalOpen && <QuizModal moduleId={moduleId} token={token} getQuizzes={getQuizzes} closeModal={() => setIsQuizModalOpen(false)} />}
       </div>
     </div>
   );
