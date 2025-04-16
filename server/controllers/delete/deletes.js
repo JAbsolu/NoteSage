@@ -6,6 +6,7 @@ const Paper = require("../../models/Paper")
 const Quiz = require("../../models/Quiz")
 const User = require("../../models/User")
 const UserInfo = require("../../models/UserInfo")
+const Task = require("../../models/Task")
 
 // delete user
 exports.deleteUser = async(req, res) => {
@@ -149,6 +150,24 @@ exports.deleteUserInfo = async (req, res) => {
     }
 
     res.status(200).json({ message: `user info ${id} has been deleted` });
+  } catch (error) {
+    res.status(500).json({ message: error });
+  }
+}
+
+//delete task info
+exports.deleteTask = async (req, res) => {
+  try {
+    const { id } = req.query;
+
+    const deleteTask = await Task.findOneAndDelete({ _id: id });
+
+    if (!deleteTask) {
+      res.status(400).json({ message: `The task ${id} is not found`});
+      return;
+    }
+
+    res.status(200).json({ message: `Task ${id} has been deleted` });
   } catch (error) {
     res.status(500).json({ message: error });
   }

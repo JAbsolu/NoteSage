@@ -2,7 +2,7 @@
 
 import Sidebar from "@/components/Sidebar";
 import Link from "next/link";
-import { FiUpload, FiCheckCircle, FiCircle } from "react-icons/fi";
+import { FiUpload, FiCheckCircle, FiCircle, FiMoreHorizontal } from "react-icons/fi";
 import { TfiArrowCircleLeft } from "react-icons/tfi";
 import { IoMdClose } from "react-icons/io";
 import { MdOutlineQuiz } from "react-icons/md"; 
@@ -24,8 +24,17 @@ function Dashboard() {
   const [lastname, setLastname] = useState("");
   const [emailaddress, setEmailaddress] = useState("");
   const [showModal, setShowModal] = useState(false);
+  const [showDeleteModal, setShowDeleteModal] = useState(false);
+  const [activeDropdownIndex, setActiveDropdownIndex] = useState(null);
+  const [showUpdateTaskModal, setShowUpdateTaskModal] = useState(false);
+  const [selectedTaskInfo, setSelectedTaskInfo] = useState({
+    title: "",
+    description: "",
+    completed: false
+  });
   const userId = getCookie("userId");
   const token = getCookie("token");
+  const [taskId, setTaskId] = useState("");
   const [taskInfo, setTaskInfo] = useState({
     id: "",
     title: "",
@@ -133,6 +142,58 @@ function Dashboard() {
     }
   };
 
+  // update task
+  const updateTask = async(taskId) => {
+    console.log("task id",taskId)
+    try {
+      const response = await fetch(`http://localhost/update-task`, {
+        method: "PUT",
+        headers: {
+          "Content-Type": "application/json",
+          "Authorization": token
+        },
+        body: JSON.stringify(selectedTaskInfo)
+      })
+
+      const result = await response.json();
+
+      if (!response.ok) {
+        console.log(response.status, result.message);
+        return;
+      }
+
+      await getTasks(userId);
+      console.log(response.status, result.message, result.data);
+    } catch (error) {
+      console.log(error)
+    }
+  }
+
+  //delete task
+  const deleteteTask = async(taskId) => {
+    try {
+      const response = await fetch(`http://localhost/delete-task?id=${taskId}`, {
+        method: "DELETE",
+        headers: {
+          "Content-Type": "application/json",
+          "Authorization": token
+        }
+      })
+
+      const result = await response.json();
+
+      if (!response.ok) {
+        console.log(response.status, result.message);
+        return;
+      }
+
+      await getTasks(userId);
+      console.log(response.status, result.message, result.data);
+    } catch (error) {
+      console.log(error)
+    }
+  }
+
   //useEffects
   useEffect(() => {
     if (userId) {
@@ -232,23 +293,64 @@ function Dashboard() {
           {/* Checklist Section */}
           <div className="bg-white p-6 rounded-lg shadow-md mt-4 min-h-[30em]">
             <h2 className="text-xl font-semibold mb-4">My Checklist</h2>
-            <div className="grid grid-cols-1 md:grid-cols-2 gap-4">
+            <div className="flex flex-wrap gap-y-4 gap-x-[1%]">
               {/* Flashcards Checklist */}
-              <div className="space-y-4">
-                {tasks && tasks.slice(0, tasks.length/2).map((task, i) => (
+                {tasks &&
+                  tasks.map((task, i) => (
                     <div
                       key={i}
-                      className="flex items-center bg-gray-100 p-3 rounded-lg shadow hover:bg-gray-200 transition"
+                      className={`flex justify-between items-center ${task.completed ? "bg-gray-300 hover:bg-gray-300 text-gray-[600]" : "bg-gray-100 hover:bg-gray-200 hover:cursor-pointer"} py-3 px-4 w-[49.5%] rounded-lg  transition relative`}
                     >
-                      <input type="checkbox" className="w-4 h-4 mr-4" />
-                      <div>
-                        <h3 className="font-bold">{task.title}</h3>
-                        <p className="text-sm text-gray-600">
-                          {task.description}
-                        </p>
+                      <div className="flex items-center">
+                        <div>
+                          <h3 className="font-bold">{task.title}</h3>
+                          <p className="text-sm text-gray-600">{task.description}</p>
+                        </div>
+                      </div>
+
+                      <div className="relative">
+                        <button
+                          onClick={() =>
+                            setActiveDropdownIndex(activeDropdownIndex === i ? null : i)
+                          }
+                          className="p-2 hover:bg-gray-300 rounded-full"
+                        >
+                          <FiMoreHorizontal size={18} />
+                        </button>
+
+                        {activeDropdownIndex === i && (
+                          <div className="absolute right-0 mt-2 w-32 bg-white border rounded-lg shadow-lg z-10">
+                            <button
+                              className="block w-full text-left px-4 py-2 text-sm hover:bg-gray-100"
+                              onClick={() => {
+                                setSelectedTaskInfo({
+                                  id: task._id,
+                                  title: task.title,
+                                  description: task.description,
+                                  completed: task.completed
+                                })
+                                setActiveDropdownIndex(false)
+                                setShowUpdateTaskModal(true)
+                              }}
+                            >
+                              Update
+                            </button>
+                            <button
+                              className="block w-full text-left px-4 py-2 text-sm hover:bg-gray-100"
+                              onClick={() => {
+                                setTaskId(task._id)
+                                setShowDeleteModal(true)
+                                setActiveDropdownIndex(false)
+                              }}
+                            >
+                              Delete
+                            </button>
+                          </div>
+                        )}
                       </div>
                     </div>
                   ))}
+
                   {
                     tasks.length === 0 && (
                       <div className="h-[20em] p-4 rounded-md flex justify-start border-2 w-full border-dashed">
@@ -256,50 +358,21 @@ function Dashboard() {
                       </div>
                     )
                   }
-                {/* Add Task Button for Flashcards */}
-                {/* <button className="w-full mt-2 bg-blue-500 text-white py-2 rounded-lg hover:bg-blue-600 transition">
-        + Add Flashcard Task
-      </button> */}
-              </div>
-
-              {/* Quizzes Checklist */}
-              <div className="space-y-4">
-              {tasks && tasks.slice(tasks.length / 2, tasks.length - 1).map((task, i) => (
-                  <div
-                    key={i}
-                    className="flex items-center bg-gray-100 p-3 rounded-lg shadow hover:bg-gray-200 transition"
-                  >
-                    <input type="checkbox" className="w-4 h-4 mr-4" />
-                    <div>
-                      <h3 className="font-bold">{task.title}</h3>
-                      <p className="text-sm text-gray-600">
-                        {task.description}
-                      </p>
-                    </div>
-                  </div>
-                ))}
-                 {
-                    tasks.length === 0 && (
-                      <div className="h-[20em] flex justify-start border-2 w-full border-dashed">
-                      </div>
-                    )
-                  }
-              </div>
                {/* Add Task Button*/}
-             <button
-              className="min-w-1/2 max-w-full mt-4 bg-blue text-white py-2 rounded-lg hover:font-bold transition"
-              onClick={() => { 
-                setTaskInfo({
-                  id: userId,   // <-- always latest value
-                  title: "",
-                  description: "",
-                  completed: false
-                })
-                setShowModal(true);
-              }}
-            >
-              + Create New Task
-            </button>
+              <button
+                className="lg:w-[50%] mt-4 bg-blue text-white py-2 rounded-lg hover:font-bold transition"
+                onClick={() => { 
+                  setTaskInfo({
+                    id: userId,   // <-- always latest value
+                    title: "",
+                    description: "",
+                    completed: false
+                  })
+                  setShowModal(true);
+                }}
+              >
+                + Create New Task
+              </button>
             </div>
           </div>
 
@@ -351,6 +424,8 @@ function Dashboard() {
           </div>
         </div>
       </div>
+
+      {/* show create task modal */}
       {
         showModal && <CreateTaskModal
         isOpen={showModal}
@@ -360,8 +435,117 @@ function Dashboard() {
         createTask={createTask}
       />
       }
+
+      {/* show update modal */}
+      {
+        showUpdateTaskModal && <UpdateTaskModal 
+          isOpen={showUpdateTaskModal} 
+          onClose={() => setShowUpdateTaskModal(false)}
+          taskInfo={selectedTaskInfo}
+          updateTask={updateTask}
+          setSelectedTaskInfo={setSelectedTaskInfo}
+        />
+      }
+
+      {/* show delete confirmation modal */}
+      {
+        showDeleteModal && <DeletionConfirmationModal 
+          taskId={taskId}
+          deleteItem={deleteteTask}
+          setShowModal={setShowDeleteModal}
+        />
+      }
     </div>
   );
 }
+
+function UpdateTaskModal({ isOpen, onClose, taskInfo, setSelectedTaskInfo, updateTask }) {
+  if (!isOpen) return null;
+
+  return (
+    <div className="fixed inset-0 z-50 flex items-center justify-center bg-black bg-opacity-50">
+      <div className="bg-white rounded-lg shadow-lg p-6 w-full max-w-md">
+        <div className="mb-4">
+          <label className="block text-gray-700 mb-1">Title</label>
+          <input
+            type="text"
+            value={taskInfo.title || ""}
+            onChange={(e) => setSelectedTaskInfo({ ...taskInfo, title: e.target.value })}
+            className="w-full p-2 border rounded"
+            placeholder="Enter task title"
+          />
+        </div>
+
+        <div className="mb-4">
+          <label className="block text-gray-700 mb-1">Description</label>
+          <textarea
+            value={taskInfo.description || ""}
+            onChange={(e) => setSelectedTaskInfo({ ...taskInfo, description: e.target.value })}
+            className="w-full p-2 border rounded"
+            placeholder="Enter task description"
+          />
+        </div>
+
+        <div className="mb-4 flex items-center">
+          <input
+            type="checkbox"
+            checked={taskInfo.completed || false}
+            onChange={(e) => setSelectedTaskInfo({ ...taskInfo, completed: e.target.checked })}
+            className="mr-2"
+          />
+          <label className="text-gray-700">Completed</label>
+        </div>
+
+        <div className="flex justify-end space-x-2">
+          <button
+            onClick={onClose}
+            className="px-4 py-2 rounded bg-gray-300 hover:bg-gray-400"
+          >
+            Cancel
+          </button>
+          <button
+            onClick={() => {
+              updateTask(taskInfo.id);
+              onClose();
+            }}
+            className="px-4 py-2 rounded bg-blue text-white hover:bg-blue-dark"
+          >
+            Submit
+          </button>
+        </div>
+      </div>
+    </div>
+  );
+}
+
+const DeletionConfirmationModal = ({ taskId, deleteItem, setShowModal }) => {
+
+  return (
+    <div
+      className="fixed inset-0 bg-gray-900 bg-opacity-50 flex justify-center items-center z-50"
+      onClick={(e) => {
+        if (e.target === e.currentTarget) closeModal();
+      }}
+    >
+      <div className="bg-white p-6 rounded-lg shadow-lg w-96">
+        <h2 className="text-lg font-semibold mb-4">Are you sure you want to perform this action? </h2>
+        <div className="flex justify-end space-x-2 mt-4">
+          <button onClick={() => setShowModal(false)} className="bg-gray-300 px-4 py-2 rounded-lg hover:bg-gray-400">
+            Cancel
+          </button>
+          <button 
+            onClick={()=>{
+              deleteItem(taskId)
+              setShowModal(false);
+            }} 
+            className="bg-red-600 text-white px-4 py-2 rounded-lg hover:bg-red-400 hover:text-gray-500">
+            Delete
+          </button>
+        </div>
+      </div>
+    </div>
+  );
+}
+
 
 export default AuthGuard(Dashboard);
