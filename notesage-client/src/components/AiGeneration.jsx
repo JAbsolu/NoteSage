@@ -78,6 +78,6 @@ const AiGeneration = () => {
             </div>
     </div>
   )
-}
+} 
 
 export default AiGeneration;
