@@ -9,6 +9,7 @@ router.delete("/delete-deck", deletes.deleteDeck);
 router.delete("/delete-card", deletes.deleteCard);
 router.delete("/delete-quiz", deletes.deleteQuiz);
 router.delete("/delete-multiplechoice", deletes.deleteMultipleChoice);
-router.delete("delete-paper", deletes.deletePaper);
+router.delete("/delete-paper", deletes.deletePaper);
+router.delete("/delete-task", deletes.deleteTask);
 
 module.exports = router;

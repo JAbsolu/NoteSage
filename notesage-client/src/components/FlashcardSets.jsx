@@ -4,8 +4,6 @@ import { FaRegEdit } from "react-icons/fa";
 import { RxCross1 } from "react-icons/rx";
 import { PiCardsThree } from "react-icons/pi";
 
-
-// API Base URL
 const API_BASE_URL = process.env.API_BASE_URL || "http://localhost";
 
 const FlashcardSets = ({ decks, firstName, moduleId }) => {
@@ -22,10 +20,7 @@ const FlashcardSets = ({ decks, firstName, moduleId }) => {
   }, [moduleId, token]);
 
   const getModuleDecks = async (moduleId) => {
-    if (!moduleId) {
-      console.log("No module id provided");
-      return;
-    }
+    if (!moduleId) return;
 
     try {
       const response = await fetch(`${API_BASE_URL}/module-decks?id=${moduleId}`, {
@@ -40,31 +35,23 @@ const FlashcardSets = ({ decks, firstName, moduleId }) => {
       if (!response.ok) {
         console.log("Status:", response.status, result.message);
         return;
-      } 
+      }
 
-      console.log("Status:", response.status, "Error fetching module decks");
+      console.log("Decks fetched:", result.message);
     } catch (error) {
       console.log(error);
     }
   };
 
-  //delete decks
-  const deleteDeck = async(id) => {
-    if (!id) {
-      console.log("no deck id provided");
-      return;
-    }
-
+  const deleteDeck = async (id) => {
     try {
-      const headers = {
-        "Content-Type": "application/json",
-        "Authorization": token
-      }
-
-      const response = await fetch(`http://localhost/delete-deck?id=${id}`, {
+      const response = await fetch(`${API_BASE_URL}/delete-deck?id=${id}`, {
         method: "DELETE",
-        headers: headers
-      })
+        headers: {
+          "Content-Type": "application/json",
+          "Authorization": token,
+        },
+      });
 
       const result = await response.json();
 
@@ -72,55 +59,70 @@ const FlashcardSets = ({ decks, firstName, moduleId }) => {
         console.log("Status:", response.status, result.message);
       }
 
-      console.log("Status:", response.status, result.message);
-
-    } catch(error) {
+      console.log("Deleted:", response.status, result.message);
+    } catch (error) {
       console.log(error);
     }
-  }
+  };
+
+  const handleDeleteDeck = async (id) => {
+    await deleteDeck(id);
+    await getModuleDecks(moduleId);
+  };
 
   return (
     <>
-      {decks ? <h3 className="font-semibold text-lg mt-8 mb-3">Flashcard Groups</h3> : null}
+      {decks && <h3 className="font-semibold text-lg mt-8 mb-3">Flashcard Groups</h3>}
       <div className="flex flex-wrap gap-4 w-full max-h-[16em] overflow-scroll">
-        {decks ? decks.map((deck) => (
-          <div key={deck._id} className="hover:cursor-pointer w-[95%]">
-            <div className="flex items-center bg-gray-100 p-3 rounded-lg shadow hover:bg-gray-200 transition">
-              <span className="bg-black text-white px-3 py-3 rounded font-bold"><PiCardsThree className="text-xl font-semibold"/></span>
-              <div key={deck._id} className="ml-4 min-w-[25em]">
-                <h3 className="font-semibold">{deck.title}</h3>
-                <p className="text-sm text-gray-600">
-                  <span className="text-xs"> created by {firstName}</span>
-                </p>
-              </div>
-              <div className="flex justify-end items-center gap-4 ms-10 w-full">
-                <span
-                  className="flex gap-1 hover:text-[#2489D3] hover:cursor-pointer text-xs" 
-                  onClick={(e) => {
-                    e.stopPropagation();
-                    console.log("Edit clicked");
-                    setIsModalOpen(true);
-                    setDeckId(deck._id);
-                    setDeckDescription(deck.description);
-                    setDeckTitle(deck.title);
-                  }}
-                > 
-                  <FaRegEdit className="text-xl" /> 
+        {decks &&
+          decks.map((deck) => (
+            <div key={deck._id} className="hover:cursor-pointer w-[95%]">
+              <div className="flex items-center bg-gray-100 p-3 rounded-lg shadow hover:bg-gray-200 transition">
+                <span className="bg-black text-white px-3 py-3 rounded font-bold">
+                  <PiCardsThree className="text-xl font-semibold" />
                 </span>
-                <span 
-                  className="flex gap-1 hover:text-red-600 hover:cursor-pointer text-xs"
-                  onClick={() => {
-                    deleteDeck(deck._id);
-                    getModuleDecks(moduleId);
-                  }}
-                > 
-                  <RxCross1 className="text-xl" /> 
-                </span>
+                <div className="ml-4 min-w-[25em]">
+                  <h3 className="font-semibold">{deck.title}</h3>
+                  <p className="text-sm text-gray-600">
+                    <span className="text-xs"> created by {firstName}</span>
+                  </p>
+                </div>
+                <div className="flex justify-end items-center gap-4 ms-10 w-full">
+                  <span
+                    className="flex gap-1 hover:text-[#2489D3] hover:cursor-pointer text-xs"
+                    onClick={(e) => {
+                      e.stopPropagation();
+                      setIsModalOpen(true);
+                      setDeckId(deck._id);
+                      setDeckDescription(deck.description);
+                      setDeckTitle(deck.title);
+                    }}
+                  >
+                    <FaRegEdit className="text-xl" />
+                  </span>
+                  <span
+                    className="flex gap-1 hover:text-red-600 hover:cursor-pointer text-xs"
+                    onClick={(e) => {
+                      e.stopPropagation();
+                      handleDeleteDeck(deck._id);
+                    }}
+                  >
+                    <RxCross1 className="text-xl" />
+                  </span>
+                </div>
               </div>
             </div>
-          </div> )) : null
-        }
-        {isModalOpen && <Modal closeModal={() => setIsModalOpen(false)} deckId={deckId} title={deckTitle} description={deckDescription} token={token} onUpdateComplete={() => getModuleDecks(moduleId)} />}
+          ))}
+        {isModalOpen && (
+          <Modal
+            closeModal={() => setIsModalOpen(false)}
+            deckId={deckId}
+            title={deckTitle}
+            description={deckDescription}
+            token={token}
+            onUpdateComplete={() => getModuleDecks(moduleId)}
+          />
+        )}
       </div>
     </>
   );
@@ -140,20 +142,20 @@ const Modal = ({ closeModal, deckId, title, description, token, onUpdateComplete
   const updateDeck = async (id) => {
     const headers = {
       "Content-Type": "application/json",
-      "Authorization": token
+      "Authorization": token,
     };
 
     const body = {
       title: newFlashcardSetTitle || title,
       description: newFlashcardSetDescription || description,
-      public: isPublic
+      public: isPublic,
     };
 
     try {
       const response = await fetch(`${API_BASE_URL}/update-deck?id=${id}`, {
         method: "PUT",
-        headers: headers,
-        body: JSON.stringify(body)
+        headers,
+        body: JSON.stringify(body),
       });
 
       const result = await response.json();
@@ -163,8 +165,7 @@ const Modal = ({ closeModal, deckId, title, description, token, onUpdateComplete
         return;
       }
 
-      console.log("Status:", response.status, result.message);
-
+      console.log("Updated:", response.status, result.message);
     } catch (error) {
       console.log(error);
     }
@@ -195,14 +196,24 @@ const Modal = ({ closeModal, deckId, title, description, token, onUpdateComplete
         ></textarea>
         <span className="flex gap-4">
           <label className="block mt-4 text-sm">Public</label>
-          <input type="checkbox" className="mt-4" onChange={() => setIsPublic(!isPublic)} />
+          <input
+            type="checkbox"
+            className="mt-4"
+            onChange={() => setIsPublic(!isPublic)}
+          />
         </span>
 
         <div className="flex justify-end space-x-2 mt-4">
-          <button onClick={closeModal} className="bg-gray-300 px-4 py-2 rounded-lg hover:bg-gray-400">
+          <button
+            onClick={closeModal}
+            className="bg-gray-300 px-4 py-2 rounded-lg hover:bg-gray-400"
+          >
             Cancel
           </button>
-          <button onClick={update} className="bg-blue-500 text-white px-4 py-2 rounded-lg hover:bg-blue-700">
+          <button
+            onClick={update}
+            className="bg-blue-500 text-white px-4 py-2 rounded-lg hover:bg-blue-700"
+          >
             Update
           </button>
         </div>

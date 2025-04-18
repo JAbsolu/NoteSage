@@ -260,6 +260,11 @@ const QuizzesPage = () => {
                 </div>
               </div>
             ))}
+            {quizQuestions.length === 0 && (
+              <div className="h-[35em] text-gray-500 p-4 italic border-2 border-dashed w-full">
+                <p className="text-black">Select a quizz to view questions.</p>
+              </div>
+            )}
           </div>
         </div>
       </div>
