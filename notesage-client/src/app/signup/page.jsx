@@ -24,6 +24,29 @@ const Signup = () => {
     setFormData({ ...formData, [e.target.name]: e.target.value });
   };
 
+  const createNotificationList = async (userId) => {
+      try {
+        const response = await fetch(`http://localhost/create-notification-list?id=${userId}`, {
+          method: "POST",
+          headers: {
+            "Content-Type": "application/json",
+          },
+        })
+  
+        const result = await response.json();
+  
+        if (!response.ok) {
+          console.log("error creating notification list", result.message);
+          return;
+        }
+  
+        console.log(result.message);
+  
+      } catch (error) {
+        console.log(error.message);
+      }
+  }
+
   const handleSubmit = async (e) => {
     e.preventDefault();
     if (formData.password !== confirmPassword) {
