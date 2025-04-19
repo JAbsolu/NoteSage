@@ -347,9 +347,13 @@ const SettingsPage = () => {
               </div>
 
               {/* Education Section */}
-              <div className="p-6 border-b">
+             <div className="p-6 border-b">
                 <h2 className="text-xl font-semibold mb-4">Education</h2>
                 <div className="space-y-4">
+                  <div className="mt-2 mb-4">
+                    <label className="block text-sm font-medium text-gray-700 mb-1">Intro</label>
+                    <p>No intro</p>
+                  </div>
                   <div>
                     <label className="block text-sm font-medium text-gray-700 mb-1">School/University</label>
                     {editMode ? (
@@ -387,7 +391,7 @@ const SettingsPage = () => {
               <div className="p-6 border-b">
                 <h2 className="text-xl font-semibold mb-4">Social Media</h2>
                 <div className="space-y-4">
-                  <div>
+                  <div> 
                     <label className="block text-sm font-medium text-gray-700 mb-1">Twitter</label>
                     {editMode ? (
                       <input
