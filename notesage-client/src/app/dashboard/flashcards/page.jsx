@@ -10,6 +10,7 @@ import { MdDeleteOutline } from "react-icons/md";
 import { PiCardsThree } from "react-icons/pi";
 import StudyFlashcardModal from "@/components/studyFlashCardModal";
 import DeletionConfirmationModal from "@/components/DeletionConfirmationModal";
+import { useCallback } from "react";
 
 
 const FlaschardsPage = () => {
@@ -31,15 +32,15 @@ const FlaschardsPage = () => {
   const router = useRouter();
 
 
-  useEffect(() =>  {
+  useEffect(() => {
     if (userId) {
-      getUser(userId)
+      getUser(userId);
       getUserDecks(userId);
     }
     getDecks();
-  }, [userId])
+  }, [userId, getUser, getUserDecks, getDecks]);  
 
-  const getUser = async (id) => {
+  const getUser = useCallback(async (id) => {
     try {
       const response = await fetch(`http://localhost/user?id=${id}`, {
         method: "GET",
@@ -48,86 +49,55 @@ const FlaschardsPage = () => {
           "Authorization": token,
         },
       });
-
-
+  
       const result = await response.json();
-
-      if (!response.ok) {
-        console.log("Status:", response.status, result.message);
-        return;
-      }
-
-      console.log("Status:", response.status, result.message);
+      if (!response.ok) return;
       setFirstName(result.data.firstName);
       setLastName(result.data.lastName);
       setEmailAddress(result.data.emailAddress);
-
     } catch (error) {
       console.log(error);
     }
-  };
+  }, [token]);
 
   //get all flashcards
-  const getDecks = async() => {
+  const getDecks = useCallback(async () => {
     try {
-      const headers = {
-        "Content-Type": "application/json",
-        "Authorization": token
-      }
-
       const response = await fetch("http://localhost/decks", {
         method: "GET",
-        headers: headers
-      })
-
+        headers: {
+          "Content-Type": "application/json",
+          "Authorization": token
+        }
+      });
       const result = await response.json();
-
-      if (!response.ok) {
-        console.log("Status:", response.status, result.message);
-        return;
-      }
-
-      console.log("Status:", response.status, result.message);
+      if (!response.ok) return;
       setDecks(result.data);
-
     } catch (error) {
       console.log(error);
     }
-  }
+  }, [token]);
 
   //get user decks
-  const getUserDecks = async(id) => {
-    if (!id) {
-      console.log("no user id provided");
-      return;
-    }
-
+  const getUserDecks = useCallback(async (id) => {
+    if (!id) return;
+  
     try {
-      const headers = {
-        "Content-Type": "application/json",
-        "Authorization": token
-      }
-
       const response = await fetch(`http://localhost/user-decks?id=${id}`, {
         method: "GET",
-        headers: headers
-      })
-
+        headers: {
+          "Content-Type": "application/json",
+          "Authorization": token
+        }
+      });
+  
       const result = await response.json();
-
-      if (!response.ok) {
-        console.log("Status:", response.status, result.message);
-        return;
-      }
-
-      console.log("Status:", response.status, result.message);
+      if (!response.ok) return;
       setUserDecks(result.data);
-      console.log("user decks: ", result.data)
-
     } catch (error) {
       console.log(error);
     }
-  }
+  }, [token]);
 
   //get deck flashcards
   const getDeckFlashcards = async(id) => {

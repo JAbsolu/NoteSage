@@ -1,5 +1,5 @@
 import { getCookie } from "@/util/cookies";
-import { useEffect, useState } from "react";
+import { useCallback, useEffect, useState } from "react";
 import { FaRegEdit } from "react-icons/fa";
 import { RxCross1 } from "react-icons/rx";
 import { PiCardsThree } from "react-icons/pi";
@@ -17,9 +17,9 @@ const FlashcardSets = ({ decks, firstName, moduleId }) => {
     if (moduleId && token) {
       getModuleDecks(moduleId);
     }
-  }, [moduleId, token]);
+  }, [moduleId, token, getModuleDecks]);
 
-  const getModuleDecks = async (moduleId) => {
+  const getModuleDecks = useCallback( async (moduleId) => {
     if (!moduleId) return;
 
     try {
@@ -41,7 +41,7 @@ const FlashcardSets = ({ decks, firstName, moduleId }) => {
     } catch (error) {
       console.log(error);
     }
-  };
+  },[token])
 
   const deleteDeck = async (id) => {
     try {

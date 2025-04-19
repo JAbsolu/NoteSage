@@ -25,7 +25,6 @@ const Sidebar = ({ isExpanded }) => {
     const userId = getCookie("userId");
   
     useEffect(() => {
-      if (!open) return; // Only run when modal is open
     
       const interval = setInterval(() => {
         fetch(`http://localhost/notifications?id=${userId}`)
@@ -45,7 +44,7 @@ const Sidebar = ({ isExpanded }) => {
       // Cleanup function
       return () => clearInterval(interval);
     
-    }, [open, userId]); 
+    }, [userId]); 
 
   return (
     <>

@@ -1,6 +1,6 @@
 import { getCookie } from "@/util/cookies";
 import Link from "next/link";
-import { useEffect, useState } from "react";
+import { useCallback, useEffect, useState } from "react";
 import { FaRegEdit } from "react-icons/fa";
 import { RxCross1 } from "react-icons/rx";
 import { MdOutlineQuiz } from "react-icons/md";
@@ -16,9 +16,9 @@ const QuizzesGroup = ({quizzes, firstName, moduleId }) => {
     if (moduleId && token) {
       getQuizzes(moduleId);
     }
-  }, [moduleId, token])
+  }, [moduleId, token, getQuizzes])
 
-  const getQuizzes = async(id) => {
+  const getQuizzes = useCallback(async(id) => {
 
     const headers = {
       "Content-Type": "application/json",
@@ -43,7 +43,7 @@ const QuizzesGroup = ({quizzes, firstName, moduleId }) => {
     } catch(error) {
       console.log(error);
     }
-  }
+  },[token])
 
   //delete quiz
   const deleteQuiz = async(id) => {

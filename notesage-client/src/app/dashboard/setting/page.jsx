@@ -3,7 +3,10 @@
 import DashboardNavbar from "@/components/DashboardNavbar";
 import Sidebar from "@/components/Sidebar";
 import { getCookie } from "@/util/cookies";
-import { useEffect, useState } from "react";
+import Image from "next/image";
+import { useCallback, useEffect, useState } from "react";
+
+
 
 const SettingsPage = () => {
   const [firstName, setFirstName] = useState("");
@@ -38,9 +41,9 @@ const SettingsPage = () => {
   useEffect(() => {
     fetchUserData();
     fetchUserInfo();
-  }, []);
+  }, [fetchUserData, fetchUserInfo]);
 
-  const fetchUserData = async () => {
+  const fetchUserData = useCallback(async () => {
     try {
       const response = await fetch(`http://localhost/user?id=${userId}`, {
         method: "GET",
@@ -59,9 +62,9 @@ const SettingsPage = () => {
     } catch (error) {
       console.error("Error fetching user data:", error);
     }
-  };
+  },[token, userId])
 
-  const fetchUserInfo = async () => {
+  const fetchUserInfo = useCallback(async () => {
     try {
       const response = await fetch(`http://localhost/user-info?userId=${userId}`, {
         method: "GET",
@@ -93,7 +96,7 @@ const SettingsPage = () => {
     } catch (error) {
       console.error("Error fetching user info:", error);
     }
-  };
+  },[userId, token])
 
   const handleInputChange = (e) => {
     const { name, value } = e.target;
@@ -260,7 +263,7 @@ const SettingsPage = () => {
                     <div className="flex flex-col items-center">
                       <div className="relative mb-4">
                         {profileImagePreview ? (
-                          <img 
+                          <Image 
                             src={profileImagePreview} 
                             alt="Profile" 
                             className="w-32 h-32 rounded-full object-cover border-2 border-gray-200"

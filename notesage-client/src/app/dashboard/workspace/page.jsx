@@ -1,6 +1,6 @@
 "use client";
 
-import { useState, useEffect } from "react";
+import { useState, useEffect, useCallback } from "react";
 import Cookies from "js-cookie";
 import DashboardNavbar from "../../../components/DashboardNavbar";
 import Sidebar from "../../../components/Sidebar";
@@ -72,7 +72,7 @@ const WorkSpace = () => {
     setUserId(storedUserId || null);
     setLoading(false);
     
-  }, []);
+  }, [setToken, setUserId, setLoading]);
 
   useEffect(() => {
     if (userId && token) {
@@ -84,10 +84,10 @@ const WorkSpace = () => {
       getQuizzes(moduleId);
       getModuleDecks(moduleId);
     }
-  }, [moduleId, token]);
+  }, [userId, moduleId, token, getUser, getModules, getQuizzes, getModuleDecks]);
 
   /*------------------------------API CALLS-----------------------------------*/
-  const getUser = async (id) => {
+  const getUser = useCallback(async (id) => {
     try {
       const response = await fetch(`${API_BASE_URL}/user?id=${id}`, {
         method: "GET",
@@ -108,10 +108,10 @@ const WorkSpace = () => {
     } catch (error) {
       console.log(error);
     }
-  };
+  },[token])
 
   // get modules
-  const getModules = async (id) => {
+  const getModules = useCallback(async (id) => {
     try {
       const response = await fetch(`${API_BASE_URL}/user-modules?id=${id}`, {
         method: "GET",
@@ -132,10 +132,9 @@ const WorkSpace = () => {
     } catch (error) {
       console.log(error);
     }
-  };
-
+  },[token])
   // Fetch decks based on the selected module
-  const getModuleDecks = async (moduleId) => {
+  const getModuleDecks = useCallback(async (moduleId) => {
     if (!moduleId) {
       console.log("No module selected.");
       return;
@@ -160,10 +159,10 @@ const WorkSpace = () => {
     } catch (error) {
       console.log(error);
     }
-  };
+  },[token])
 
   // get quizzes
-  const getQuizzes = async(id) => {
+  const getQuizzes = useCallback(async(id) => {
     if (!id) {
       console.log("User id required to get quizzes");
       return;
@@ -192,7 +191,7 @@ const WorkSpace = () => {
     } catch (error) {
       console.log(error);
     }
-  }
+  },[token])
 
   // create flashcard
   const createFlashcard = async () => {

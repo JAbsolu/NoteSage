@@ -1,9 +1,9 @@
-import { useState } from "react";
+import { useCallback, useState } from "react";
 import { FiPlus, FiTrash2, FiImage } from "react-icons/fi";
 import { BsStars } from "react-icons/bs";
 import { useEffect } from "react";
 import { FaRegCircle, FaRegCircleCheck } from "react-icons/fa6";
-import Cookies from "js-cookie";
+import { getCookie } from "@/util/cookies";
 
 
 const FlashcardsComponent = ({firstName, lastName, emailAddress, module, userId, token}) => {
@@ -26,11 +26,8 @@ const FlashcardsComponent = ({firstName, lastName, emailAddress, module, userId,
   const [statusError, setStatusError] = useState("")
   const [notifications, addToNotifactions] = useState([])
 
-  //chose whether to show quiz creation form
-  const [changeTab, setTab] = useState("flashcards");
-
   //get user id from cookies
-  const getModules = async(id) =>{
+  const getModules = useCallback(async(id) =>{
     try {
       const url = `http://localhost/user-modules?id=${id}`;
       const request = await fetch(url, {
@@ -54,10 +51,10 @@ const FlashcardsComponent = ({firstName, lastName, emailAddress, module, userId,
       console.error(error);
       setStatusError(error)
     }
-  }
+  },[token])
 
   // get user module decks
-  const getModuleDecks = async(moduleId) => {
+  const getModuleDecks = useCallback(async(moduleId) => {
     if (!moduleId) {
       alert("Please select a module first");
       return;
@@ -83,7 +80,7 @@ const FlashcardsComponent = ({firstName, lastName, emailAddress, module, userId,
   } catch(error) {
     console.log(error)
   }
-}
+}, [token])
 
   //handle flashcard change
   const handleFlashcardChange = (index, field, value) => {
@@ -167,7 +164,7 @@ const FlashcardsComponent = ({firstName, lastName, emailAddress, module, userId,
     getModules(userId);
 
     localStorage.setItem("notifications", JSON.stringify(notifications));
-  },[]);
+  },[userId, getModules, notifications]);
 
   return (
     <>
