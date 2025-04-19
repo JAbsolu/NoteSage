@@ -3,23 +3,28 @@ import { useRouter } from "next/navigation";
 import Cookies from "js-cookie";
 
 const AuthGuard = (WrappedComponent) => {
-  return (props) => {
+  const WithAuthGuard = (props) => {
     const router = useRouter();
     const [loading, setLoading] = useState(true);
 
     useEffect(() => {
-      const token = Cookies.get("token"); // Read the auth cookie
+      const token = Cookies.get("token");
       if (!token) {
-        router.push("/login"); // Redirect to login if not authenticated
+        router.push("/login");
       } else {
         setLoading(false);
       }
     }, [router]);
 
-    if (loading) return <p>Loading...</p>; // Show loading while redirecting
+    if (loading) return <p>Loading...</p>;
 
     return <WrappedComponent {...props} />;
   };
+
+  // display name for better debugging and ESLint compliance
+  WithAuthGuard.displayName = `AuthGuard(${WrappedComponent.displayName || WrappedComponent.name || 'Component'})`;
+
+  return WithAuthGuard;
 };
 
 export default AuthGuard;

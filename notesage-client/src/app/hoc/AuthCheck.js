@@ -3,24 +3,29 @@ import { useRouter } from "next/navigation";
 import { getCookie } from "@/util/cookies";
 
 const AuthCheck = (WrappedComponent) => {
-  return (props) => {
+  const WithAuthCheck = (props) => {
     const router = useRouter();
-    const [isChecking, setIsChecking] = useState(true); // Prevent page rendering until checked
+    const [isChecking, setIsChecking] = useState(true);
 
     useEffect(() => {
       const token = getCookie("token");
 
       if (token) {
-        router.replace("/dashboard"); // Redirect immediately
+        router.replace("/dashboard");
       } else {
-        setIsChecking(false); // Allow rendering if not authenticated
+        setIsChecking(false);
       }
     }, [router]);
 
-    if (isChecking) return null; // Prevents flickering before redirect
+    if (isChecking) return null;
 
     return <WrappedComponent {...props} />;
   };
+
+  // display name for easier debugging and ESLint compliance
+  WithAuthCheck.displayName = `AuthCheck(${WrappedComponent.displayName || WrappedComponent.name || "Component"})`;
+
+  return WithAuthCheck;
 };
 
 export default AuthCheck;
