@@ -1,11 +1,10 @@
 "use client"
 
-// Import components and utilities
 import DashboardNavbar from "@/components/DashboardNavbar";
 import Sidebar from "@/components/Sidebar";
 import TakeQuizModal from "@/components/TakeQuizModal";
 import { getCookie } from "@/util/cookies";
-import { useEffect, useState } from "react";
+import { useCallback, useEffect, useState } from "react";
 import { IoMdExpand } from "react-icons/io";
 import { MdDeleteOutline } from "react-icons/md";
 import { PiCardsThree } from "react-icons/pi";
@@ -29,7 +28,7 @@ const QuizzesPage = () => {
   const token = getCookie("token");
 
   // ---------------------- API Calls ---------------------- //
-  const getUser = async (id) => {
+  const getUser = useCallback(async (id) => {
     try {
       const response = await fetch(`http://localhost/user?id=${id}`, {
         method: "GET",
@@ -50,10 +49,10 @@ const QuizzesPage = () => {
     } catch (error) {
       console.log(error);
     }
-  };
+  },[token]);
 
   // get quizzes
-  const getQuizzes = async () => {
+  const getQuizzes = useCallback(async () => {
     try {
       const response = await fetch(`http://localhost/quizzes`, {
         method: "GET",
@@ -76,10 +75,10 @@ const QuizzesPage = () => {
     } catch (error) {
       console.log(error);
     }
-  };
+  },[token])
 
   //get userQuizzes
-  const getUserQuizzes = async (id) => {
+  const getUserQuizzes = useCallback( async (id) => {
     try {
       const response = await fetch(`http://localhost/user-quizzes?id=${id}`, {
         method: "GET",
@@ -101,11 +100,11 @@ const QuizzesPage = () => {
 
     } catch (error) {
     }
-  };
+  },[token])
 
 
   // get quiz questions
-  const getQuizQuestions = async (quizId) => {
+  const getQuizQuestions = useCallback(async (quizId) => {
     const url = `http://localhost/quiz-choices?id=${quizId}`;
 
     try {
@@ -129,21 +128,24 @@ const QuizzesPage = () => {
     } catch (error) {
       console.log(error);
     }
-  }
+  }, [token])
 
 
   // ---------------------- useEffect ---------------------- //
   useEffect(() => {
     getUser(userId);
-  }, [userId]);
+  }, [userId, getUser]);
 
   useEffect(() => {
     getQuizzes();
-  }, [])
+  }, [getQuizzes]);
 
   useEffect(() => {
-    getUserQuizzes(userId);
-  }, [])
+    if (userId) {
+      getUserQuizzes(userId);
+    }
+  }, [userId, getUserQuizzes]);
+  
 
 
   // ---------------------- Component JSX ---------------------- //

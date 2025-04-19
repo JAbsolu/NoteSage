@@ -15,6 +15,8 @@ import { BsStars } from "react-icons/bs";
 import { getCookie } from "@/util/cookies";
 import CreateTaskModal from "@/components/CreateTaskModal";
 import UserInfoModal from "@/components/UserInfoModal";
+import { useCallback } from "react";
+
 
 function Dashboard() {
   const [sidebarExpanded, setSidebarExpanded] = useState(true);
@@ -47,12 +49,9 @@ function Dashboard() {
 
 
   //get user and user info
-  const getUser = async (id) => {
-    if (!id) {
-      console.log("User id required to get user");
-      return;
-    }
-
+  const getUser = useCallback(async (id) => {
+    if (!id) return;
+  
     try {
       const response = await fetch(`http://localhost/user?id=${id}`, {
         method: "GET",
@@ -61,7 +60,7 @@ function Dashboard() {
           Authorization: token,
         },
       });
-
+  
       const result = await response.json();
       if (response.ok) {
         const user = result.data;
@@ -74,20 +73,17 @@ function Dashboard() {
     } catch (error) {
       console.log(error);
     }
-  };
+  }, [token]);  
 
   // read user id from cookies
   useEffect(() => {
-    try {
-      if (userId) {
-        getUser(userId);
-      } else {
-        console.warn("User ID not found in cookies");
-      }
-    } catch (error) {
-      console.error("Error reading user ID from cookie:", error);
+    if (userId) {
+      getUser(userId);
+    } else {
+      console.warn("User ID not found in cookies");
     }
-  }, []);
+  }, [userId, getUser]);
+  
 
   const createTask = async () => {
     try {
@@ -117,7 +113,7 @@ function Dashboard() {
   };  
 
   // get tasks
-  const getTasks = async (id) => {
+  const getTasks = useCallback(async (id) => {
     if (!id) {
       console.log("id not found");
       return;
@@ -144,7 +140,7 @@ function Dashboard() {
     } catch (error) {
       console.log(error);
     }
-  };
+  },[token])
 
   // update task
   const updateTask = async(taskId) => {
@@ -203,10 +199,10 @@ function Dashboard() {
     if (userId) {
       getTasks(userId);
     }
-  }, [userId]);
+  }, [userId, getTasks]);
 
 
-  const getFlashCards = async () => {
+  const getFlashCards = useCallback(async () => {
     try {
       const response = await fetch("http://localhost/decks", {
         headers: {"Content-Type": "application/json", "Authorization": token }
@@ -223,11 +219,11 @@ function Dashboard() {
     } catch(error) {
       console.log(error);
     }
-  }
+  }, [token])
   
   useEffect(() => {
     getFlashCards();
-  },[])
+  },[getFlashCards])
 
   if (allFlashcardSets) {
     allFlashcardSets.map((set, index) => {

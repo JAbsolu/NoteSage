@@ -1,6 +1,6 @@
 "use client";
 
-import { useEffect, useState } from "react";
+import { useCallback, useEffect, useState } from "react";
 import Link from "next/link";
 import { FiMenu, FiSearch, FiSettings, FiLogOut } from "react-icons/fi";
 import { useRouter } from "next/navigation";
@@ -35,7 +35,7 @@ const DashboardNavbar = ({ toggleSidebar, firstName, lastName }) => {
         setQuizzes(quizzesData?.data || []);
       })
       .catch((err) => console.error("Error fetching data:", err));
-  }, []);
+  }, [token]);
 
   const term = searchTerm.toLowerCase();
 

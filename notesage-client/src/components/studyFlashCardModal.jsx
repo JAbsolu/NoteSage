@@ -87,7 +87,7 @@ const StudyFlashcardModal = ({ closeModal, flashcards, deckTitle }) => {
         {isCompleted ? (
           <div className="flex flex-col items-center justify-center h-full">
             <p className="text-2xl font-bold text-green-600 mb-4">
-              You've completed all the flashcards!
+              You&apos;ve completed all the flashcards!
             </p>
             <div className="flex gap-4">
               <button
