@@ -38,11 +38,6 @@ const SettingsPage = () => {
   const [isPasswordSectionOpen, setIsPasswordSectionOpen] = useState(false);
   const [profileImagePreview, setProfileImagePreview] = useState("");
 
-  useEffect(() => {
-    fetchUserData();
-    fetchUserInfo();
-  }, [fetchUserData, fetchUserInfo]);
-
   const fetchUserData = useCallback(async () => {
     try {
       const response = await fetch(`http://localhost/user?id=${userId}`, {
@@ -207,6 +202,12 @@ const SettingsPage = () => {
       console.error("Error changing password:", error);
     }
   };
+
+  useEffect(() => {
+    fetchUserData();
+    fetchUserInfo();
+  }, [fetchUserData, fetchUserInfo]);
+
 
   return (
     <div className="min-h-screen bg-gray-50">
