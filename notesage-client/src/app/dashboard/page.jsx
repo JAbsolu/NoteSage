@@ -41,6 +41,7 @@ function Dashboard() {
     description: "",
     completed: false,
   });  
+  const [allFlashcardSets, setAllFlashcardSets] = useState([]);
 
   //get user and user info
   const getUser = async (id) => {
@@ -200,7 +201,36 @@ function Dashboard() {
       getTasks(userId);
     }
   }, [userId]);
+
+
+  const getFlashCards = async () => {
+    try {
+      const response = await fetch("http://localhost/decks", {
+        headers: {"Content-Type": "application/json", "Authorization": token }
+      })
+
+      const result = await response.json();
+
+      if (!response.ok){
+        console.log(response.status, result.message);
+      }
+
+      setAllFlashcardSets(result.data);
+      console.log(response.status, result.message, "from dashboard", result.data);
+    } catch(error) {
+      console.log(error);
+    }
+  }
   
+  useEffect(() => {
+    getFlashCards();
+  },[])
+
+  if (allFlashcardSets) {
+    allFlashcardSets.map((set, index) => {
+      console.log("in use effect", set)
+    })
+  }
 
   return (
     <div className="flex bg-light-gray text-black">
@@ -400,23 +430,20 @@ function Dashboard() {
           </div>
 
           {/* Popular Flashcards & Quizzes */}
-          <div className="bg-white p-6 rounded-lg shadow-md mt-6">
+          <div className="bg-white w-full p-6 rounded-lg shadow-md mt-6">
             <h2 className="text-xl font-semibold mb-4">
               Popular flashcards and quizzes
             </h2>
-            <div className="grid grid-cols-1 md:grid-cols-3 gap-4">
-              {Array(3)
-                .fill()
-                .map((_, i) => (
-                  <Link key={i} href={`/flashcards/${i + 1}`} className="block">
-                    <div className="bg-gray-100 p-4 rounded-lg shadow hover:bg-gray-200 transition">
-                      <h3 className="font-bold">Title - Flashcard {i + 1}</h3>
+            <div className="flex flex-wrap gap-4">
+              {allFlashcardSets && allFlashcardSets.slice(0, 15).map((flashcardSet, i) => (
+                  <Link key={i} href={`dashboard/flashcards/?id=${flashcardSet._id}`} className="block w-full">
+                    <div className="bg-gray-100 p-4 w-full rounded-md hover:bg-gray-200 transition">
+                      <h3 className="font-bold">{flashcardSet.title} {i + 1}</h3>
+                      <div className="flex justify-between">
                       <p className="text-sm text-gray-600">
-                        60 terms - by Author
-                      </p>
-                      <p className="text-sm text-gray-600">
-                        Author - Author title
-                      </p>
+                          {flashcardSet.description || flashcardSet.title}
+                        </p>
+                     </div>
                     </div>
                   </Link>
                 ))}
