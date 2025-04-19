@@ -63,29 +63,6 @@ const WorkSpace = () => {
     setMultipleChoices({ ...multipleChoices, [event.target.name]: event.target.value });
   }
 
-  useEffect(() => {
-    // Ensure hydration consistency
-    const storedToken = Cookies.get("token");
-    const storedUserId = Cookies.get("userId");
-
-    setToken(storedToken || null);
-    setUserId(storedUserId || null);
-    setLoading(false);
-    
-  }, [setToken, setUserId, setLoading]);
-
-  useEffect(() => {
-    if (userId && token) {
-      getUser(userId);
-      getModules(userId);
-    }
-
-    if (moduleId && token) {
-      getQuizzes(moduleId);
-      getModuleDecks(moduleId);
-    }
-  }, [userId, moduleId, token, getUser, getModules, getQuizzes, getModuleDecks]);
-
   /*------------------------------API CALLS-----------------------------------*/
   const getUser = useCallback(async (id) => {
     try {
@@ -279,6 +256,29 @@ const WorkSpace = () => {
   if (!token) {
     return <div className="text-center mt-10">Please log in first.</div>;
   }
+
+  useEffect(() => {
+    // Ensure hydration consistency
+    const storedToken = Cookies.get("token");
+    const storedUserId = Cookies.get("userId");
+
+    setToken(storedToken || null);
+    setUserId(storedUserId || null);
+    setLoading(false);
+    
+  }, [setToken, setUserId, setLoading]);
+
+  useEffect(() => {
+    if (userId && token) {
+      getUser(userId);
+      getModules(userId);
+    }
+
+    if (moduleId && token) {
+      getQuizzes(moduleId);
+      getModuleDecks(moduleId);
+    }
+  }, [userId, moduleId, token, getUser, getModules, getQuizzes, getModuleDecks]);
 
   return (
     <div className="flex bg-light-gray min-h-screen">
