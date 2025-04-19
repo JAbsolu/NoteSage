@@ -269,15 +269,12 @@ const WorkSpace = () => {
   }, [setToken, setUserId, setLoading]);
 
   useEffect(() => {
-    if (userId && token) {
       getUser(userId);
       getModules(userId);
-    }
-
-    if (moduleId && token) {
+    
       getQuizzes(moduleId);
       getModuleDecks(moduleId);
-    }
+      
   }, [userId, moduleId, token, getUser, getModules, getQuizzes, getModuleDecks]);
 
   return (
