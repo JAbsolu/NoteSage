@@ -75,16 +75,6 @@ function Dashboard() {
     }
   }, [token]);  
 
-  // read user id from cookies
-  useEffect(() => {
-    if (userId) {
-      getUser(userId);
-    } else {
-      console.warn("User ID not found in cookies");
-    }
-  }, [userId, getUser]);
-  
-
   const createTask = async () => {
     try {
       const response = await fetch(`http://localhost/create-task`, {
@@ -194,14 +184,6 @@ function Dashboard() {
     }
   }
 
-  //useEffects
-  useEffect(() => {
-    if (userId) {
-      getTasks(userId);
-    }
-  }, [userId, getTasks]);
-
-
   const getFlashCards = useCallback(async () => {
     try {
       const response = await fetch("http://localhost/decks", {
@@ -220,6 +202,22 @@ function Dashboard() {
       console.log(error);
     }
   }, [token])
+
+   // read user id from cookies
+   useEffect(() => {
+    if (userId) {
+      getUser(userId);
+    } else {
+      console.warn("User ID not found in cookies");
+    }
+  }, [userId, getUser]);
+
+    //useEffects
+    useEffect(() => {
+      if (userId) {
+        getTasks(userId);
+      }
+    }, [userId, getTasks]);
   
   useEffect(() => {
     getFlashCards();
