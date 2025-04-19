@@ -31,15 +31,6 @@ const FlaschardsPage = () => {
   const token = getCookie("token");
   const router = useRouter();
 
-
-  useEffect(() => {
-    if (userId) {
-      getUser(userId);
-      getUserDecks(userId);
-    }
-    getDecks();
-  }, [userId, getUser, getUserDecks, getDecks]);  
-
   const getUser = useCallback(async (id) => {
     try {
       const response = await fetch(`http://localhost/user?id=${id}`, {
@@ -132,6 +123,14 @@ const FlaschardsPage = () => {
       console.log(error);
     }
   }
+
+  useEffect(() => {
+    if (userId) {
+      getUser(userId);
+      getUserDecks(userId);
+    }
+    getDecks();
+  }, [userId, getUser, getUserDecks, getDecks]);  
 
   return (
     <div className="flex bg-light-gray min-h-screen">
