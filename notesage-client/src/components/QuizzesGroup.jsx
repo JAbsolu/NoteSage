@@ -12,12 +12,6 @@ const QuizzesGroup = ({quizzes, firstName, moduleId }) => {
   const [description, setDescription] = useState("");
   const [modalOpen, setModalOpen] = useState(false);
 
-  useEffect(() => {
-    if (moduleId && token) {
-      getQuizzes(moduleId);
-    }
-  }, [moduleId, token, getQuizzes])
-
   const getQuizzes = useCallback(async(id) => {
 
     const headers = {
@@ -75,6 +69,12 @@ const QuizzesGroup = ({quizzes, firstName, moduleId }) => {
       console.log(error);
     }
   }
+
+  useEffect(() => {
+    if (moduleId && token) {
+      getQuizzes(moduleId);
+    }
+  }, [moduleId, token, getQuizzes])
 
   return (
     <>

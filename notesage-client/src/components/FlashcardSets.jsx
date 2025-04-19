@@ -13,12 +13,6 @@ const FlashcardSets = ({ decks, firstName, moduleId }) => {
   const [deckDescription, setDeckDescription] = useState("");
   const token = getCookie("token");
 
-  useEffect(() => {
-    if (moduleId && token) {
-      getModuleDecks(moduleId);
-    }
-  }, [moduleId, token, getModuleDecks]);
-
   const getModuleDecks = useCallback( async (moduleId) => {
     if (!moduleId) return;
 
@@ -69,6 +63,12 @@ const FlashcardSets = ({ decks, firstName, moduleId }) => {
     await deleteDeck(id);
     await getModuleDecks(moduleId);
   };
+
+  useEffect(() => {
+    if (moduleId && token) {
+      getModuleDecks(moduleId);
+    }
+  }, [moduleId, token, getModuleDecks]);
 
   return (
     <>
