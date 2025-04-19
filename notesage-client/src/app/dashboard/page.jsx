@@ -14,6 +14,7 @@ import AuthGuard from "../hoc/AuthGuard";
 import { BsStars } from "react-icons/bs";
 import { getCookie } from "@/util/cookies";
 import CreateTaskModal from "@/components/CreateTaskModal";
+import UserInfoModal from "@/components/UserInfoModal";
 
 function Dashboard() {
   const [sidebarExpanded, setSidebarExpanded] = useState(true);
@@ -42,6 +43,8 @@ function Dashboard() {
     completed: false,
   });  
   const [allFlashcardSets, setAllFlashcardSets] = useState([]);
+  const [showUserinfoModal, setUserinfoModal] = useState(false);
+
 
   //get user and user info
   const getUser = async (id) => {
@@ -281,7 +284,7 @@ function Dashboard() {
                   <FiCircle className="text-lg text-blue" />
                 )}
               </span>
-              <span>Complete your profile</span>
+              <p className="cursor-pointer hover:underline" onClick={() => setUserinfoModal(true)} >Complete your profile</p>
               <button className="text-sm text-gray-500">
                 <IoMdClose
                   className="text-lg text-blue"
@@ -480,6 +483,15 @@ function Dashboard() {
           taskId={taskId}
           deleteItem={deleteteTask}
           setShowModal={setShowDeleteModal}
+        />
+      }
+
+      {/* show add user info modal */}
+      {
+        showUserinfoModal && <UserInfoModal 
+          userId={userId}
+          isOpen={showUserinfoModal}
+          setIsOpen={setUserinfoModal}
         />
       }
     </div>
