@@ -5,9 +5,9 @@ import OpenAI from "openai";
 const AiGeneration = () => {
   const messagesEndRef = useRef(null);
 
-  const API_KEY = process.env.NEXT_PUBLIC_OPENAI_API_KEY;
-  const ORG_ID = process.env.NEXT_PUBLIC_OPENAI_ORG_ID;
-  const PROJ_ID = process.env.NEXT_PUBLIC_OPENAI_PROJECT_ID;
+  const API_KEY = process.env.OPENAI_API_KEY;
+  const ORG_ID = process.env.OPENAI_ORG_ID;
+  const PROJ_ID = process.env.OPENAI_PROJECT_ID;
 
   const client = new OpenAI({
     apiKey: API_KEY,
