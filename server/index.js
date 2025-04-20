@@ -48,7 +48,7 @@ const updateTask = require('./routes/update/updateTask');
 // create express app
 const app = express();
 app.use(cors({
-  origin: "https://note-sage-flame.vercel.app/" 
+  origin: "https://note-sage.com/" 
 }));
 app.use(helmet());
 app.use(bodyparser.json());
