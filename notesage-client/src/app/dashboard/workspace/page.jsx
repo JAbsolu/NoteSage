@@ -248,15 +248,6 @@ const WorkSpace = () => {
     }
   }
 
-  // Prevent rendering during hydration
-  if (loading) {
-    return <div className="flex justify-center items-center h-screen text-black">Loading...</div>;
-  }
-
-  if (!token) {
-    return <div className="text-center mt-10">Please log in first.</div>;
-  }
-
   useEffect(() => {
     // Ensure hydration consistency
     const storedToken = Cookies.get("token");
@@ -274,8 +265,17 @@ const WorkSpace = () => {
     
       getQuizzes(moduleId);
       getModuleDecks(moduleId);
-      
+
   }, [userId, moduleId, token, getUser, getModules, getQuizzes, getModuleDecks]);
+
+   // Prevent rendering during hydration
+   if (loading) {
+    return <div className="flex justify-center items-center h-screen text-black">Loading...</div>;
+  }
+
+  if (!token) {
+    return <div className="text-center mt-10">Please log in first.</div>;
+  }
 
   return (
     <div className="flex bg-light-gray min-h-screen">
