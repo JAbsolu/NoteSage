@@ -17,6 +17,8 @@ import CreateTaskModal from "@/components/CreateTaskModal";
 import UserInfoModal from "@/components/UserInfoModal";
 import { useCallback } from "react";
 
+const API_URL = process.env.API_URL || "http://localhost";
+
 
 function Dashboard() {
   const [sidebarExpanded, setSidebarExpanded] = useState(true);
@@ -53,7 +55,7 @@ function Dashboard() {
     if (!id) return;
   
     try {
-      const response = await fetch(`http://localhost/user?id=${id}`, {
+      const response = await fetch(`${API_URL}/user?id=${id}`, {
         method: "GET",
         headers: {
           "Content-Type": "application/json",
@@ -77,7 +79,7 @@ function Dashboard() {
 
   const createTask = async () => {
     try {
-      const response = await fetch(`http://localhost/create-task`, {
+      const response = await fetch(`${API_URL}/create-task`, {
         method: "POST",
         headers: {
           "Content-Type": "application/json",
@@ -110,7 +112,7 @@ function Dashboard() {
     }
 
     try {
-      const response = await fetch(`http://localhost/user-tasks?id=${id}`, {
+      const response = await fetch(`${API_URL}/user-tasks?id=${id}`, {
         method: "GET",
         headers: {
           "Content-Type": "application/json",
@@ -136,7 +138,7 @@ function Dashboard() {
   const updateTask = async(taskId) => {
     console.log("task id",taskId)
     try {
-      const response = await fetch(`http://localhost/update-task`, {
+      const response = await fetch(`${API_URL}/update-task`, {
         method: "PUT",
         headers: {
           "Content-Type": "application/json",
@@ -162,7 +164,7 @@ function Dashboard() {
   //delete task
   const deleteteTask = async(taskId) => {
     try {
-      const response = await fetch(`http://localhost/delete-task?id=${taskId}`, {
+      const response = await fetch(`${API_URL}/delete-task?id=${taskId}`, {
         method: "DELETE",
         headers: {
           "Content-Type": "application/json",
@@ -186,7 +188,7 @@ function Dashboard() {
 
   const getFlashCards = useCallback(async () => {
     try {
-      const response = await fetch("http://localhost/decks", {
+      const response = await fetch(`${API_URL}/decks`, {
         headers: {"Content-Type": "application/json", "Authorization": token }
       })
 
