@@ -5,7 +5,7 @@ import { FaRegEdit } from "react-icons/fa";
 import { RxCross1 } from "react-icons/rx";
 import { MdOutlineQuiz } from "react-icons/md";
 
-const API_URL = process.env.API_URL || "http://localhost";
+const API_URL = process.env.API_URL || "http://localhost:/5000";
 
 const QuizzesGroup = ({quizzes, firstName, moduleId }) => {
   const token = getCookie("token");

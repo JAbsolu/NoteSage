@@ -9,7 +9,7 @@ import { IoMdExpand } from "react-icons/io";
 import { MdDeleteOutline } from "react-icons/md";
 import { PiCardsThree } from "react-icons/pi";
 
-const API_URL = process.env.API_URL || "http://localhost";
+const API_URL = process.env.API_URL || "http://localhost:/5000";
 
 const QuizzesPage = () => {
   // ---------------------- State Declarations ---------------------- //

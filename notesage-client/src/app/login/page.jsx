@@ -8,7 +8,7 @@ import { useRouter } from "next/navigation";
 import AuthCheck from "../hoc/AuthCheck";
 import { setCookie } from "@/util/cookies";
 
-const API_URL = process.env.API_URL || "http://localhost";
+const API_URL = process.env.API_URL || "http://localhost:/5000";
 
 const Signin = () => {
   const [formData, setFormData] = useState({

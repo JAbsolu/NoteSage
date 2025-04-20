@@ -6,7 +6,7 @@ import { FaRegEdit, FaBook } from "react-icons/fa";
 import { RxCross1 } from "react-icons/rx";
 
 // API Base URL
-const API_URL = process.env.API_URL || "http://localhost";
+const API_URL = process.env.API_URL || "http://localhost:/5000";
 
 const LessonGroups = ({ firstName, modules, getModules }) => {
   const token = getCookie("token");

@@ -8,7 +8,7 @@ import { useRouter } from "next/navigation";
 import AuthCheck from "../hoc/AuthCheck";
 import { createNotificationList } from "@/util";
 
-const API_URL = process.env.API_URL || "http://localhost";
+const API_URL = process.env.API_URL || "http://localhost:/5000";
 
 const Signup = () => {
   const [formData, setFormData] = useState({
