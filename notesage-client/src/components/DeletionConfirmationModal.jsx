@@ -1,3 +1,5 @@
+const API_URL = process.env.API_URL || "http://localhost";
+
 const DeletionConfirmationModal = ({ closeModal, cardId, token, onComplete} ) => {
 
     const handleDelete =  () => {
@@ -19,7 +21,7 @@ const DeletionConfirmationModal = ({ closeModal, cardId, token, onComplete} ) =>
       }
     
       try {
-        const response = await fetch(`http://localhost/delete-card?id=${id}`, {
+        const response = await fetch(`${API_URL}/delete-card?id=${id}`, {
           method: "DELETE",
           headers: headers
         })

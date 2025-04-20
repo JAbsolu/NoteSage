@@ -1,6 +1,8 @@
 import React, { useState } from "react";
 import { getCookie } from "@/util/cookies";
 
+const API_URL = process.env.API_URL || "http://localhost";
+
 const DeckModal = ({ closeModal, moduleId, getModuleDecks }) => {
   const [newDeckTitle, setNewDeckTitle] = useState("");
   const [newDeckDescription, setNewDeckDescription] = useState("");
@@ -15,7 +17,7 @@ const DeckModal = ({ closeModal, moduleId, getModuleDecks }) => {
     }
 
     try {
-      const response = await fetch(`http://localhost/create-deck`, {
+      const response = await fetch(`${API_URL}/create-deck`, {
         method: "POST",
         headers: {
           "Content-Type": "application/json",

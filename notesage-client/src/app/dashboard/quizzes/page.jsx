@@ -9,6 +9,8 @@ import { IoMdExpand } from "react-icons/io";
 import { MdDeleteOutline } from "react-icons/md";
 import { PiCardsThree } from "react-icons/pi";
 
+const API_URL = process.env.API_URL || "http://localhost";
+
 const QuizzesPage = () => {
   // ---------------------- State Declarations ---------------------- //
   const [firstName, setFirstName] = useState("");
@@ -30,7 +32,7 @@ const QuizzesPage = () => {
   // ---------------------- API Calls ---------------------- //
   const getUser = useCallback(async (id) => {
     try {
-      const response = await fetch(`http://localhost/user?id=${id}`, {
+      const response = await fetch(`${API_URL}/user?id=${id}`, {
         method: "GET",
         headers: {
           "Content-Type": "application/json",
@@ -54,7 +56,7 @@ const QuizzesPage = () => {
   // get quizzes
   const getQuizzes = useCallback(async () => {
     try {
-      const response = await fetch(`http://localhost/quizzes`, {
+      const response = await fetch(`${API_URL}/quizzes`, {
         method: "GET",
         headers: {
           "Content-Type": "application/json",
@@ -80,7 +82,7 @@ const QuizzesPage = () => {
   //get userQuizzes
   const getUserQuizzes = useCallback( async (id) => {
     try {
-      const response = await fetch(`http://localhost/user-quizzes?id=${id}`, {
+      const response = await fetch(`${API_URL}/user-quizzes?id=${id}`, {
         method: "GET",
         headers: {
           "Content-Type": "application/json",
@@ -105,7 +107,7 @@ const QuizzesPage = () => {
 
   // get quiz questions
   const getQuizQuestions = useCallback(async (quizId) => {
-    const url = `http://localhost/quiz-choices?id=${quizId}`;
+    const url = `${API_URL}/quiz-choices?id=${quizId}`;
 
     try {
       const response = await fetch(url, {

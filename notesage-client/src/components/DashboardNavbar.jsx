@@ -6,6 +6,8 @@ import { FiMenu, FiSearch, FiSettings, FiLogOut } from "react-icons/fi";
 import { useRouter } from "next/navigation";
 import { deleteCookie, getCookie } from "../util/cookies";
 
+const API_URL = process.env.API_URL || "http://localhost";
+
 const DashboardNavbar = ({ toggleSidebar, firstName, lastName }) => {
   const [dropdownOpen, setDropdownOpen] = useState(false);
   const [searchTerm, setSearchTerm] = useState("");
@@ -25,9 +27,9 @@ const DashboardNavbar = ({ toggleSidebar, firstName, lastName }) => {
   useEffect(() => {
     // Fetch all data on mount
     Promise.all([
-      fetch("http://localhost/decks", { headers: { Authorization: token } }).then(res => res.json()),
+      fetch(`${API_URL}/decks`, { headers: { Authorization: token } }).then(res => res.json()),
       // fetch("http://localhost/modules", { headers: { Authorization: token } }).then(res => res.json()),
-      fetch("http://localhost/quizzes", { headers: { Authorization: token } }).then(res => res.json()),
+      fetch(`${API_URL}/quizzes`, { headers: { Authorization: token } }).then(res => res.json()),
     ])
       .then(([decksData, modulesData, quizzesData]) => {
         setDecks(decksData?.data || []);

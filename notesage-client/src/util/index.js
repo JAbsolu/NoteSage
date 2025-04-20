@@ -1,6 +1,8 @@
+const API_URL = process.env.API_URL || "http://localhost";
+
 export const createNotificationList = async (userId) => {
     try {
-      const response = await fetch(`http://localhost/create-notification-list?id=${userId}`, {
+      const response = await fetch(`${API_URL}/create-notification-list?id=${userId}`, {
         method: "POST",
         headers: {
           "Content-Type": "application/json",
@@ -23,7 +25,7 @@ export const createNotificationList = async (userId) => {
 
 export const createNotificationListOnLogin = async (userId) => {
     try {
-        const response = await fetch(`http://localhost/notifications?id=${userId}`, {
+        const response = await fetch(`${API_URL}/notifications?id=${userId}`, {
             method: "GET",
             headers: {"Content-Type":"application/json"}
         })
