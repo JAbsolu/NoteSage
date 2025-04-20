@@ -6,7 +6,7 @@ import { getCookie } from "@/util/cookies";
 import Image from "next/image";
 import { useCallback, useEffect, useState } from "react";
 
-
+const API_URL = process.env.API_URL || "http://localhost";
 
 const SettingsPage = () => {
   const [firstName, setFirstName] = useState("");
@@ -40,7 +40,7 @@ const SettingsPage = () => {
 
   const fetchUserData = useCallback(async () => {
     try {
-      const response = await fetch(`http://localhost/user?id=${userId}`, {
+      const response = await fetch(`${API_URL}/user?id=${userId}`, {
         method: "GET",
         headers: {
           "Content-Type": "application/json",
@@ -61,7 +61,7 @@ const SettingsPage = () => {
 
   const fetchUserInfo = useCallback(async () => {
     try {
-      const response = await fetch(`http://localhost/user-info?userId=${userId}`, {
+      const response = await fetch(`${API_URL}/user-info?userId=${userId}`, {
         method: "GET",
         headers: {
           "Content-Type": "application/json",
@@ -129,7 +129,7 @@ const SettingsPage = () => {
     e.preventDefault();
     try {
       // Update User basic info
-      await fetch(`http://localhost/user/${userId}`, {
+      await fetch(`${API_URL}/user/${userId}`, {
         method: "PUT",
         headers: {
           "Content-Type": "application/json",
@@ -147,7 +147,7 @@ const SettingsPage = () => {
         graduationDate: userInfo.graduationDate ? new Date(userInfo.graduationDate) : null
       };
 
-      await fetch(`http://localhost/user-info`, {
+      await fetch(`${API_URL}/user-info`, {
         method: "POST",
         headers: {
           "Content-Type": "application/json",
@@ -173,7 +173,7 @@ const SettingsPage = () => {
     }
 
     try {
-      const response = await fetch(`http://localhost/user/change-password`, {
+      const response = await fetch(`${API_URL}/user/change-password`, {
         method: "POST",
         headers: {
           "Content-Type": "application/json",

@@ -12,7 +12,7 @@ import AiGeneration from "@/components/AiGeneration";
 import LessonGroups from "@/components/LessonGroups";
 
 // API Base URL
-const API_BASE_URL = process.env.API_BASE_URL || "http://localhost";
+const API_URL = process.env.API_URL || "http://localhost";
 
 const WorkSpace = () => {
   const [firstName, setFirstName] = useState("");
@@ -66,7 +66,7 @@ const WorkSpace = () => {
   /*------------------------------API CALLS-----------------------------------*/
   const getUser = useCallback(async (id) => {
     try {
-      const response = await fetch(`${API_BASE_URL}/user?id=${id}`, {
+      const response = await fetch(`${API_URL}/user?id=${id}`, {
         method: "GET",
         headers: {
           "Content-Type": "application/json",
@@ -90,7 +90,7 @@ const WorkSpace = () => {
   // get modules
   const getModules = useCallback(async (id) => {
     try {
-      const response = await fetch(`${API_BASE_URL}/user-modules?id=${id}`, {
+      const response = await fetch(`${API_URL}/user-modules?id=${id}`, {
         method: "GET",
         headers: {
           "Content-Type": "application/json",
@@ -118,7 +118,7 @@ const WorkSpace = () => {
     }
   
     try {
-      const response = await fetch(`${API_BASE_URL}/module-decks?id=${moduleId}`, {
+      const response = await fetch(`${API_URL}/module-decks?id=${moduleId}`, {
         method: "GET",
         headers: {
           "Content-Type": "application/json",
@@ -146,7 +146,7 @@ const WorkSpace = () => {
     }
 
     try {
-      const response = await fetch(`${API_BASE_URL}/module-quizzes?id=${id}`, {
+      const response = await fetch(`${API_URL}/module-quizzes?id=${id}`, {
         method: "GET",
         headers: {
           "Content-Type": "application/json",
@@ -178,7 +178,7 @@ const WorkSpace = () => {
     }
 
     try {
-      const response = await fetch(`${API_BASE_URL}/create-card`, {
+      const response = await fetch(`${API_URL}/create-card`, {
         method: "POST",
         headers: {
           "Content-Type": "application/json",
@@ -223,7 +223,7 @@ const WorkSpace = () => {
     }
 
     try {
-      const response = await fetch(`${API_BASE_URL}/create-multiple-choice`, {
+      const response = await fetch(`${API_URL}/create-multiple-choice`, {
         method: "POST",
         headers: {
           "Content-Type": "application/json",

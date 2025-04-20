@@ -8,6 +8,8 @@ import { useRouter } from "next/navigation";
 import AuthCheck from "../hoc/AuthCheck";
 import { setCookie } from "@/util/cookies";
 
+const API_URL = process.env.API_URL || "http://localhost";
+
 const Signin = () => {
   const [formData, setFormData] = useState({
     emailAddress: "",
@@ -26,7 +28,7 @@ const Signin = () => {
     e.preventDefault();
 
     try {
-      const response = await fetch("http://localhost:80/login", {
+      const response = await fetch(`${API_URL}/login`, {
         method: "POST",
         headers: {
           "Content-Type": "application/json",

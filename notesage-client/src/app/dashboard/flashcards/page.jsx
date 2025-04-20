@@ -31,9 +31,11 @@ const FlaschardsPage = () => {
   const token = getCookie("token");
   const router = useRouter();
 
+  const API_URL = process.env.API_URL || "http://localhost";
+
   const getUser = useCallback(async (id) => {
     try {
-      const response = await fetch(`http://localhost/user?id=${id}`, {
+      const response = await fetch(`${API_URL}/user?id=${id}`, {
         method: "GET",
         headers: {
           "Content-Type": "application/json",
@@ -54,7 +56,7 @@ const FlaschardsPage = () => {
   //get all flashcards
   const getDecks = useCallback(async () => {
     try {
-      const response = await fetch("http://localhost/decks", {
+      const response = await fetch(`${API_URL}/decks`, {
         method: "GET",
         headers: {
           "Content-Type": "application/json",
@@ -74,7 +76,7 @@ const FlaschardsPage = () => {
     if (!id) return;
   
     try {
-      const response = await fetch(`http://localhost/user-decks?id=${id}`, {
+      const response = await fetch(`${API_URL}/user-decks?id=${id}`, {
         method: "GET",
         headers: {
           "Content-Type": "application/json",
@@ -103,7 +105,7 @@ const FlaschardsPage = () => {
         "Authorization": token
       }
 
-      const response = await fetch(`http://localhost/deck-cards?id=${id}`, {
+      const response = await fetch(`${API_URL}/deck-cards?id=${id}`, {
         method: "GET",
         headers: headers
       })

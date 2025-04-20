@@ -8,6 +8,8 @@ import { useRouter } from "next/navigation";
 import AuthCheck from "../hoc/AuthCheck";
 import { createNotificationList } from "@/util";
 
+const API_URL = process.env.API_URL || "http://localhost";
+
 const Signup = () => {
   const [formData, setFormData] = useState({
     firstName: "",
@@ -26,7 +28,7 @@ const Signup = () => {
 
   const createNotificationList = async (userId) => {
       try {
-        const response = await fetch(`http://localhost/create-notification-list?id=${userId}`, {
+        const response = await fetch(`${API_URL}/create-notification-list?id=${userId}`, {
           method: "POST",
           headers: {
             "Content-Type": "application/json",
@@ -54,7 +56,7 @@ const Signup = () => {
       return;
     }
     try {
-      const response = await fetch("http://localhost/register", {
+      const response = await fetch(`${API_URL}/register`, {
         method: "POST",
         headers: {
           "Content-Type": "application/json",
