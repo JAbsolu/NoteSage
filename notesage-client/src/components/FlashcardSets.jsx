@@ -4,7 +4,7 @@ import { FaRegEdit } from "react-icons/fa";
 import { RxCross1 } from "react-icons/rx";
 import { PiCardsThree } from "react-icons/pi";
 
-const API_URL = process.env.API_URL || "http://localhost";
+const API_URL = process.env.API_URL || "http://localhost:/5000";
 
 const FlashcardSets = ({ decks, firstName, moduleId }) => {
   const [isModalOpen, setIsModalOpen] = useState(false);

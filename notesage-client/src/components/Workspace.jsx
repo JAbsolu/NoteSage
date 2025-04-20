@@ -5,7 +5,7 @@ import { useEffect } from "react";
 import { FaRegCircle, FaRegCircleCheck } from "react-icons/fa6";
 import { getCookie } from "@/util/cookies";
 
-const API_URL = process.env.API_URL || "http://localhost";
+const API_URL = process.env.API_URL || "http://localhost:/5000";
 
 const FlashcardsComponent = ({firstName, lastName, emailAddress, module, userId, token}) => {
   //modules

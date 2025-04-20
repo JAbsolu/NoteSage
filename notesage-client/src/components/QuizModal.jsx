@@ -6,7 +6,7 @@ const QuizModal = ({ moduleId, token, getQuizzes, closeModal }) => {
   const [newDescription, setNewDescription] = useState("");
   const userId = getCookie("userId");
 
-  const API_URL = process.env.API_URL || "http://localhost";
+  const API_URL = process.env.API_URL || "http://localhost:/5000";
 
   const createQuiz = async (id) => {
     if (!id) {

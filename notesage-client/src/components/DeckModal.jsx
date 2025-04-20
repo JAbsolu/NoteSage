@@ -1,7 +1,7 @@
 import React, { useState } from "react";
 import { getCookie } from "@/util/cookies";
 
-const API_URL = process.env.API_URL || "http://localhost";
+const API_URL = process.env.API_URL || "http://localhost:/5000";
 
 const DeckModal = ({ closeModal, moduleId, getModuleDecks }) => {
   const [newDeckTitle, setNewDeckTitle] = useState("");

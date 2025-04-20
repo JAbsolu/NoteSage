@@ -4,7 +4,7 @@ import { useState } from "react";
 import { Dialog } from "@headlessui/react";
 import { XMarkIcon } from "@heroicons/react/24/outline";
 
-const API_URL = process.env.API_URL || "http://localhost";
+const API_URL = process.env.API_URL || "http://localhost:/5000";
 
 const UserInfoModal = ({ userId, isOpen, setIsOpen }) => {
   const [formData, setFormData] = useState({

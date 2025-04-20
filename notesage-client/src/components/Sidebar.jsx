@@ -6,7 +6,7 @@ import { PiCardsThree } from "react-icons/pi";
 import NotificationsModal from "@/components/Notifications"; // Import the Modal
 import { getCookie } from "@/util/cookies";
 
-const API_URL = process.env.API_URL || "http://localhost";
+const API_URL = process.env.API_URL || "http://localhost:/5000";
 
 const getSeverity = (text) => {
   const lower = text.toLowerCase();

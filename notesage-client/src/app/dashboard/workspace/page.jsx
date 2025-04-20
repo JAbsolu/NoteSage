@@ -12,7 +12,7 @@ import AiGeneration from "@/components/AiGeneration";
 import LessonGroups from "@/components/LessonGroups";
 
 // API Base URL
-const API_URL = process.env.API_URL || "http://localhost";
+const API_URL = process.env.API_URL || "http://localhost:/5000";
 
 const WorkSpace = () => {
   const [firstName, setFirstName] = useState("");

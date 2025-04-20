@@ -7,7 +7,7 @@ const ModuleModal = ({ closeModal, userId, token, getModules}) => {
   const [modalError, setModalError] = useState("");
 
   // API Base URL
-const API_URL = process.env.API_URL || "http://localhost";
+  const API_URL = process.env.API_URL || "http://localhost:/5000";
   
   const createModal = () => {
     createModule(userId);

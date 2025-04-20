@@ -17,7 +17,7 @@ import CreateTaskModal from "@/components/CreateTaskModal";
 import UserInfoModal from "@/components/UserInfoModal";
 import { useCallback } from "react";
 
-const API_URL = process.env.API_URL || "http://localhost";
+const API_URL = process.env.API_URL || "http://localhost:/5000";
 
 
 function Dashboard() {
