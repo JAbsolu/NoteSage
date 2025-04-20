@@ -7,7 +7,7 @@ const ModuleModal = ({ closeModal, userId, token, getModules}) => {
   const [modalError, setModalError] = useState("");
 
   // API Base URL
-const API_BASE_URL = process.env.API_BASE_URL || "http://localhost";
+const API_URL = process.env.API_URL || "http://localhost";
   
   const createModal = () => {
     createModule(userId);
@@ -21,7 +21,7 @@ const API_BASE_URL = process.env.API_BASE_URL || "http://localhost";
     }
 
     try {
-      const response = await fetch(`${API_BASE_URL}/create-module`, {
+      const response = await fetch(`${API_URL}/create-module`, {
         method: "POST",
         headers: {
           "Content-Type": "application/json",

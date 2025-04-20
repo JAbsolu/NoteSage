@@ -5,6 +5,7 @@ import { useEffect } from "react";
 import { FaRegCircle, FaRegCircleCheck } from "react-icons/fa6";
 import { getCookie } from "@/util/cookies";
 
+const API_URL = process.env.API_URL || "http://localhost";
 
 const FlashcardsComponent = ({firstName, lastName, emailAddress, module, userId, token}) => {
   //modules
@@ -29,7 +30,7 @@ const FlashcardsComponent = ({firstName, lastName, emailAddress, module, userId,
   //get user id from cookies
   const getModules = useCallback(async(id) =>{
     try {
-      const url = `http://localhost/user-modules?id=${id}`;
+      const url = `${API_URL}/user-modules?id=${id}`;
       const request = await fetch(url, {
         method: "GET",
         headers: {
@@ -61,7 +62,7 @@ const FlashcardsComponent = ({firstName, lastName, emailAddress, module, userId,
     }
 
     try {
-      const response = await fetch(`http://localhost/module-decks?id=${moduleId}`, {
+      const response = await fetch(`${API_URL}/module-decks?id=${moduleId}`, {
         method: "GET",
         headers: { 
           "Content-Type": "application/json",
@@ -106,7 +107,7 @@ const FlashcardsComponent = ({firstName, lastName, emailAddress, module, userId,
     };
     
     try {
-      const url = `http://localhost/create-module`;
+      const url = `${API_URL}/create-module`;
 
       const request = await fetch(url, {
         method: "POST",
@@ -137,7 +138,7 @@ const FlashcardsComponent = ({firstName, lastName, emailAddress, module, userId,
         description: deckDescription
       }
 
-      const response = await fetch(`http:/localhost/create-deck`, {
+      const response = await fetch(`${API_URL}/create-deck`, {
         method: "POST",
         headers: {
           "Content-Type": "application/json",

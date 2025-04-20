@@ -4,6 +4,8 @@ import { useState } from "react";
 import { Dialog } from "@headlessui/react";
 import { XMarkIcon } from "@heroicons/react/24/outline";
 
+const API_URL = process.env.API_URL || "http://localhost";
+
 const UserInfoModal = ({ userId, isOpen, setIsOpen }) => {
   const [formData, setFormData] = useState({
     intro: "",
@@ -35,7 +37,7 @@ const UserInfoModal = ({ userId, isOpen, setIsOpen }) => {
     };
 
     try {
-      const res = await fetch("http://localhost/add-user-info", {
+      const res = await fetch(`${API_URL}/add-user-info`, {
         method: "POST",
         headers: { "Content-Type": "application/json" },
         body: JSON.stringify(payload),

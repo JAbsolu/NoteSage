@@ -6,6 +6,8 @@ import { PiCardsThree } from "react-icons/pi";
 import NotificationsModal from "@/components/Notifications"; // Import the Modal
 import { getCookie } from "@/util/cookies";
 
+const API_URL = process.env.API_URL || "http://localhost";
+
 const getSeverity = (text) => {
   const lower = text.toLowerCase();
   if (lower.includes("error") || lower.includes("problem") || lower.includes("server")) return 'error';
@@ -27,7 +29,7 @@ const Sidebar = ({ isExpanded }) => {
     useEffect(() => {
     
       const interval = setInterval(() => {
-        fetch(`http://localhost/notifications?id=${userId}`)
+        fetch(`${API_URL}/notifications?id=${userId}`)
           .then((res) => res.json())
           .then((data) => {
             const notificationList = data?.data?.[0]?.notifications || [];

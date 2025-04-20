@@ -6,7 +6,7 @@ const QuizModal = ({ moduleId, token, getQuizzes, closeModal }) => {
   const [newDescription, setNewDescription] = useState("");
   const userId = getCookie("userId");
 
-  const API_BASE_URL = process.env.API_BASE_URL || "http://localhost";
+  const API_URL = process.env.API_URL || "http://localhost";
 
   const createQuiz = async (id) => {
     if (!id) {
@@ -15,7 +15,7 @@ const QuizModal = ({ moduleId, token, getQuizzes, closeModal }) => {
     }
 
     try {
-      const response = await fetch(`${API_BASE_URL}/create-quiz`, {
+      const response = await fetch(`${API_URL}/create-quiz`, {
         method: "POST",
         headers: {
           "Content-Type": "application/json",

@@ -4,7 +4,7 @@ import { FaRegEdit } from "react-icons/fa";
 import { RxCross1 } from "react-icons/rx";
 import { PiCardsThree } from "react-icons/pi";
 
-const API_BASE_URL = process.env.API_BASE_URL || "http://localhost";
+const API_URL = process.env.API_URL || "http://localhost";
 
 const FlashcardSets = ({ decks, firstName, moduleId }) => {
   const [isModalOpen, setIsModalOpen] = useState(false);
@@ -17,7 +17,7 @@ const FlashcardSets = ({ decks, firstName, moduleId }) => {
     if (!moduleId) return;
 
     try {
-      const response = await fetch(`${API_BASE_URL}/module-decks?id=${moduleId}`, {
+      const response = await fetch(`${API_URL}/module-decks?id=${moduleId}`, {
         method: "GET",
         headers: {
           "Content-Type": "application/json",
@@ -39,7 +39,7 @@ const FlashcardSets = ({ decks, firstName, moduleId }) => {
 
   const deleteDeck = async (id) => {
     try {
-      const response = await fetch(`${API_BASE_URL}/delete-deck?id=${id}`, {
+      const response = await fetch(`${API_URL}/delete-deck?id=${id}`, {
         method: "DELETE",
         headers: {
           "Content-Type": "application/json",
@@ -152,7 +152,7 @@ const Modal = ({ closeModal, deckId, title, description, token, onUpdateComplete
     };
 
     try {
-      const response = await fetch(`${API_BASE_URL}/update-deck?id=${id}`, {
+      const response = await fetch(`${API_URL}/update-deck?id=${id}`, {
         method: "PUT",
         headers,
         body: JSON.stringify(body),

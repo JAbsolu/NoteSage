@@ -5,6 +5,8 @@ import { FaRegEdit } from "react-icons/fa";
 import { RxCross1 } from "react-icons/rx";
 import { MdOutlineQuiz } from "react-icons/md";
 
+const API_URL = process.env.API_URL || "http://localhost";
+
 const QuizzesGroup = ({quizzes, firstName, moduleId }) => {
   const token = getCookie("token");
   const [quizId, setQuizId] = useState("");
@@ -20,7 +22,7 @@ const QuizzesGroup = ({quizzes, firstName, moduleId }) => {
     }
 
     try {
-      const response = await fetch(`http://localhost/module-quizzes?id=${id}`, {
+      const response = await fetch(`${API_URL}/module-quizzes?id=${id}`, {
         method: "GET",
         headers: headers
       })
@@ -52,7 +54,7 @@ const QuizzesGroup = ({quizzes, firstName, moduleId }) => {
         "Authorization": token
       }
 
-      const response = await fetch(`http://localhost/delete-quiz?id=${id}`, {
+      const response = await fetch(`${API_URL}/delete-quiz?id=${id}`, {
         method: "DELETE",
         headers: headers
       })
@@ -145,7 +147,7 @@ const Modal = ({ closeModal, quizId, token, title, description, onUpdateComplete
     }
 
     try {
-      const response = await fetch(`http://localhost/update-quiz?id=${id}`, {
+      const response = await fetch(`${API_URL}/update-quiz?id=${id}`, {
         method: "PUT",
         headers: headers,
         body: JSON.stringify(body)

@@ -6,7 +6,7 @@ import { FaRegEdit, FaBook } from "react-icons/fa";
 import { RxCross1 } from "react-icons/rx";
 
 // API Base URL
-const API_BASE_URL = process.env.API_BASE_URL || "http://localhost";
+const API_URL = process.env.API_URL || "http://localhost";
 
 const LessonGroups = ({ firstName, modules, getModules }) => {
   const token = getCookie("token");
@@ -23,7 +23,7 @@ const LessonGroups = ({ firstName, modules, getModules }) => {
   const getModuleDecks = async (id) => {
     if (!id) return;
     try {
-      const response = await fetch(`${API_BASE_URL}/module-decks?id=${id}`, {
+      const response = await fetch(`${API_URL}/module-decks?id=${id}`, {
         method: "GET",
         headers: {
           "Content-Type": "application/json",
@@ -42,7 +42,7 @@ const LessonGroups = ({ firstName, modules, getModules }) => {
   const getQuizzes = async (id) => {
     if (!id) return;
     try {
-      const response = await fetch(`${API_BASE_URL}/module-quizzes?id=${id}`, {
+      const response = await fetch(`${API_URL}/module-quizzes?id=${id}`, {
         method: "GET",
         headers: {
           "Content-Type": "application/json",
@@ -61,7 +61,7 @@ const LessonGroups = ({ firstName, modules, getModules }) => {
   const deleteModule = async (id) => {
     if (!id) return;
     try {
-      const response = await fetch(`${API_BASE_URL}/delete-module?id=${id}`, {
+      const response = await fetch(`${API_URL}/delete-module?id=${id}`, {
         method: "DELETE",
         headers: {
           "Content-Type": "application/json",
@@ -156,7 +156,7 @@ const Modal = ({ closeModal, lessonGroupId, title, isSetPublic, token, onUpdateC
 
   const updateModule = async () => {
     try {
-      const response = await fetch(`${API_BASE_URL}/update-module?id=${lessonGroupId}`, {
+      const response = await fetch(`${API_URL}/update-module?id=${lessonGroupId}`, {
         method: "PUT",
         headers: {
           "Content-Type": "application/json",
