@@ -39,7 +39,7 @@ const updateModule = require('./routes/update/updateModule');
 const updateDeck = require('./routes/update/updateDeck');
 const updateMultipleChoice = require('./routes/update/updateMultipleChoice');
 const updateUser = require('./routes/update/updateUser');
-const updateUserInfo = require('./routes/update/updateUserinfo');
+const updateUserInfo = require('./routes/update/updateUserInfo');
 const updateQuiz = require("./routes/update/updateQuiz");
 const deleteRoutes = require("./routes/deletes/deletes");
 const sendEmail = require("./routes/email/index");
@@ -47,7 +47,9 @@ const updateTask = require('./routes/update/updateTask');
 
 // create express app
 const app = express();
-app.use(cors());
+app.use(cors({
+  origin: "https://note-sage-flame.vercel.app/" 
+}));
 app.use(helmet());
 app.use(bodyparser.json());
 dbConnection();
