@@ -101,6 +101,11 @@ app.use("/", deleteRoutes);
 // save port and start server
 const PORT = 5000;
 
-app.listen(PORT, () => {
-  console.log(`Server is running at localhost:${PORT}..`);
-}); 
+// Listen on all interfaces
+app.listen(PORT, '0.0.0.0', () => {
+  console.log(`Server is running on http://0.0.0.0:${PORT}`);
+});
+
+// app.listen(PORT, () => {
+//   console.log(`Server is running at localhost:${PORT}..`);
+// }); 
