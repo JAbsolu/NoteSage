@@ -2,8 +2,8 @@ import { getCookie } from "@/util/cookies";
 import { useState } from "react";
 import FlashcardSets from "./FlashcardSets";
 import QuizzesGroup from "./QuizzesGroup";
-import { FaRegEdit, FaBook } from "react-icons/fa";
-import { RxCross1 } from "react-icons/rx";
+import { FaBook } from "react-icons/fa";
+import { FiMoreHorizontal } from "react-icons/fi";
 
 // API Base URL
 const API_URL = process.env.API_URL || "http://localhost:/5000";
@@ -18,8 +18,8 @@ const LessonGroups = ({ firstName, modules, getModules }) => {
   const [lessonGroupId, setLessonGroupId] = useState("");
   const [moduleTitle, setModuleTitle] = useState("");
   const [isSetPublic, setIsSetPublic] = useState(false);
+  const [activeModuleDropdown, setActiveModuleDropdown] = useState(null);
 
-  // Fetch decks based on the selected module
   const getModuleDecks = async (id) => {
     if (!id) return;
     try {
@@ -27,7 +27,7 @@ const LessonGroups = ({ firstName, modules, getModules }) => {
         method: "GET",
         headers: {
           "Content-Type": "application/json",
-          "Authorization": token,
+          Authorization: token,
         },
       });
 
@@ -38,7 +38,6 @@ const LessonGroups = ({ firstName, modules, getModules }) => {
     }
   };
 
-  // Fetch quizzes based on the selected module
   const getQuizzes = async (id) => {
     if (!id) return;
     try {
@@ -46,7 +45,7 @@ const LessonGroups = ({ firstName, modules, getModules }) => {
         method: "GET",
         headers: {
           "Content-Type": "application/json",
-          "Authorization": token,
+          Authorization: token,
         },
       });
 
@@ -57,7 +56,6 @@ const LessonGroups = ({ firstName, modules, getModules }) => {
     }
   };
 
-  // Delete module
   const deleteModule = async (id) => {
     if (!id) return;
     try {
@@ -65,12 +63,12 @@ const LessonGroups = ({ firstName, modules, getModules }) => {
         method: "DELETE",
         headers: {
           "Content-Type": "application/json",
-          "Authorization": token,
+          Authorization: token,
         },
       });
 
       if (response.ok) {
-        await getModules(userId); // Refresh modules after delete
+        await getModules(userId); // Refresh modules
       }
     } catch (error) {
       console.log(error);
@@ -80,7 +78,8 @@ const LessonGroups = ({ firstName, modules, getModules }) => {
   return (
     <>
       <h3 className="font-semibold text-lg mt-4 mb-5">Lesson Groups</h3>
-      <div className="flex flex-col justify-between gap-3 overflow-scroll">
+      <div>
+        <div className="min-h-[6em] flex flex-col gap-2">
         {modules.map((module) => (
           <div
             key={module._id}
@@ -104,32 +103,54 @@ const LessonGroups = ({ firstName, modules, getModules }) => {
                 </div>
               </div>
 
-              {/* actions */}
-              <div className="flex w-full justify-end items-end gap-3">
-                <span
-                  className="flex flex-col gap-1 hover:text-[#2489D3] hover:cursor-pointer text-xs"
-                  onClick={(e) => {
-                    e.stopPropagation();
-                    setIsModalOpen(true);
-                    setModuleTitle(module.title);
-                    setIsSetPublic(module.public);
-                  }}
-                >
-                  <FaRegEdit className="text-lg" />
-                </span>
-                <span
-                  className="flex gap-1 hover:text-red-600 hover:cursor-pointer text-xs"
-                  onClick={(e) => {
-                    e.stopPropagation();
-                    deleteModule(module._id);
-                  }}
-                >
-                  <RxCross1 className="text-lg" />
-                </span>
+              {/* Dropdown actions */}
+              <div className="flex w-full justify-end items-center">
+                <div className="relative">
+                  <button
+                    onClick={(e) => {
+                      e.stopPropagation();
+                      setActiveModuleDropdown(
+                        activeModuleDropdown === module._id ? null : module._id
+                      );
+                    }}
+                    className="p-2 hover:bg-gray-300 rounded-full"
+                  >
+                    <FiMoreHorizontal size={18} className="text-black"/>
+                  </button>
+
+                  {activeModuleDropdown === module._id && (
+                    <div className="absolute right-0 mt-2 w-32 bg-white border rounded-lg shadow-lg z-10">
+                      <button
+                        className="block w-full text-left px-4 py-2 text-sm hover:bg-gray-100"
+                        onClick={(e) => {
+                          e.stopPropagation();
+                          setIsModalOpen(true);
+                          setModuleTitle(module.title);
+                          setIsSetPublic(module.public);
+                          setLessonGroupId(module._id);
+                          setActiveModuleDropdown(null);
+                        }}
+                      >
+                        Edit
+                      </button>
+                      <button
+                        className="block w-full text-left px-4 py-2 text-sm hover:bg-gray-100 text-red-600"
+                        onClick={(e) => {
+                          e.stopPropagation();
+                          deleteModule(module._id);
+                          setActiveModuleDropdown(null);
+                        }}
+                      >
+                        Delete
+                      </button>
+                    </div>
+                  )}
+                </div>
               </div>
             </div>
           </div>
         ))}
+        </div>
       </div>
 
       <FlashcardSets decks={decks} firstName={firstName} moduleId={lessonGroupId} />
@@ -149,7 +170,7 @@ const LessonGroups = ({ firstName, modules, getModules }) => {
   );
 };
 
-// Edit Modal Component
+// Edit Modal
 const Modal = ({ closeModal, lessonGroupId, title, isSetPublic, token, onUpdateComplete }) => {
   const [isPublic, setIsPublic] = useState(false);
   const [newLessonGroupName, setNewLessonGroupName] = useState("");
@@ -160,7 +181,7 @@ const Modal = ({ closeModal, lessonGroupId, title, isSetPublic, token, onUpdateC
         method: "PUT",
         headers: {
           "Content-Type": "application/json",
-          "Authorization": token,
+          Authorization: token,
         },
         body: JSON.stringify({
           title: newLessonGroupName || title,
@@ -170,9 +191,8 @@ const Modal = ({ closeModal, lessonGroupId, title, isSetPublic, token, onUpdateC
 
       const result = await response.json();
       if (response.ok) {
-        console.log("Updated:", result.message);
-        onUpdateComplete(); // Refresh modules
-        closeModal();       // Close modal
+        onUpdateComplete();
+        closeModal();
       } else {
         console.log("Update failed:", result.message);
       }
