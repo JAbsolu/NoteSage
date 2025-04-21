@@ -1,8 +1,7 @@
 import { getCookie } from "@/util/cookies";
 import { useCallback, useEffect, useState } from "react";
-import { FaRegEdit } from "react-icons/fa";
-import { RxCross1 } from "react-icons/rx";
 import { PiCardsThree } from "react-icons/pi";
+import { FiMoreHorizontal } from "react-icons/fi";
 
 const API_URL = process.env.API_URL || "http://localhost:/5000";
 
@@ -11,31 +10,36 @@ const FlashcardSets = ({ decks, firstName, moduleId }) => {
   const [deckId, setDeckId] = useState("");
   const [deckTitle, setDeckTitle] = useState("");
   const [deckDescription, setDeckDescription] = useState("");
+  const [activeDropdown, setActiveDropdown] = useState(null);
+
   const token = getCookie("token");
 
-  const getModuleDecks = useCallback( async (moduleId) => {
-    if (!moduleId) return;
+  const getModuleDecks = useCallback(
+    async (moduleId) => {
+      if (!moduleId) return;
 
-    try {
-      const response = await fetch(`${API_URL}/module-decks?id=${moduleId}`, {
-        method: "GET",
-        headers: {
-          "Content-Type": "application/json",
-          "Authorization": token,
-        },
-      });
-      const result = await response.json();
+      try {
+        const response = await fetch(`${API_URL}/module-decks?id=${moduleId}`, {
+          method: "GET",
+          headers: {
+            "Content-Type": "application/json",
+            Authorization: token,
+          },
+        });
 
-      if (!response.ok) {
-        console.log("Status:", response.status, result.message);
-        return;
+        const result = await response.json();
+        if (!response.ok) {
+          console.log("Status:", response.status, result.message);
+          return;
+        }
+
+        console.log("Decks fetched:", result.message);
+      } catch (error) {
+        console.log(error);
       }
-
-      console.log("Decks fetched:", result.message);
-    } catch (error) {
-      console.log(error);
-    }
-  },[token])
+    },
+    [token]
+  );
 
   const deleteDeck = async (id) => {
     try {
@@ -43,7 +47,7 @@ const FlashcardSets = ({ decks, firstName, moduleId }) => {
         method: "DELETE",
         headers: {
           "Content-Type": "application/json",
-          "Authorization": token,
+          Authorization: token,
         },
       });
 
@@ -73,42 +77,62 @@ const FlashcardSets = ({ decks, firstName, moduleId }) => {
   return (
     <>
       {decks && <h3 className="font-semibold text-lg mt-8 mb-3">Flashcard Groups</h3>}
-      <div className="flex flex-wrap gap-4 w-full max-h-[16em] overflow-scroll">
+      <div className="flex flex-wrap gap-4 w-full text-black">
         {decks &&
           decks.map((deck) => (
             <div key={deck._id} className="hover:cursor-pointer w-[95%]">
-              <div className="flex items-center bg-gray-100 p-3 rounded-lg shadow hover:bg-gray-200 transition">
-                <span className="bg-black text-white px-3 py-3 rounded font-bold">
-                  <PiCardsThree className="text-xl font-semibold" />
-                </span>
-                <div className="ml-4 min-w-[25em]">
-                  <h3 className="font-semibold">{deck.title}</h3>
-                  <p className="text-sm text-gray-600">
-                    <span className="text-xs"> created by {firstName}</span>
-                  </p>
+              <div className="flex items-center bg-gray-100 p-3 rounded-lg shadow hover:bg-gray-200 transition justify-between">
+                <div className="flex items-center">
+                  <span className="bg-black text-white px-3 py-3 rounded font-bold">
+                    <PiCardsThree className="text-xl font-semibold" />
+                  </span>
+                  <div className="ml-4 min-w-[25em]">
+                    <h3 className="font-semibold">{deck.title}</h3>
+                    <p className="text-sm text-gray-600">
+                      <span className="text-xs"> created by {firstName}</span>
+                    </p>
+                  </div>
                 </div>
-                <div className="flex justify-end items-center gap-4 ms-10 w-full">
-                  <span
-                    className="flex gap-1 hover:text-[#2489D3] hover:cursor-pointer text-xs"
+
+                {/* Dropdown actions */}
+                <div className="relative text-black">
+                  <button
                     onClick={(e) => {
                       e.stopPropagation();
-                      setIsModalOpen(true);
+                      setActiveDropdown(activeDropdown === deck._id ? null : deck._id);
                       setDeckId(deck._id);
-                      setDeckDescription(deck.description);
                       setDeckTitle(deck.title);
+                      setDeckDescription(deck.description);
                     }}
+                    className="p-2 hover:bg-gray-300 rounded-full"
                   >
-                    <FaRegEdit className="text-xl" />
-                  </span>
-                  <span
-                    className="flex gap-1 hover:text-red-600 hover:cursor-pointer text-xs"
-                    onClick={(e) => {
-                      e.stopPropagation();
-                      handleDeleteDeck(deck._id);
-                    }}
-                  >
-                    <RxCross1 className="text-xl" />
-                  </span>
+                    <FiMoreHorizontal size={18} />
+                  </button>
+
+                  {activeDropdown === deck._id && (
+                    <div className="absolute right-0 mt-2 w-32 bg-white border rounded-lg shadow-lg z-10 text-black">
+                      <button
+                        className="block w-full text-left px-4 py-2 text-sm hover:bg-gray-100"
+                        onClick={(e) => {
+                          e.stopPropagation();
+                          setIsModalOpen(true);
+                          setActiveDropdown(null);
+                        }}
+                      >
+                        Edit
+                      </button>
+                      <button
+                        className="block w-full text-left px-4 py-2 text-sm hover:bg-gray-100 text-red-600"
+                        onClick={(e) => {
+                          e.stopPropagation();
+                          handleDeleteDeck(deck._id);
+                          setActiveDropdown(null);
+                        }}
+                      >
+                        Delete
+                      </button>
+                    </div>
+                  )}
                 </div>
               </div>
             </div>
@@ -142,7 +166,7 @@ const Modal = ({ closeModal, deckId, title, description, token, onUpdateComplete
   const updateDeck = async (id) => {
     const headers = {
       "Content-Type": "application/json",
-      "Authorization": token,
+      Authorization: token,
     };
 
     const body = {
@@ -173,7 +197,7 @@ const Modal = ({ closeModal, deckId, title, description, token, onUpdateComplete
 
   return (
     <div
-      className="fixed inset-0 bg-gray-900 bg-opacity-50 flex justify-center items-center z-50"
+      className="fixed inset-0 bg-gray-900 bg-opacity-50 flex justify-center items-center z-50 text-black"
       onClick={(e) => {
         if (e.target === e.currentTarget) closeModal();
       }}
