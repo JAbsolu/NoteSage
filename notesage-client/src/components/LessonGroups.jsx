@@ -104,7 +104,7 @@ const LessonGroups = ({ firstName, modules, getModules }) => {
               </div>
 
               {/* Dropdown actions */}
-              <div className="flex w-full justify-end items-center">
+              <div className="flex w-full justify-end items-center text-black">
                 <div className="relative">
                   <button
                     onClick={(e) => {
