@@ -47,9 +47,9 @@ const updateTask = require('./routes/update/updateTask');
 
 // create express app
 const app = express();
-// app.use(cors({
-//   origin: "https://note-sage.com/" 
-// }));
+app.use(cors({
+  origin: "https://note-sage.com/" 
+}));
 app.use(cors());
 app.use(helmet());
 app.use(bodyparser.json());
@@ -106,7 +106,3 @@ const PORT = 5000;
 app.listen(PORT, '0.0.0.0', () => {
   console.log(`Server is running on http://0.0.0.0:${PORT}`);
 });
-
-// app.listen(PORT, () => {
-//   console.log(`Server is running at localhost:${PORT}..`);
-// }); 

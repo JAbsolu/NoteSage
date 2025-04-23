@@ -24,7 +24,26 @@ const getSeverity = (text) => {
   return 'info';
 };
 
+const API_URL = process.env.API_URL || "http://localhost:/5000";
+
 export default function NotificationsModal({ open, onClose, notifications, loading }) {
+  const userId = getCookie("userId");
+  const token = getCookie("token");
+
+   // delete notifiication
+  const deleteNotification = async (notification) => {
+    try {
+      const response = await fetch(`${API_URL}/delete-notification?id=${userId}&notification=${notification}`, {
+        method: "DELETE",
+        headers: { "Content-Type": "application/json", "Authorization": token }
+      })
+      const result = await response.json();
+      if (!response.ok) console.log(response.status, result.message);
+      console.log(result.message); 
+    } catch (error) {
+      console.log(error.message);
+    }
+  }
 
   return (
     <Modal open={open} onClose={onClose}>
@@ -49,7 +68,7 @@ export default function NotificationsModal({ open, onClose, notifications, loadi
           </Typography>
         ) : (
           notifications.map((msg, i) => (
-            <NotificationItem key={i} message={msg} />
+            <NotificationItem key={i} message={msg} deleteNotification={deleteNotification}/>
           ))
         )}
       </Box>
@@ -57,7 +76,7 @@ export default function NotificationsModal({ open, onClose, notifications, loadi
   );
 }
 
-function NotificationItem({ message }) {
+function NotificationItem({ message, deleteNotification }) {
   const [open, setOpen] = useState(true);
   const severity = getSeverity(message);
 
@@ -69,7 +88,7 @@ function NotificationItem({ message }) {
       icon={<NotificationsActiveIcon />}
       action={
         <IconButton size="small" onClick={() => setOpen(false)}>
-          <CloseIcon fontSize="inherit" />
+          <CloseIcon fontSize="inherit" onClick={() => deleteNotification(message)} />
         </IconButton>
       }
       sx={{ mb: 1, py: 0.5}}

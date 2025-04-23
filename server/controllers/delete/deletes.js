@@ -7,6 +7,7 @@ const Quiz = require("../../models/Quiz")
 const User = require("../../models/User")
 const UserInfo = require("../../models/UserInfo")
 const Task = require("../../models/Task")
+const Notifications = require("../../models/Notifications");
 
 // delete user
 exports.deleteUser = async(req, res) => {
@@ -172,3 +173,30 @@ exports.deleteTask = async (req, res) => {
     res.status(500).json({ message: error });
   }
 }
+
+// delete a notification
+exports.deleteNotification = async (req, res) => {
+  const { id, notification } = req.query;
+
+  try {
+    // Find the user
+    const user = await User.findById(id);
+    if (!user) return res.status(404).json({ message: "Invalid user ID" });
+
+    // Find the user's notifications
+    const userNotifications = await Notifications.findOne({ userId: id });
+    if (!userNotifications) return res.status(404).json({ message: "No notifications found" });
+
+    // Find the index of the notification to delete
+    const index = userNotifications.notifications.findIndex(n => n === notification);
+    if (index === -1) return res.status(404).json({ message: "Notification not found" });
+
+    // Remove the notification from the array
+    userNotifications.notifications.splice(index, 1);
+    await userNotifications.save();
+
+    res.status(204).json({ message: "Notification deleted" });
+  } catch (error) {
+    res.status(500).json({ message: error.message });
+  }
+};

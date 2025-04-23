@@ -8,26 +8,17 @@ import { getCookie } from "@/util/cookies";
 
 const API_URL = process.env.API_URL || "http://localhost:/5000";
 
-const getSeverity = (text) => {
-  const lower = text.toLowerCase();
-  if (lower.includes("error") || lower.includes("problem") || lower.includes("server")) return 'error';
-  if (lower.includes("finished") || lower.includes("well done")) return 'success';
-  if (lower.includes("friend") || lower.includes("request")) return 'info';
-  if (lower.includes("mail") || lower.includes("warn")) return 'warning';
-  return 'info';
-};
-
 const Sidebar = ({ isExpanded }) => {
   const [allNotifications, setAllNotifications] = useState([]);
   const [openModal, setOpenModal] = useState(false);
 
    const [notifications, setNotifications] = useState([]);
     const [loading, setLoading] = useState(true);
-  
     const userId = getCookie("userId");
+    const token = getCookie("token");
   
+    // -------------- useeffects -------------------------
     useEffect(() => {
-    
       const interval = setInterval(() => {
         fetch(`${API_URL}/notifications?id=${userId}`)
           .then((res) => res.json())

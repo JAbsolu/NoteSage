@@ -11,5 +11,6 @@ router.delete("/delete-quiz", deletes.deleteQuiz);
 router.delete("/delete-multiplechoice", deletes.deleteMultipleChoice);
 router.delete("/delete-paper", deletes.deletePaper);
 router.delete("/delete-task", deletes.deleteTask);
+router.delete("/delete-notification", deletes.deleteNotification);
 
 module.exports = router;
