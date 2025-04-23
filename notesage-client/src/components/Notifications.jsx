@@ -33,7 +33,7 @@ export default function NotificationsModal({ open, onClose, notifications, loadi
    // delete notifiication
   const deleteNotification = async (notification) => {
     try {
-      const response = await fetch(`${API_URL}/delete-notification?id=${userId}&notification=${notification}`, {
+      const response = await fetch(`${API_URL}/delete-notification?id=${userId}&notification=${encodeURIComponent(notification)}`, {
         method: "DELETE",
         headers: { "Content-Type": "application/json", "Authorization": token }
       })
