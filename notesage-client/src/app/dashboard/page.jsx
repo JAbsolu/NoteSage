@@ -206,6 +206,26 @@ function Dashboard() {
     }
   }, [userId, getUser]);
 
+  // get user info
+    const fetchUserInfo = useCallback(async () => {
+      try {
+        const response = await fetch(`${API_URL}/user-info?id=${userId}`, {
+          method: "GET",
+          headers: {
+            "Content-Type": "application/json",
+            "Authorization": token,
+          }
+        });
+  
+        if (response.ok) setProfileCompletion(true);
+        
+      } catch (error) {
+        console.error("Error fetching user info:", error);
+      }
+    },[userId, token])
+
+
+
     //useEffects
     useEffect(() => {
       if (userId) {
@@ -216,6 +236,10 @@ function Dashboard() {
   useEffect(() => {
     getFlashCards();
   },[getFlashCards])
+
+  useEffect(() => {
+    fetchUserInfo()
+  }, [fetchUserInfo])
 
   return (
     <div className="flex bg-light-gray text-black">

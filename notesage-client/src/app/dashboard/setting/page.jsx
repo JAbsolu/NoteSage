@@ -4,6 +4,7 @@ import DashboardNavbar from "@/components/DashboardNavbar";
 import Sidebar from "@/components/Sidebar";
 import { getCookie } from "@/util/cookies";
 import Image from "next/image";
+import Link from "next/link";
 import { useCallback, useEffect, useState } from "react";
 
 const API_URL = process.env.API_URL || "http://localhost:/5000";
@@ -28,6 +29,7 @@ const SettingsPage = () => {
       github: ""
     }
   });
+  const [userInfoData, setUserInfoData] = useState({});
 
   const [editMode, setEditMode] = useState(false);
   const [passwordData, setPasswordData] = useState({
@@ -59,35 +61,23 @@ const SettingsPage = () => {
     }
   },[token, userId])
 
+  // get user info
   const fetchUserInfo = useCallback(async () => {
     try {
-      const response = await fetch(`${API_URL}/user-info?userId=${userId}`, {
+      const response = await fetch(`${API_URL}/user-info?id=${userId}`, {
         method: "GET",
         headers: {
           "Content-Type": "application/json",
           "Authorization": token,
-        },
+        }
       });
 
-      if (response.ok) {
-        const result = await response.json();
-        if (result.data) {
-          setUserInfo({
-            intro: result.data.intro || "",
-            school: result.data.school || "",
-            graduationDate: result.data.graduationDate ? new Date(result.data.graduationDate).toISOString().split('T')[0] : "",
-            image: result.data.image || "",
-            socials: result.data.socials || {
-              twitter: "",
-              linkedin: "",
-              github: ""
-            }
-          });
-          if (result.data.image) {
-            setProfileImagePreview(result.data.image);
-          }
-        }
-      }
+      const result = await response.json();
+      if (!response.ok) console.log(result.message);
+
+      setUserInfoData(result.data[0]);
+      console.log(result.message);
+      
     } catch (error) {
       console.error("Error fetching user info:", error);
     }
@@ -355,36 +345,36 @@ const SettingsPage = () => {
                 <h2 className="text-xl font-semibold mb-4">Education</h2>
                 <div className="space-y-4">
                   <div className="mt-2 mb-4">
-                    <label className="block text-sm font-medium text-gray-700 mb-1">Intro</label>
-                    <p>No intro</p>
+                    <label className="block text-lg font-medium text-black mb-1">Intro</label>
+                    <p className="text-gray-600">{userInfoData?.intro || "No intro"}</p>
                   </div>
                   <div>
-                    <label className="block text-sm font-medium text-gray-700 mb-1">School/University</label>
+                    <label className="block text-lg font-medium text-black mb-1">{userInfoData?.school || "University"}</label>
                     {editMode ? (
                       <input
                         type="text"
                         name="school"
-                        value={userInfo.school}
+                        value={userInfoData?.school}
                         onChange={handleInputChange}
                         className="w-full px-3 py-2 border border-gray-300 rounded-md"
                       />
                     ) : (
-                      <p className="px-3 py-2 bg-gray-50 rounded-md">{userInfo.school || "Not specified"}</p>
+                      <p className="pb-4 pt-1 text-gray-600 rounded-md">{userInfoData?.school || "Not specified"}</p>
                     )}
                   </div>
                   <div>
-                    <label className="block text-sm font-medium text-gray-700 mb-1">Graduation Date</label>
+                    <label className="block text-lg font-medium text-black mb-1">Graduation Date</label>
                     {editMode ? (
                       <input
                         type="date"
                         name="graduationDate"
-                        value={userInfo.graduationDate}
+                        value={userInfoData?.graduationDate?.slice(0,10)}
                         onChange={handleInputChange}
                         className="w-full px-3 py-2 border border-gray-300 rounded-md"
                       />
                     ) : (
-                      <p className="px-3 py-2 bg-gray-50 rounded-md">
-                        {userInfo.graduationDate || "Not specified"}
+                      <p className="pb-4 pt-1 text-gray-600 rounded-md">
+                        {userInfoData?.graduationDate?.slice(0,10) || "Not specified"}
                       </p>
                     )}
                   </div>
@@ -396,51 +386,53 @@ const SettingsPage = () => {
                 <h2 className="text-xl font-semibold mb-4">Social Media</h2>
                 <div className="space-y-4">
                   <div> 
-                    <label className="block text-sm font-medium text-gray-700 mb-1">Twitter</label>
+                    <label className="block text-lg font-medium text-black mb-1">Twitter</label>
                     {editMode ? (
                       <input
                         type="url"
-                        value={userInfo.socials.twitter}
+                        value={userInfoData?.socials?.twitter}
                         onChange={(e) => handleSocialChange("twitter", e.target.value)}
                         className="w-full px-3 py-2 border border-gray-300 rounded-md"
                         placeholder="https://twitter.com/username"
                       />
                     ) : (
-                      <p className="px-3 py-2 bg-gray-50 rounded-md">
-                        {userInfo.socials.twitter || "Not provided"}
+                      <p className="pb-4 pt-1 text-gray-600 rounded-md">
+                        {userInfoData?.socials?.twitter || "Not provided"}
                       </p>
                     )}
                   </div>
                   <div>
-                    <label className="block text-sm font-medium text-gray-700 mb-1">LinkedIn</label>
+                    <label className="block text-lg font-medium text-black mb-1">LinkedIn</label>
                     {editMode ? (
                       <input
                         type="url"
-                        value={userInfo.socials.linkedin}
+                        value={userInfoData.socials?.linkedin}
                         onChange={(e) => handleSocialChange("linkedin", e.target.value)}
                         className="w-full px-3 py-2 border border-gray-300 rounded-md"
                         placeholder="https://linkedin.com/in/username"
                       />
                     ) : (
-                      <p className="px-3 py-2 bg-gray-50 rounded-md">
-                        {userInfo.socials.linkedin || "Not provided"}
-                      </p>
+                      <Link href={userInfoData?.socials?.linkedin || "#"} target="_blank" >
+                        <p className="pb-4 pt-1 text-gray-600 rounded-md text-blue-800">
+                          {userInfoData?.socials?.linkedin || "Not provided"}
+                        </p>
+                      </Link>
                     )}
                   </div>
                   <div>
-                    <label className="block text-sm font-medium text-gray-700 mb-1">GitHub</label>
+                    <label className="block text-lg font-medium text-black mb-1">GitHub</label>
                     {editMode ? (
                       <input
                         type="url"
-                        value={userInfo.socials.github}
+                        value={userInfoData?.socials?.github}
                         onChange={(e) => handleSocialChange("github", e.target.value)}
                         className="w-full px-3 py-2 border border-gray-300 rounded-md"
                         placeholder="https://github.com/username"
                       />
                     ) : (
-                      <p className="px-3 py-2 bg-gray-50 rounded-md">
-                        {userInfo.socials.github || "Not provided"}
-                      </p>
+                      <Link href={userInfoData?.socials?.github || "#"} target="_blank" className="pb-4 pt-1 text-blue-800 rounded-md">
+                        {userInfoData?.socials?.github || "Not provided"}
+                      </Link>
                     )}
                   </div>
                 </div>

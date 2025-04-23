@@ -57,7 +57,7 @@ const UserInfoModal = ({ userId, isOpen, setIsOpen }) => {
   return (
     <Dialog open={isOpen} onClose={() => setIsOpen(false)} className="relative z-50">
       <div className="fixed inset-0 bg-black/30" aria-hidden="true" />
-      <div className="fixed inset-0 flex items-center justify-center p-4">
+      <div className="fixed inset-0 flex items-center justify-center p-4 text-black">
         <Dialog.Panel className="mx-auto w-full max-w-lg rounded-lg bg-white p-6 shadow-lg">
           <div className="flex justify-between items-center mb-4">
             <Dialog.Title className="text-lg font-semibold">Add User Info</Dialog.Title>

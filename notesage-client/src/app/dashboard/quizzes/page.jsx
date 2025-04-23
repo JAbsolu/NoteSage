@@ -9,8 +9,21 @@ import { IoMdExpand } from "react-icons/io";
 import { PiCardsThree } from "react-icons/pi";
 import { FiMoreHorizontal } from "react-icons/fi";
 import { useSearchParams } from "next/navigation";
+import { Suspense } from "react";
 
 const API_URL = process.env.API_URL || "http://localhost:/5000";
+
+
+export default function QuizzPage() {
+  return (
+    <div>
+      <h1 className="text-2xl font-bold mb-4">Flashcards</h1>
+      <Suspense fallback={<div>Loading...</div>}>
+        <QuizzesPage />
+      </Suspense>
+    </div>
+  );
+}
 
 const QuizzesPage = () => {
   const [firstName, setFirstName] = useState("");
@@ -117,8 +130,6 @@ const QuizzesPage = () => {
         method: "DELETE",
         headers: { "Content-Type": "application/json", "Authorization": token }
       })
-
-      const result = await response.json();
 
       if (!response.ok) return;
       getQuizQuestions(quizId)
@@ -282,5 +293,3 @@ const QuizzesPage = () => {
     </div>
   );
 };
-
-export default QuizzesPage;

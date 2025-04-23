@@ -12,8 +12,8 @@ const getUserInfo = async (req, res) => {
     const userInfo = await UserInfo.find({ userId: id })
     
 
-      // handle other errors
-      res.status(200).json({ message: "user info retrieved", data: userInfo });
+    // handle other errors
+    res.status(200).json({ message: "user info retrieved", data: userInfo });
 
   } catch (err) {
     res.status(500).json({ message: "server error", error: err.message });

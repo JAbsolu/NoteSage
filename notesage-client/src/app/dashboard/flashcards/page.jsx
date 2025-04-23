@@ -11,8 +11,18 @@ import { FiMoreHorizontal } from "react-icons/fi";
 import StudyFlashcardModal from "@/components/studyFlashCardModal";
 import DeletionConfirmationModal from "@/components/DeletionConfirmationModal";
 
+export default function FlashCardPageSuspense() {
+  return (
+    <div>
+      <h1 className="text-2xl font-bold mb-4">Flashcards</h1>
+      <Suspense fallback={<div>Loading...</div>}>
+        <FlashcardsPage />
+      </Suspense>
+    </div>
+  );
+}
 
-const FlaschardsPage = () => {
+const FlashcardsPage = () => {
   const [firstName, setFirstName] = useState("");
   const [lastName, setLastName] = useState("");
   const [emailAddress, setEmailAddress] = useState("");
@@ -283,5 +293,3 @@ const FlaschardsPage = () => {
     </div>
   );
 };
-
-export default FlaschardsPage;
