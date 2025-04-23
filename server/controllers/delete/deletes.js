@@ -185,7 +185,7 @@ exports.deleteNotification = async (req, res) => {
 
     // Find the user's notifications
     const userNotifications = await Notifications.findOne({ userId: id });
-    if (!userNotifications) return res.status(404).json({ message: "No notifications found" });
+    if (!userNotifications) return res.status(200).json({ message: "Notification deleted" });
 
     // Find the index of the notification to delete
     const index = userNotifications.notifications.findIndex(n => n === notification);
