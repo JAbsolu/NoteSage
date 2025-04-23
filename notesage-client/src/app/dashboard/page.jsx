@@ -217,12 +217,6 @@ function Dashboard() {
     getFlashCards();
   },[getFlashCards])
 
-  if (allFlashcardSets) {
-    allFlashcardSets.map((set, index) => {
-      console.log("in use effect", set)
-    })
-  }
-
   return (
     <div className="flex bg-light-gray text-black">
       {/* Sidebar (Expandable) */}
