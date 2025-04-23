@@ -10,6 +10,8 @@ import { PiCardsThree } from "react-icons/pi";
 import { FiMoreHorizontal } from "react-icons/fi";
 import StudyFlashcardModal from "@/components/studyFlashCardModal";
 import DeletionConfirmationModal from "@/components/DeletionConfirmationModal";
+import { Suspense } from "react";
+
 
 export default function FlashCardPageSuspense() {
   return (
