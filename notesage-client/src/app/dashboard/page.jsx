@@ -69,8 +69,6 @@ function Dashboard() {
         setFirstname(user.firstName);
         setLastname(user.lastName);
         setEmailaddress(user.emailAddress);
-      } else {
-        console.log(response.status, response.statusText, "Error getting user");
       }
     } catch (error) {
       console.log(error);
@@ -93,11 +91,8 @@ function Dashboard() {
       if (!response.ok) {
         console.log(response.status, result.message);
         return;
-      }
-  
-      console.log(response.status, result.message);
-  
-      getTasks(userId);   // <--- Add this
+      }  
+      getTasks(userId);
   
     } catch (error) {
       console.log(error);
@@ -128,7 +123,6 @@ function Dashboard() {
       }
       
       setTasks(result.data);
-      console.log(response.status, result.message, result.data);
     } catch (error) {
       console.log(error);
     }
@@ -136,7 +130,6 @@ function Dashboard() {
 
   // update task
   const updateTask = async(taskId) => {
-    console.log("task id",taskId)
     try {
       const response = await fetch(`${API_URL}/update-task`, {
         method: "PUT",
@@ -155,7 +148,6 @@ function Dashboard() {
       }
 
       await getTasks(userId);
-      console.log(response.status, result.message, result.data);
     } catch (error) {
       console.log(error)
     }
