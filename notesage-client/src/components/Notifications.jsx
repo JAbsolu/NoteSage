@@ -107,7 +107,7 @@ function NotificationItem({ message, deleteNotification }) {
       sx={{ mb: 1, py: 0.5}}
     >
       <AlertTitle mb={0} fontSize="10.5pt">Notification</AlertTitle>
-      <Typography fontSize="9pt" color={grey[800]}>{message}</Typography>
+      <Typography fontSize="9pt" color={grey[800]}>{message + "HEyyyy"}</Typography>
     </Alert>
   );
 }

@@ -264,7 +264,7 @@ function Dashboard() {
               Hi{" "}
               {firstname.charAt(0).toUpperCase() +
                 firstname.substring(1, firstname.length)}
-              , view your most recent flashcards and quizzes.
+              , view your most recent tasks
             </h1>
             <div
               className={`flex items-center space-x-2 bg-white px-4 py-2 rounded-lg shadow ${
