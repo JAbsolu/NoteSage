@@ -87,9 +87,11 @@ const DashboardNavbar = ({ toggleSidebar, firstName, lastName }) => {
         <div className="bg-gray-100 fixed margin-center top-10  shadow-lg rounded-lg mt-4 p-4 w-[30.5em] mx-auto">
           {filteredModules.length > 0 && (
             <div className="mb-4">
-              <h3 className="font-semibold text-blue-600 mb-1">Lesson Groups</h3>
+              <h3 className="font-semibold text-blue-600 mb-1">Quizzes</h3>
               {filteredModules.map((mod) => (
-                <div key={mod._id} className="text-gray-800">{mod.title}</div>
+                  <div key={mod._id} className="text-gray-800 py-2 hover:bg-gray-100 hover:cursor-pointer" onClick={() => router.push(`/dashboard/quizzes/?id=${mod._id}`)}>
+                    <span className="hover:font-bold"> {mod.title} </span>
+                  </div>
               ))}
             </div>
           )}
@@ -97,15 +99,9 @@ const DashboardNavbar = ({ toggleSidebar, firstName, lastName }) => {
             <div className="mb-4">
               <h3 className="font-semibold text-green-600 mb-1">Flashcard Sets</h3>
               {filteredDecks.map((deck) => (
-                <div key={deck._id} className="text-gray-800">{deck.title}</div>
-              ))}
-            </div>
-          )}
-          {filteredQuizzes.length > 0 && (
-            <div className="mb-4">
-              <h3 className="font-semibold text-purple-600 mb-1">Quizzes</h3>
-              {filteredQuizzes.map((quiz) => (
-                <div key={quiz._id} className="text-gray-800">{quiz.title}</div>
+                <div key={deck._id} className="text-gray-800 py-2 hover:cursor-pointer" onClick={() => router.push(`/dashboard/flashcards/?id=${deck._id}`)}>
+                  <span className="hover:font-bold">{deck.title}</span>
+                </div>
               ))}
             </div>
           )}
@@ -148,38 +144,6 @@ const DashboardNavbar = ({ toggleSidebar, firstName, lastName }) => {
           )}
         </div>
     </nav>
-     {/* Search Results */}
-     {/* {searchTerm && (
-        <div className="bg-gray-100 ms-40 fixed margin-center top-16 -mt-2 shadow-lg rounded-lg mt-4 p-4 w-[50%] max-w-3xl mx-auto">
-          {filteredModules.length > 0 && (
-            <div className="mb-4">
-              <h3 className="font-semibold text-blue-600 mb-1">Lesson Groups</h3>
-              {filteredModules.map((mod) => (
-                <div key={mod._id} className="text-gray-800">{mod.title}</div>
-              ))}
-            </div>
-          )}
-          {filteredDecks.length > 0 && (
-            <div className="mb-4">
-              <h3 className="font-semibold text-green-600 mb-1">Flashcard Sets</h3>
-              {filteredDecks.map((deck) => (
-                <div key={deck._id} className="text-gray-800">{deck.title}</div>
-              ))}
-            </div>
-          )}
-          {filteredQuizzes.length > 0 && (
-            <div className="mb-4">
-              <h3 className="font-semibold text-purple-600 mb-1">Quizzes</h3>
-              {filteredQuizzes.map((quiz) => (
-                <div key={quiz._id} className="text-gray-800">{quiz.title}</div>
-              ))}
-            </div>
-          )}
-          {filteredDecks.length + filteredModules.length + filteredQuizzes.length === 0 && (
-            <p className="text-gray-500">No results found.</p>
-          )}
-        </div>
-      )} */}
     </>
   );
 };

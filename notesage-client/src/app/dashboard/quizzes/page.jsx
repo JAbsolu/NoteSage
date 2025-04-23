@@ -8,6 +8,7 @@ import { useCallback, useEffect, useState } from "react";
 import { IoMdExpand } from "react-icons/io";
 import { PiCardsThree } from "react-icons/pi";
 import { FiMoreHorizontal } from "react-icons/fi";
+import { useSearchParams } from "next/navigation";
 
 const API_URL = process.env.API_URL || "http://localhost:/5000";
 
@@ -24,6 +25,8 @@ const QuizzesPage = () => {
   const [isModalOpen, setIsModalOpen] = useState(false);
   const [isQuizModal, setIsQuizModal] = useState(false);
   const [activeDropdownQuestionId, setActiveDropdownQuestionId] = useState(null);
+  const searchParams = useSearchParams();
+  const paramId = searchParams.get("id"); 
 
   const userId = getCookie("userId");
   const token = getCookie("token");
@@ -135,6 +138,13 @@ const QuizzesPage = () => {
   useEffect(() => {
     if (userId) getUserQuizzes(userId);
   }, [userId, getUserQuizzes]);
+
+  useEffect(() => {
+    if (paramId) {
+      setIsQuizModal(true);
+      getQuizQuestions(paramId);
+    }
+  }, [paramId])
 
   return (
     <div className="flex min-h-screen bg-gray-50">

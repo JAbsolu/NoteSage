@@ -3,13 +3,14 @@
 import DashboardNavbar from "@/components/DashboardNavbar";
 import Sidebar from "@/components/Sidebar";
 import { getCookie } from "@/util/cookies";
-import { useRouter } from "next/navigation";
+import { useParams, useSearchParams, useRouter } from "next/navigation";
 import { useEffect, useState, useCallback } from "react";
 import { IoMdExpand } from "react-icons/io";
 import { PiCardsThree } from "react-icons/pi";
 import { FiMoreHorizontal } from "react-icons/fi";
 import StudyFlashcardModal from "@/components/studyFlashCardModal";
 import DeletionConfirmationModal from "@/components/DeletionConfirmationModal";
+
 
 const FlaschardsPage = () => {
   const [firstName, setFirstName] = useState("");
@@ -30,6 +31,8 @@ const FlaschardsPage = () => {
   const userId = getCookie("userId");
   const token = getCookie("token");
   const router = useRouter();
+  const searchParams = useSearchParams();
+  const paramId = searchParams.get("id"); 
 
   const API_URL = process.env.API_URL || "http://localhost:/5000";
 
@@ -116,6 +119,13 @@ const FlaschardsPage = () => {
     }
     getDecks();
   }, [userId, getUser, getUserDecks, getDecks]);
+
+  useEffect(() => {
+    if (paramId) {
+      getDeckFlashcards(paramId);
+      setIsStudyCardModal(true);
+    }
+  },[paramId])
 
   return (
     <div className="flex bg-light-gray min-h-screen">
