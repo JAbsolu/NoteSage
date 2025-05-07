@@ -11,6 +11,7 @@ const createPaper = require("./routes/create/paper");
 const createMultipleChoice = require("./routes/create/multiplechoice");
 const createNotificationList = require("./routes/create/createNotificationList");
 const createTask = require("./routes/create/task");
+const createManyTasks = require("./routes/create/multipleTasks");
 const getNotifications = require("./routes/read/getNotifications");
 const createQuiz = require("./routes/create/quiz");
 const getCards = require("./routes/read/getCards");
@@ -44,6 +45,8 @@ const updateQuiz = require("./routes/update/updateQuiz");
 const deleteRoutes = require("./routes/deletes/deletes");
 const sendEmail = require("./routes/email/index");
 const updateTask = require('./routes/update/updateTask');
+// const generateByaI = require('./routes/create/generateByAi');
+
 
 // create express app
 const app = express();
@@ -65,6 +68,7 @@ app.use("/create-notification-list", createNotificationList);
 app.use("/add-user-info", addUserInfo);
 app.use("/create-quiz", createQuiz);
 app.use("/create-task", createTask);
+app.use("/create-many-task", createManyTasks);
 app.use("/decks", getDecks);
 app.use("/cards", getCards);
 app.use("/modules", getModules);
@@ -95,6 +99,7 @@ app.use("/update-user-info", updateUserInfo);
 app.use("/update-quiz", updateQuiz);
 app.use("/update-task", updateTask);
 app.use("/send-email", sendEmail);
+// app.use("/generate-by-ai", generateByaI);
 
 // all delete routes
 app.use("/", deleteRoutes);
